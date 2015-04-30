@@ -84,6 +84,11 @@ module OpsManagerUiDrivers
         browser.all('#show-delete-installation-modal-action').any?
       end
 
+      def deletion_in_progress?
+        open_dashboard
+        browser.all('#delete-in-progress-marker').any?
+      end
+
       def reset_state(ops_manager)
         revert_pending_changes if revert_available?
         if delete_installation_available?
