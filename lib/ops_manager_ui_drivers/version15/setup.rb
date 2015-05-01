@@ -19,6 +19,10 @@ module OpsManagerUiDrivers
         browser.fill_in 'login[user_name]', with: user
         browser.fill_in 'login[password]', with: password
         browser.click_on 'login-action'
+
+        unless browser.first('#main-page-marker')
+          fail RuntimeError.new("failed to log in as #{user}/#{password}.")
+        end
       end
 
       def setup_or_login(user:, password:)
