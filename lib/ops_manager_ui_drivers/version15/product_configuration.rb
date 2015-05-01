@@ -10,8 +10,11 @@ module OpsManagerUiDrivers
 
       def upload_stemcell(stemcell_file_path)
         visit_product_page
-        browser.visit "show-#{product_name}-stemcell-assignment-action"
+        browser.click_on "show-#{product_name}-stemcell-assignment-action"
         browser.attach_file('product_stemcell[file]', stemcell_file_path, {visible: false})
+        browser.wait {
+          browser.has_text?("Stemcell '#{File.basename(stemcell_file_path)}' has been uploaded successfully.")
+        }
       end
 
       def product_form(form_name)
