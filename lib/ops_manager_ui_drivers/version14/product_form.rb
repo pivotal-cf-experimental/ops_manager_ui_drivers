@@ -11,6 +11,10 @@ module OpsManagerUiDrivers
         browser.find_field("#{form_name}[#{property_reference}]")
       end
 
+      def nested_property(property_reference, nested_reference)
+        browser.find_field("#{form_name}[#{property_reference}][#{nested_reference}]")
+      end
+
       def generate_self_signed_cert(wildcard_domain)
         browser.click_on 'Generate Self-Signed RSA Certificate'
         browser.within '#rsa-certificate-form' do
