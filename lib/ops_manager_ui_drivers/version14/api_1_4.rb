@@ -10,12 +10,14 @@ module OpsManagerUiDrivers
       end
 
       def export_installation
-        response = http.request(get('installation_asset_collection'))
-
-        Tempfile.new('installation.zip').tap do |tempfile|
-          tempfile.write(response.body)
-          tempfile.close
+        tmpfile = Tempfile.new('installation.zip')
+        http.request(get('installation_asset_collection')) do |response|
+          response.read_body do |chunk|
+            tmpfile.write(chunk)
+          end
         end
+        tmpfile.close
+        tmpfile
       end
 
       private
