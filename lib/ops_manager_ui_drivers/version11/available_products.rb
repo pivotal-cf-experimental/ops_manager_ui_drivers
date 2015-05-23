@@ -12,7 +12,7 @@ module OpsManagerUiDrivers
 
       def product_added?(product_name)
         browser.visit '/'
-        browser.all("#show-configure-#{product_name}-action").any?
+        browser.all("#show-#{product_name}-configure-action").any?
       end
 
       private
