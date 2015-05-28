@@ -29,6 +29,12 @@ module OpsManagerUiDrivers
         save_form
       end
 
+      def set_floating_ips_for_job(job_name, floating_ips)
+        open_form
+        browser.find_field("product_resources_form[#{job_name}][floating_ips]").set(floating_ips)
+        save_form
+      end
+
       def set_resources_for_jobs(resources_by_job, validate: true)
         open_form
         resources_by_job.each do |job, resources|
