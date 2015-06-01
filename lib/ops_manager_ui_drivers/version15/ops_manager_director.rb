@@ -1,8 +1,9 @@
 module OpsManagerUiDrivers
   module Version15
     class OpsManagerDirector
-      def initialize(browser:)
+      def initialize(browser:, iaas_configuration: Version15::IaasConfiguration.new(browser: browser))
         @browser = browser
+        @iaas_configuration = iaas_configuration
       end
 
       def configure_microbosh(test_settings)
@@ -189,7 +190,8 @@ module OpsManagerUiDrivers
       end
 
       private
-      attr_reader :browser
+
+      attr_reader :browser, :iaas_configuration
 
       def configure_vcenter(ip:, username:, password:, datacenter:, datastores:, microbosh_vm_folder:, microbosh_template_folder:, microbosh_disk_path:)
         iaas_configuration.configure_iaas do
@@ -244,10 +246,6 @@ module OpsManagerUiDrivers
             ssh_private_key: ssh_private_key
           )
         end
-      end
-
-      def iaas_configuration
-        @iaas_configuration ||= Version15::IaasConfiguration.new(browser: browser)
       end
 
       def availability_zones
