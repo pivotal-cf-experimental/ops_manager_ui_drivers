@@ -7,6 +7,22 @@ module OpsManagerUiDrivers
 
     EarlyFailException = Class.new(Exception)
 
+    def wait(retries_left=20, interval=0.5, &blk)
+      blk.call
+    rescue EarlyFailException
+      raise
+    rescue RSpec::Expectations::ExpectationNotMetError, StandardError
+      puts "------- retries_left=#{retries_left}"
+      retries_left -= 1
+      if retries_left > 0
+        sleep(interval)
+        retry
+      else
+        puts "------- propagate error=#{retries_left}"
+        raise
+      end
+    end
+
     def fail_early(msg)
       fail(EarlyFailException.new(msg))
     end
