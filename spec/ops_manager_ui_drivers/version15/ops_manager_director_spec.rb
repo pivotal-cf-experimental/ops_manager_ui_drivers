@@ -31,7 +31,6 @@ module OpsManagerUiDrivers
         allow(browser).to receive(:page)
         allow(browser).to receive(:expect).and_return(instance_double(RSpec::Expectations::ExpectationTarget, to: nil))
         allow(browser).to receive(:have_css)
-        allow(browser).to receive(:find_field).and_return(double.as_null_object)
       end
 
       describe '#configure_iaas' do
