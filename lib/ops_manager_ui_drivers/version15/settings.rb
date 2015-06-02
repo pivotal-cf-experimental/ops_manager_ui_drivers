@@ -1,7 +1,18 @@
 module OpsManagerUiDrivers
   module Version15
     module Settings
+      def self.for(test_settings)
+        settings_class = [Vcloud, Vsphere, AWS, OpenStack].find do |klass|
+          klass.works_with?(test_settings.iaas_type)
+        end or raise("Unsupported IaaS: #{test_settings.iaas_type.inspect}")
+        settings_class.new(test_settings)
+      end
+
       class Vcloud
+        def self.works_with?(iaas_type)
+          iaas_type == 'vcloud'
+        end
+
         def initialize(test_settings)
           @test_settings = test_settings
         end
@@ -22,6 +33,10 @@ module OpsManagerUiDrivers
       end
 
       class Vsphere
+        def self.works_with?(iaas_type)
+          iaas_type == 'vsphere'
+        end
+
         def initialize(test_settings)
           @test_settings = test_settings
         end
@@ -43,6 +58,10 @@ module OpsManagerUiDrivers
       end
 
       class AWS
+        def self.works_with?(iaas_type)
+          iaas_type == 'aws'
+        end
+
         def initialize(test_settings)
           @test_settings = test_settings
         end
@@ -62,6 +81,10 @@ module OpsManagerUiDrivers
       end
 
       class OpenStack
+        def self.works_with?(iaas_type)
+          iaas_type == 'openstack'
+        end
+
         def initialize(test_settings)
           @test_settings = test_settings
         end

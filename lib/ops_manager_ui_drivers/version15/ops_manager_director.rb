@@ -23,19 +23,8 @@ module OpsManagerUiDrivers
       end
 
       def configure_iaas(test_settings)
-        settings = case test_settings.iaas_type
-                     when OpsManagerUiDrivers::VCLOUD_IAAS_TYPE
-                       Settings::Vcloud.new(test_settings)
-                     when OpsManagerUiDrivers::VSPHERE_IAAS_TYPE
-                       Settings::Vsphere.new(test_settings)
-                     when OpsManagerUiDrivers::AWS_IAAS_TYPE
-                       Settings::AWS.new(test_settings)
-                     when OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
-                       Settings::OpenStack.new(test_settings)
-                   end
-
         iaas_configuration.open_form('iaas_configuration')
-        settings.configure(iaas_configuration)
+        Settings.for(test_settings).configure(iaas_configuration)
         iaas_configuration.save_form
       end
 
