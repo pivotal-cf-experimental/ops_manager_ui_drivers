@@ -24,7 +24,10 @@ module OpsManagerUiDrivers
 
       def configure_iaas(test_settings)
         iaas_configuration.open_form('iaas_configuration')
-        Settings.for(test_settings).configure(iaas_configuration)
+        iaas_settings = Settings.for(test_settings)
+        iaas_settings.fields.each do |name, value|
+          iaas_configuration.set_field(name, value)
+        end
         iaas_configuration.save_form
       end
 
