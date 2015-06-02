@@ -42,6 +42,18 @@ module OpsManagerUiDrivers
           RecursiveOpenStruct.new(test_settings_hash)
         end
 
+        it 'navigates to and submits the "iaas_configuration" form' do
+          settings = double('Fake IaaS Settings', fields: {})
+          allow(Settings).to receive(:for).and_return(settings)
+
+          ops_manager_director.configure_iaas(test_settings)
+
+          expect(browser).to have_received(:visit).with('/')
+          expect(browser).to have_received(:click_on).with('show-microbosh-configure-action')
+          expect(browser).to have_received(:click_on).with('show-iaas_configuration-action')
+          expect(browser).to have_received(:click_on).with('Save')
+        end
+
         context 'when the IaaS is Vcloud' do
           before do
             test_settings_hash['iaas_type']   = 'vcloud'

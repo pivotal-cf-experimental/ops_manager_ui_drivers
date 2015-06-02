@@ -5,10 +5,10 @@ module OpsManagerUiDrivers
         @browser = browser
       end
 
-      def open_form(form)
+      def open_form
         browser.visit '/'
         browser.click_on 'show-microbosh-configure-action'
-        browser.click_on "show-#{form}-action"
+        browser.click_on 'show-iaas_configuration-action'
       end
 
       def save_form
