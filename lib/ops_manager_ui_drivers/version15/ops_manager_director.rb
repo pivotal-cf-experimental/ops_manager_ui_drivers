@@ -1,8 +1,10 @@
+require 'ops_manager_ui_drivers/version15/settings'
+
 module OpsManagerUiDrivers
   module Version15
     class OpsManagerDirector
       def initialize(browser:, iaas_configuration: Version15::IaasConfiguration.new(browser: browser))
-        @browser = browser
+        @browser            = browser
         @iaas_configuration = iaas_configuration
       end
 
@@ -21,48 +23,20 @@ module OpsManagerUiDrivers
       end
 
       def configure_iaas(test_settings)
-        case test_settings.iaas_type
-          when OpsManagerUiDrivers::VCLOUD_IAAS_TYPE then
-            configure_vcloud(
-              vcd_url: test_settings.ops_manager.vcloud.creds.url,
-              organization: test_settings.ops_manager.vcloud.creds.organization,
-              user: test_settings.ops_manager.vcloud.creds.user,
-              password: test_settings.ops_manager.vcloud.creds.password,
-              datacenter: test_settings.ops_manager.vcloud.vdc.name,
-              storage_profile: test_settings.ops_manager.vcloud.vdc.storage_profile,
-              catalog_name: test_settings.ops_manager.vcloud.vdc.catalog_name,
-            )
-          when OpsManagerUiDrivers::VSPHERE_IAAS_TYPE then
-            configure_vcenter(
-              ip: test_settings.ops_manager.vcenter.creds.ip,
-              username: test_settings.ops_manager.vcenter.creds.username,
-              password: test_settings.ops_manager.vcenter.creds.password,
-              datacenter: test_settings.ops_manager.vcenter.datacenter,
-              datastores: test_settings.ops_manager.vcenter.datastore,
-              microbosh_vm_folder: test_settings.ops_manager.vcenter.microbosh_vm_folder,
-              microbosh_template_folder: test_settings.ops_manager.vcenter.microbosh_template_folder,
-              microbosh_disk_path: test_settings.ops_manager.vcenter.microbosh_disk_path,
-            )
-          when OpsManagerUiDrivers::AWS_IAAS_TYPE then
-            configure_aws(
-              aws_access_key: test_settings.ops_manager.aws.aws_access_key,
-              aws_secret_key: test_settings.ops_manager.aws.aws_secret_key,
-              vpc_id: test_settings.ops_manager.aws.vpc_id,
-              security_group: test_settings.ops_manager.aws.security_group,
-              key_pair_name: test_settings.ops_manager.aws.key_pair_name,
-              ssh_private_key: test_settings.ops_manager.aws.ssh_key
-            )
-          when OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE then
-            configure_openstack(
-              identity_endpoint: test_settings.ops_manager.openstack.identity_endpoint,
-              username: test_settings.ops_manager.openstack.username,
-              password: test_settings.ops_manager.openstack.password,
-              tenant: test_settings.ops_manager.openstack.tenant,
-              security_group_name: test_settings.ops_manager.openstack.security_group_name,
-              key_pair_name: test_settings.ops_manager.openstack.key_pair_name,
-              ssh_private_key: test_settings.ops_manager.openstack.ssh_private_key
-            )
-        end
+        settings = case test_settings.iaas_type
+                     when OpsManagerUiDrivers::VCLOUD_IAAS_TYPE
+                       Settings::Vcloud.new(test_settings)
+                     when OpsManagerUiDrivers::VSPHERE_IAAS_TYPE
+                       Settings::Vsphere.new(test_settings)
+                     when OpsManagerUiDrivers::AWS_IAAS_TYPE
+                       Settings::AWS.new(test_settings)
+                     when OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
+                       Settings::OpenStack.new(test_settings)
+                   end
+
+        iaas_configuration.open_form('iaas_configuration')
+        settings.configure(iaas_configuration)
+        iaas_configuration.save_form
       end
 
       def add_azs(iaas_type, iaas_availability_zones)
@@ -100,12 +74,12 @@ module OpsManagerUiDrivers
           else
             iaas_networks && iaas_networks.each do |network|
               networks.add_network(
-                name: network['name'],
+                name:                    network['name'],
                 iaas_network_identifier: network['identifier'],
-                subnet: network['subnet'],
-                reserved_ip_ranges: network['reserved_ips'],
-                dns: network['dns'],
-                gateway: network['gateway'],
+                subnet:                  network['subnet'],
+                reserved_ip_ranges:      network['reserved_ips'],
+                dns:                     network['dns'],
+                gateway:                 network['gateway'],
               )
             end
         end
@@ -162,7 +136,7 @@ module OpsManagerUiDrivers
 
           assign_networks_vsphere(
             infrastructure_network: infrastructure_network['name'],
-            deployment_network: deployment_network['name'],
+            deployment_network:     deployment_network['name'],
           )
         else
           assign_network(deployment_network: ops_manager.networks[0]['name'])
@@ -193,60 +167,6 @@ module OpsManagerUiDrivers
 
       attr_reader :browser, :iaas_configuration
 
-      def configure_vcenter(ip:, username:, password:, datacenter:, datastores:, microbosh_vm_folder:, microbosh_template_folder:, microbosh_disk_path:)
-        iaas_configuration.configure_iaas do
-          iaas_configuration.set_vsphere_credentials(vcenter_ip: ip, username: username, password: password)
-          iaas_configuration.set_datacenter(datacenter)
-          iaas_configuration.set_datastores(datastores)
-          iaas_configuration.set_microbosh_vm_folder(microbosh_vm_folder)
-          iaas_configuration.set_microbosh_template_folder(microbosh_template_folder)
-          iaas_configuration.set_microbosh_disk_path(microbosh_disk_path)
-        end
-      end
-
-      def configure_vcloud(vcd_url:, organization:, user:, password:, datacenter:, storage_profile:, catalog_name:)
-        iaas_configuration.configure_iaas do
-          iaas_configuration.set_vcloud_credentials(vcd_url: vcd_url, organization: organization, user: user, password: password)
-          iaas_configuration.set_datacenter(datacenter)
-          iaas_configuration.set_storage_profile(storage_profile)
-          iaas_configuration.set_catalog_name(catalog_name)
-        end
-      end
-
-      def configure_aws(aws_access_key:, aws_secret_key:, vpc_id:, security_group:, key_pair_name:, ssh_private_key:)
-        iaas_configuration.configure_iaas do
-          iaas_configuration.set_aws_credentials(
-            access_key_id: aws_access_key,
-            secret_access_key: aws_secret_key,
-            vpc_id: vpc_id,
-            security_group: security_group,
-            key_pair_name: key_pair_name,
-            ssh_private_key: ssh_private_key
-          )
-        end
-      end
-
-      def configure_openstack(
-        identity_endpoint:,
-          username:,
-          password:,
-          tenant:,
-          security_group_name:,
-          key_pair_name:,
-          ssh_private_key:
-      )
-        iaas_configuration.configure_iaas do
-          iaas_configuration.set_openstack_credentials(
-            identity_endpoint: identity_endpoint,
-            username: username,
-            password: password,
-            tenant: tenant,
-            security_group_name: security_group_name,
-            key_pair_name: key_pair_name,
-            ssh_private_key: ssh_private_key
-          )
-        end
-      end
 
       def availability_zones
         @availability_zones ||= Version15::AvailabilityZones.new(browser: browser)
