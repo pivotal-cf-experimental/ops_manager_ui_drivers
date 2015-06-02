@@ -9,6 +9,7 @@ module OpsManagerUiDrivers
       class FakeCapybaraExampleGroup < RSpec::Core::ExampleGroup
         include Capybara::DSL
         include Capybara::RSpecMatchers
+        include OpsManagerUiDrivers::WaitHelper
       end
 
       let(:browser) do
@@ -28,9 +29,12 @@ module OpsManagerUiDrivers
       before do
         allow(browser).to receive(:visit)
         allow(browser).to receive(:click_on)
+        allow(browser).to receive(:choose)
+        allow(browser).to receive(:wait).and_yield
         allow(browser).to receive(:page)
         allow(browser).to receive(:expect).and_return(instance_double(RSpec::Expectations::ExpectationTarget, to: nil))
         allow(browser).to receive(:have_css)
+        allow(browser).to receive(:has_text?)
       end
 
       describe '#configure_iaas' do
@@ -204,6 +208,42 @@ module OpsManagerUiDrivers
           it 'sets the openstack ssh key pair & private key for bosh managed vms' do
             expect(iaas_configuration).to have_received(:set_field).with('key_pair_name', 'fake-openstack-key_pair_name')
             expect(iaas_configuration).to have_received(:set_field).with('ssh_private_key', 'fake-openstack-ssh_private_key')
+          end
+        end
+      end
+
+      describe '#configure_vm_passwords' do
+        it 'navigates to and submits the vm_passwords form' do
+          ops_manager_director.configure_vm_passwords
+
+          expect(browser).to have_received(:click_on).with('VM Passwords').ordered
+          expect(browser).to have_received(:choose).with('Generate passwords').ordered
+          expect(browser).to have_received(:click_on).with('Save').ordered
+          expect(browser).to have_received(:wait).ordered
+          expect(browser).to have_received(:has_text?).with('Settings updated').ordered
+        end
+
+        context 'when the users specifies whether to use generated passwords' do
+          before { ops_manager_director.configure_vm_passwords(use_generated_passwords: use_generated_passwords) }
+
+          context 'when the user chooses to generate vm passwords' do
+            let(:use_generated_passwords) { true }
+
+            it 'navigates to and submits the vm_passwords form' do
+              expect(browser).to have_received(:click_on).with('VM Passwords')
+              expect(browser).to have_received(:choose).with('Generate passwords')
+              expect(browser).to have_received(:click_on).with('Save')
+            end
+          end
+
+          context 'when the user chooses to use the bosh default password' do
+            let(:use_generated_passwords) { false }
+
+            it 'navigates to and submits the vm_passwords form' do
+              expect(browser).to have_received(:click_on).with('VM Passwords')
+              expect(browser).to have_received(:choose).with('Use default BOSH password')
+              expect(browser).to have_received(:click_on).with('Save')
+            end
           end
         end
       end

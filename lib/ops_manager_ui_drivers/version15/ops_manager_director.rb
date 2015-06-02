@@ -155,6 +155,17 @@ module OpsManagerUiDrivers
         browser.click_on 'Save'
       end
 
+      def configure_vm_passwords(use_generated_passwords: true)
+        browser.click_on 'VM Passwords'
+        if use_generated_passwords
+          browser.choose('Generate passwords')
+        else
+          browser.choose('Use default BOSH password')
+        end
+        browser.click_on 'Save'
+        browser.wait { browser.has_text?('Settings updated') }
+      end
+
       private
 
       attr_reader :browser, :iaas_configuration
