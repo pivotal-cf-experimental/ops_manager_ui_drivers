@@ -148,6 +148,7 @@ module OpsManagerUiDrivers
                 'security_group' => 'fake-aws-security_group',
                 'key_pair_name'  => 'fake-aws-key_pair_name',
                 'ssh_key'        => 'fake-aws-ssh_key',
+                'region'         => 'fake-region',
               }
             }
 
@@ -170,6 +171,10 @@ module OpsManagerUiDrivers
           it 'sets the aws ssh key pair and private key for bosh managed vms' do
             expect(iaas_configuration).to have_received(:set_field).with('key_pair_name', 'fake-aws-key_pair_name')
             expect(iaas_configuration).to have_received(:set_field).with('ssh_private_key', 'fake-aws-ssh_key')
+          end
+
+          it 'sets the configured region' do
+            expect(iaas_configuration).to have_received(:set_field).with('region', 'fake-region')
           end
         end
 

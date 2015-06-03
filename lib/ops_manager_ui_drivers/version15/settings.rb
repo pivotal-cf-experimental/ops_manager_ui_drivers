@@ -78,6 +78,7 @@ module OpsManagerUiDrivers
             'security_group'    => test_settings.ops_manager.aws.security_group,
             'key_pair_name'     => test_settings.ops_manager.aws.key_pair_name,
             'ssh_private_key'   => test_settings.ops_manager.aws.ssh_key,
+            'region'            => test_settings.ops_manager.aws.region,
           }
         end
 
