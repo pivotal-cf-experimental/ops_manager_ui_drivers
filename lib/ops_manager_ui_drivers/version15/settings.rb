@@ -105,6 +105,7 @@ module OpsManagerUiDrivers
             'security_group'    => test_settings.ops_manager.openstack.security_group_name,
             'key_pair_name'     => test_settings.ops_manager.openstack.key_pair_name,
             'ssh_private_key'   => test_settings.ops_manager.openstack.ssh_private_key,
+            'region'            => test_settings.ops_manager.openstack.region,
           }
         end
 
