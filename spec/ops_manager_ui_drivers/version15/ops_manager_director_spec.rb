@@ -22,6 +22,14 @@ module OpsManagerUiDrivers
         end
       end
 
+      let(:test_settings_hash) do
+        {}
+      end
+
+      let(:test_settings) do
+        RecursiveOpenStruct.new(test_settings_hash)
+      end
+
       subject(:ops_manager_director) do
         OpsManagerDirector.new(browser: browser, iaas_configuration: iaas_configuration)
       end
@@ -29,6 +37,7 @@ module OpsManagerUiDrivers
       before do
         allow(browser).to receive(:visit)
         allow(browser).to receive(:click_on)
+        allow(browser).to receive(:fill_in)
         allow(browser).to receive(:choose)
         allow(browser).to receive(:wait).and_yield
         allow(browser).to receive(:page)
@@ -38,14 +47,6 @@ module OpsManagerUiDrivers
       end
 
       describe '#configure_iaas' do
-        let(:test_settings_hash) do
-          {}
-        end
-
-        let(:test_settings) do
-          RecursiveOpenStruct.new(test_settings_hash)
-        end
-
         it 'navigates to and submits the "iaas_configuration" form' do
           settings = double('Fake IaaS Settings', fields: {})
           allow(Settings).to receive(:for).and_return(settings)
@@ -81,7 +82,6 @@ module OpsManagerUiDrivers
           end
 
           it 'configures the vcloud creds for bosh to manage vms' do
-
             expect(iaas_configuration).to have_received(:set_field).with('vcd_url', 'fake-vclouds-creds-url')
             expect(iaas_configuration).to have_received(:set_field).with('organization', 'fake-vclouds-creds-organization')
             expect(iaas_configuration).to have_received(:set_field).with('vcd_username', 'fake-vclouds-creds-user')
@@ -249,6 +249,41 @@ module OpsManagerUiDrivers
               expect(browser).to have_received(:choose).with('Use default BOSH password')
               expect(browser).to have_received(:click_on).with('Save')
             end
+          end
+        end
+      end
+
+      describe '#customize_resource_config' do
+        context 'when a microbosh persistent disk size is configured' do
+          let(:test_settings_hash) do
+            {
+              'ops_manager' => {
+                'resource_config' => {
+                  'persistent_disk' => 10240,
+                }
+              }
+            }
+          end
+
+          it 'decreases the persistent disk size to 10gb to minimize our usage' do
+            ops_manager_director.customize_resource_config(test_settings)
+
+            expect(browser).to have_received(:click_on).with('Resource Config')
+            expect(browser).to have_received(:fill_in).with('product_resources_form[director][persistent_disk][value]', with: 10240)
+          end
+        end
+
+        context 'when a microbosh persistent disk size is not configured' do
+          let(:test_settings_hash) do
+            {
+              'ops_manager' => {}
+            }
+          end
+
+          it 'uses the default the persistent disk size to 10gb to minimize our usage' do
+            ops_manager_director.customize_resource_config(test_settings)
+
+            expect(browser).not_to have_received(:fill_in).with('product_resources_form[director][persistent_disk][value]', anything)
           end
         end
       end
