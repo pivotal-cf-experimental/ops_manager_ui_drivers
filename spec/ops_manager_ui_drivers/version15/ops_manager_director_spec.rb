@@ -266,7 +266,7 @@ module OpsManagerUiDrivers
           end
 
           it 'decreases the persistent disk size to 10gb to minimize our usage' do
-            ops_manager_director.customize_resource_config(test_settings)
+            ops_manager_director.customize_resource_config(test_settings.ops_manager.resource_config)
 
             expect(browser).to have_received(:click_on).with('Resource Config')
             expect(browser).to have_received(:fill_in).with('product_resources_form[director][persistent_disk][value]', with: 10240)
@@ -281,7 +281,7 @@ module OpsManagerUiDrivers
           end
 
           it 'uses the default the persistent disk size to 10gb to minimize our usage' do
-            ops_manager_director.customize_resource_config(test_settings)
+            ops_manager_director.customize_resource_config(test_settings.ops_manager.resource_config)
 
             expect(browser).not_to have_received(:fill_in).with('product_resources_form[director][persistent_disk][value]', anything)
           end

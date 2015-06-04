@@ -136,9 +136,8 @@ module OpsManagerUiDrivers
         end
       end
 
-      def customize_resource_config(test_settings)
+      def customize_resource_config(resource_config)
         browser.click_on 'Resource Config'
-        resource_config = test_settings.ops_manager.resource_config
         if resource_config
           browser.fill_in('product_resources_form[director][persistent_disk][value]', with: resource_config.persistent_disk)
         end
