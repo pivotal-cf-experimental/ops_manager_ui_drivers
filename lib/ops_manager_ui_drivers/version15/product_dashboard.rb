@@ -21,9 +21,10 @@ module OpsManagerUiDrivers
       def import_installation_file(file_path)
         open_dashboard
         browser.click_on 'toggle-installation-dropdown-action'
-        browser.click_on 'show-import-backup'
+        browser.click_on 'show-settings'
+        browser.click_on 'close-warning'
         browser.attach_file 'import[file]', file_path
-        browser.click_on 'import-backup'
+        browser.click_on 'import-settings'
         browser.wait { browser.has_text?('Successfully imported installation.') }
       end
 
