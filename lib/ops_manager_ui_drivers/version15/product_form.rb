@@ -23,6 +23,20 @@ module OpsManagerUiDrivers
         end
       end
 
+      def fill_in_selector_property(selector_input_reference:, selector_name:, selector_value:, sub_field_answers:)
+        radio = browser.first(%Q(input[type="radio"][name="#{form_name}[#{selector_input_reference}][value]"][value="#{selector_value}"]))
+        radio.click
+        sub_field_answers.each do |label, value|
+          selector_string = "#{form_name}[#{selector_input_reference}][#{selector_name}][#{label}]"
+
+          if value[:attribute_name]
+            selector_string += "[#{value[:attribute_name]}]"
+          end
+
+          browser.find_field(selector_string).set(value[:attribute_value])
+        end
+      end
+
       def save_form(validate: true)
         browser.click_on 'Save'
 
