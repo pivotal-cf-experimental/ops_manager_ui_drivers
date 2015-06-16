@@ -218,13 +218,13 @@ module OpsManagerUiDrivers
         end
       end
 
-      describe '#add_azs' do
+      describe '#add_availability_zones' do
         context 'when the infrastructure is AWS' do
           it 'navigates to and submits the availability zone form' do
             iaas_identifier_field = double(:iaas_identifier_field, set: nil)
             allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').and_return([iaas_identifier_field])
 
-            ops_manager_director.add_azs(OpsManagerUiDrivers::AWS_IAAS_TYPE, [{'iaas_identifier' => 'aws_az'}])
+            ops_manager_director.add_availability_zones(OpsManagerUiDrivers::AWS_IAAS_TYPE, [{'iaas_identifier' => 'aws_az'}])
 
             expect(browser).to have_received(:visit).with('/').ordered
             expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
@@ -240,7 +240,7 @@ module OpsManagerUiDrivers
             iaas_identifier_field = double(:iaas_identifier_field, set: nil)
             allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').and_return([iaas_identifier_field])
             
-            ops_manager_director.add_azs(OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE, [{'iaas_identifier' => 'openstack_az'}])
+            ops_manager_director.add_availability_zones(OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE, [{'iaas_identifier' => 'openstack_az'}])
 
             expect(browser).to have_received(:visit).with('/').ordered
             expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
@@ -261,7 +261,7 @@ module OpsManagerUiDrivers
             allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][resource_pool]').and_return([resource_pool_field])
 
             vsphere_options = {'name' => 'vsphere_az', 'cluster' => 'vsphere_cluster', 'resource_pool' => 'vsphere_resource_pool'}
-            ops_manager_director.add_azs(OpsManagerUiDrivers::VSPHERE_IAAS_TYPE, [vsphere_options])
+            ops_manager_director.add_availability_zones(OpsManagerUiDrivers::VSPHERE_IAAS_TYPE, [vsphere_options])
 
             expect(browser).to have_received(:visit).with('/').ordered
             expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered

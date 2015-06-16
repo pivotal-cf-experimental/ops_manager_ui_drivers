@@ -13,7 +13,7 @@ module OpsManagerUiDrivers
 
         config_director(test_settings.ops_manager)
 
-        add_azs(test_settings.iaas_type, test_settings.ops_manager.availability_zones)
+        add_availability_zones(test_settings.iaas_type, test_settings.ops_manager.availability_zones)
 
         assign_availability_zone(test_settings.iaas_type, test_settings.ops_manager.availability_zones)
 
@@ -33,7 +33,7 @@ module OpsManagerUiDrivers
         iaas_configuration.save_form
       end
 
-      def add_azs(iaas_type, iaas_availability_zones)
+      def add_availability_zones(iaas_type, iaas_availability_zones)
         case iaas_type
           when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
             return unless iaas_availability_zones
