@@ -35,12 +35,12 @@ module OpsManagerUiDrivers
 
       def add_azs(iaas_type, iaas_availability_zones)
         case iaas_type
-          when OpsManagerUiDrivers::AWS_IAAS_TYPE then
+          when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE then
             return unless iaas_availability_zones
-            availability_zones.add_aws_az(iaas_availability_zones.first['iaas_identifier'])
-          else
+            availability_zones.add_single_az(iaas_availability_zones.first['iaas_identifier'])
+          when OpsManagerUiDrivers::VSPHERE_IAAS_TYPE
             iaas_availability_zones && iaas_availability_zones.each do |az|
-              availability_zones.add_az(az['name'], az['cluster'], az['resource_pool'])
+              availability_zones.add_az('name' => az['name'], 'cluster' => az['cluster'], 'resource_pool' => az['resource_pool'])
             end
         end
       end

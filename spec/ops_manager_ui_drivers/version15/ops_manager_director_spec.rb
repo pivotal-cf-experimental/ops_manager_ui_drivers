@@ -217,6 +217,65 @@ module OpsManagerUiDrivers
         end
       end
 
+      describe '#add_azs' do
+        context 'when the infrastructure is Aws' do
+          it 'navigates to and submits the availability zone form' do
+            iaas_identifier_field = double(:iaas_identifier_field, set: nil)
+            allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').and_return([iaas_identifier_field])
+
+            ops_manager_director.add_azs(OpsManagerUiDrivers::AWS_IAAS_TYPE, [{'iaas_identifier' => 'aws_az'}])
+
+            expect(browser).to have_received(:visit).with('/').ordered
+            expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
+            expect(browser).to have_received(:click_on).with('show-availability_zones-action').ordered
+            expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').ordered
+            expect(iaas_identifier_field).to have_received(:set).with('aws_az').ordered
+            expect(browser).to have_received(:click_on).with('Save').ordered
+          end
+        end
+
+        context 'when the infrastructure is Openstack' do
+          it 'navigates to and submits the availability zone form' do
+            iaas_identifier_field = double(:iaas_identifier_field, set: nil)
+            allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').and_return([iaas_identifier_field])
+            
+            ops_manager_director.add_azs(OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE, [{'iaas_identifier' => 'openstack_az'}])
+
+            expect(browser).to have_received(:visit).with('/').ordered
+            expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
+            expect(browser).to have_received(:click_on).with('show-availability_zones-action').ordered
+            expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').ordered
+            expect(iaas_identifier_field).to have_received(:set).with('openstack_az').ordered
+            expect(browser).to have_received(:click_on).with('Save').ordered
+          end
+        end
+
+        context 'when the infrastructure is anything else' do
+          it 'navigates to and submits the availability zone form' do
+            name_field = double(:name_field, set: nil)
+            allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][name]').and_return([name_field])
+            cluster_field = double(:cluster_field, set: nil)
+            allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][cluster]').and_return([cluster_field])
+            resource_pool_field = double(:resource_pool_field, set: nil)
+            allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][resource_pool]').and_return([resource_pool_field])
+
+            vsphere_options = {'name' => 'vsphere_az', 'cluster' => 'vsphere_cluster', 'resource_pool' => 'vsphere_resource_pool'}
+            ops_manager_director.add_azs(OpsManagerUiDrivers::VSPHERE_IAAS_TYPE, [vsphere_options])
+
+            expect(browser).to have_received(:visit).with('/').ordered
+            expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
+            expect(browser).to have_received(:click_on).with('show-availability_zones-action').ordered
+            expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][name]').ordered
+            expect(name_field).to have_received(:set).with('vsphere_az').ordered
+            expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][cluster]').ordered
+            expect(cluster_field).to have_received(:set).with('vsphere_cluster').ordered
+            expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][resource_pool]').ordered
+            expect(resource_pool_field).to have_received(:set).with('vsphere_resource_pool').ordered
+            expect(browser).to have_received(:click_on).with('Save').ordered
+          end
+        end
+      end
+
       describe '#configure_vm_passwords' do
         it 'navigates to and submits the vm_passwords form' do
           ops_manager_director.configure_vm_passwords

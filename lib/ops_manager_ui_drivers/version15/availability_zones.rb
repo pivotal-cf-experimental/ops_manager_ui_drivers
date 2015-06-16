@@ -5,24 +5,19 @@ module OpsManagerUiDrivers
         @browser = browser
       end
 
-      def add_aws_az(iaas_identifier)
+      def add_single_az(iaas_identifier)
         open_form('availability_zones')
 
         set_fields(fields: {'iaas_identifier' => iaas_identifier})
+
         save_form
       end
 
-      def add_az(name, cluster, resource_pool)
+      def add_az(fields)
         open_form('availability_zones')
 
         browser.click_on 'Add'
-        set_fields(
-          fields: {
-            'name' => name,
-            'cluster' => cluster,
-            'resource_pool' => resource_pool,
-          }
-        )
+        set_fields(fields: fields)
         save_form
       end
 
