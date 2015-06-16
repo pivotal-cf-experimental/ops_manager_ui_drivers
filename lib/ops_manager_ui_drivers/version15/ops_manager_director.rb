@@ -35,7 +35,7 @@ module OpsManagerUiDrivers
 
       def add_azs(iaas_type, iaas_availability_zones)
         case iaas_type
-          when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE then
+          when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
             return unless iaas_availability_zones
             availability_zones.add_single_az(iaas_availability_zones.first['iaas_identifier'])
           when OpsManagerUiDrivers::VSPHERE_IAAS_TYPE
@@ -49,7 +49,7 @@ module OpsManagerUiDrivers
         iaas_networks = test_settings.ops_manager.networks
 
         case test_settings.iaas_type
-          when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE then
+          when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
             first_network = iaas_networks.first
             browser.click_on 'show-network-action'
             browser.fill_in 'network[networks][][name]', with: first_network['name']
@@ -109,7 +109,7 @@ module OpsManagerUiDrivers
       def assign_availability_zone(iaas_type, iaas_availability_zones)
         return unless iaas_availability_zones
         case iaas_type
-          when OpsManagerUiDrivers::AWS_IAAS_TYPE then
+          when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
             browser.click_on 'Assign Availability Zones'
             browser.select(iaas_availability_zones.first['iaas_identifier'])
             browser.click_on 'Save'

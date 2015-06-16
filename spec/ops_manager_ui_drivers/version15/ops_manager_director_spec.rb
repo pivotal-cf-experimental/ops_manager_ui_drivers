@@ -38,6 +38,7 @@ module OpsManagerUiDrivers
         allow(browser).to receive(:visit)
         allow(browser).to receive(:click_on)
         allow(browser).to receive(:fill_in)
+        allow(browser).to receive(:select)
         allow(browser).to receive(:choose)
         allow(browser).to receive(:wait).and_yield
         allow(browser).to receive(:page)
@@ -218,7 +219,7 @@ module OpsManagerUiDrivers
       end
 
       describe '#add_azs' do
-        context 'when the infrastructure is Aws' do
+        context 'when the infrastructure is AWS' do
           it 'navigates to and submits the availability zone form' do
             iaas_identifier_field = double(:iaas_identifier_field, set: nil)
             allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').and_return([iaas_identifier_field])
@@ -234,7 +235,7 @@ module OpsManagerUiDrivers
           end
         end
 
-        context 'when the infrastructure is Openstack' do
+        context 'when the infrastructure is OpenStack' do
           it 'navigates to and submits the availability zone form' do
             iaas_identifier_field = double(:iaas_identifier_field, set: nil)
             allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').and_return([iaas_identifier_field])
@@ -272,6 +273,38 @@ module OpsManagerUiDrivers
             expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][resource_pool]').ordered
             expect(resource_pool_field).to have_received(:set).with('vsphere_resource_pool').ordered
             expect(browser).to have_received(:click_on).with('Save').ordered
+          end
+        end
+      end
+
+      describe '#assign_availability_zone' do
+        context 'when the infrastructure is AWS' do
+          it 'assigns an availability zone' do
+            ops_manager_director.assign_availability_zone('aws', [{'iaas_identifier' => 'fake-iaas_identifier'}])
+
+            expect(browser).to have_received(:click_on).with('Assign Availability Zones')
+            expect(browser).to have_received(:select).with('fake-iaas_identifier')
+            expect(browser).to have_received(:click_on).with('Save')
+          end
+        end
+
+        context 'when the infrastructure is OpenStack' do
+          it 'assigns an availability zone' do
+            ops_manager_director.assign_availability_zone('openstack', [{'iaas_identifier' => 'fake-iaas_identifier'}])
+
+            expect(browser).to have_received(:click_on).with('Assign Availability Zones')
+            expect(browser).to have_received(:select).with('fake-iaas_identifier')
+            expect(browser).to have_received(:click_on).with('Save')
+          end
+        end
+
+        context 'when the infrastructure is vSphere' do
+          it 'assigns an availability zone' do
+            ops_manager_director.assign_availability_zone('vsphere', [{'name' => 'fake-name'}])
+
+            expect(browser).to have_received(:click_on).with('Assign Availability Zones')
+            expect(browser).to have_received(:select).with('fake-name')
+            expect(browser).to have_received(:click_on).with('Save')
           end
         end
       end
