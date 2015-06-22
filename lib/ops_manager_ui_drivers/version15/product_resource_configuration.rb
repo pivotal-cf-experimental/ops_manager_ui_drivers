@@ -23,15 +23,15 @@ module OpsManagerUiDrivers
         save_form
       end
 
-      def set_elb_name_for_job(job_name, elb_name)
+      def set_elb_names_for_job(job_name, comma_delimited_elb_names)
         open_form
-        browser.find_field("product_resources_form[#{job_name}][elb_name]").set(elb_name)
+        browser.find_field("product_resources_form[#{job_name}][elb_names]").set(comma_delimited_elb_names)
         save_form
       end
 
-      def set_floating_ips_for_job(job_name, floating_ips)
+      def set_floating_ips_for_job(job_name, comma_delimited_floating_ips)
         open_form
-        browser.find_field("product_resources_form[#{job_name}][floating_ips]").set(floating_ips)
+        browser.find_field("product_resources_form[#{job_name}][floating_ips]").set(comma_delimited_floating_ips)
         save_form
       end
 
