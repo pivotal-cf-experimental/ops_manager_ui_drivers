@@ -113,10 +113,10 @@ module OpsManagerUiDrivers
 
         s3_blobstore = ops_manager.s3_blobstore
         if s3_blobstore
-          browser.choose('S3 Compatible Blobstore')
-          browser.fill_in('director_configuration[s3_blobstore_options][bucket_name]', with: s3_blobstore.bucket_name)
-          browser.fill_in('director_configuration[s3_blobstore_options][access_key]', with: s3_blobstore.access_key_id)
-          browser.fill_in('director_configuration[s3_blobstore_options][secret_key]', with: s3_blobstore.secret_access_key)
+          browser.choose('Amazon S3')
+          browser.fill_in('director_configuration[amazon_s3_blobstore_options][bucket_name]', with: s3_blobstore.bucket_name)
+          browser.fill_in('director_configuration[amazon_s3_blobstore_options][access_key]', with: s3_blobstore.access_key_id)
+          browser.fill_in('director_configuration[amazon_s3_blobstore_options][secret_key]', with: s3_blobstore.secret_access_key)
         end
 
         mysql = ops_manager.mysql
