@@ -82,7 +82,7 @@ module OpsManagerUiDrivers
         browser.click_on 'show-microbosh-configure-action'
         browser.click_on 'show-director-availability-zone-assignment-action'
 
-        availability_zone_options = browser.find_field('Singleton Availability Zone').all('option')
+        availability_zone_options = find_az_field
         availability_zone_options.each do |element|
           if element.text == az_name
             return element[:value]
@@ -98,6 +98,12 @@ module OpsManagerUiDrivers
         # jenkins gives us the job name in an environment variable, otherwise use the hostname
         job_name = ENV['JOB_NAME'] || `hostname`.chomp.split(/\./).first
         job_name.gsub(/[^[:alnum:]]+/, '_')
+      end
+
+      def find_az_field
+        browser.find_field('Singleton Availability Zone').all('option')
+      rescue Capybara::ElementNotFound
+        browser.find_field('Singleton Availability Zone', disabled: true).all('option')
       end
     end
   end
