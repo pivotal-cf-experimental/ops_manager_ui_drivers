@@ -154,7 +154,7 @@ module OpsManagerUiDrivers
           browser.select deployment_network
         end
         browser.click_on 'Save'
-        browser.has_text?('Successfully assigned infrastructure network')
+        browser.wait { browser.has_text?('Successfully assigned infrastructure network') }
       end
 
       def assign_network(deployment_network:)
