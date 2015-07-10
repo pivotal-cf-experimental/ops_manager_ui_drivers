@@ -100,6 +100,18 @@ module OpsManagerUiDrivers
         end
       end
 
+      def revert_pending_changes
+        open_dashboard
+        browser.click_on 'open-revert-installation-modal-action'
+        wait_for_modal_css_transition_to_complete
+        browser.click_on 'revert-installation-action'
+      end
+
+      def revert_available?
+        open_dashboard
+        browser.all('#open-revert-installation-modal-action').any?
+      end
+
       private
 
       attr_reader :browser
@@ -160,17 +172,6 @@ module OpsManagerUiDrivers
 
       def open_dashboard
         browser.visit '/'
-      end
-
-      def revert_pending_changes
-        open_dashboard
-        browser.click_on 'open-revert-installation-modal-action'
-        wait_for_modal_css_transition_to_complete
-        browser.click_on 'revert-installation-action'
-      end
-
-      def revert_available?
-        browser.all('#open-revert-installation-modal-action').any?
       end
     end
   end
