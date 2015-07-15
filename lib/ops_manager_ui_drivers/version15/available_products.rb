@@ -12,7 +12,12 @@ module OpsManagerUiDrivers
 
       def product_added?(product_name)
         browser.visit '/'
-        browser.all("#show-#{product_name}-configure-action").any?
+
+        begin
+          !browser.find("#show-#{product_name}-configure-action").nil?
+        rescue Capybara::ElementNotFound
+          false
+        end
       end
 
       private
