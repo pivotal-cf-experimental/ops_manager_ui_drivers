@@ -51,6 +51,11 @@ module OpsManagerUiDrivers
         browser.all("li.#{product_name} input#component_version[value='#{product_version}']", {visible: false}).any?
       end
 
+      def product_complete?(product_name)
+        open_dashboard
+        browser.all("a#show-#{product_name}-configure-action[data-progress='100']").any?
+      end
+
       def upgrade_product(product_name)
         open_dashboard
         browser.find(".product.#{product_name} p").trigger(:mouseover)
