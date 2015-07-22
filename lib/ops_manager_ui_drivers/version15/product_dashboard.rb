@@ -100,6 +100,15 @@ module OpsManagerUiDrivers
         end
       end
 
+      def most_recent_install_log
+        open_dashboard
+        if browser.all('#installation-logs li a', visible: false).any?
+          base_url = browser.first('#installation-logs li a', visible: false)[:href]
+          browser.visit "#{base_url}.text"
+          browser.source
+        end
+      end
+
       private
 
       attr_reader :browser
