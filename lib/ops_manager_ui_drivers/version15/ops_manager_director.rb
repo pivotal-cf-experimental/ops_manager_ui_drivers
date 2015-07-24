@@ -165,7 +165,7 @@ module OpsManagerUiDrivers
       end
 
       def configure_vm_passwords(use_generated_passwords: true)
-        browser.click_on 'VM Passwords'
+        browser.click_on 'Security'
         if use_generated_passwords
           browser.choose('Generate passwords')
         else
