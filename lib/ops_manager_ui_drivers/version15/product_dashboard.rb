@@ -41,6 +41,11 @@ module OpsManagerUiDrivers
         browser.click_on "delete-#{product_name}-action"
       end
 
+      def product_on_dashboard?(product_name)
+        open_dashboard
+        browser.all("a#show-#{product_name}-configure-action").any?
+      end
+
       def import_product_from(full_path)
         open_dashboard
         browser.attach_file('component_add[file]', full_path, {visible: false})
