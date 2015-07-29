@@ -313,7 +313,7 @@ module OpsManagerUiDrivers
         it 'navigates to and submits the vm_passwords form' do
           ops_manager_director.configure_vm_passwords
 
-          expect(browser).to have_received(:click_on).with('VM Passwords').ordered
+          expect(browser).to have_received(:click_on).with('Security').ordered
           expect(browser).to have_received(:choose).with('Generate passwords').ordered
           expect(browser).to have_received(:click_on).with('Save').ordered
           expect(browser).to have_received(:wait).ordered
@@ -327,7 +327,7 @@ module OpsManagerUiDrivers
             let(:use_generated_passwords) { true }
 
             it 'navigates to and submits the vm_passwords form' do
-              expect(browser).to have_received(:click_on).with('VM Passwords')
+              expect(browser).to have_received(:click_on).with('Security')
               expect(browser).to have_received(:choose).with('Generate passwords')
               expect(browser).to have_received(:click_on).with('Save')
             end
@@ -337,7 +337,7 @@ module OpsManagerUiDrivers
             let(:use_generated_passwords) { false }
 
             it 'navigates to and submits the vm_passwords form' do
-              expect(browser).to have_received(:click_on).with('VM Passwords')
+              expect(browser).to have_received(:click_on).with('Security')
               expect(browser).to have_received(:choose).with('Use default BOSH password')
               expect(browser).to have_received(:click_on).with('Save')
             end

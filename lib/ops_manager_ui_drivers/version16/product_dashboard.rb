@@ -51,6 +51,11 @@ module OpsManagerUiDrivers
         browser.all("li.#{product_name} input#component_version[value='#{product_version}']", {visible: false}).any?
       end
 
+      def product_complete?(product_name)
+        open_dashboard
+        browser.all("a#show-#{product_name}-configure-action[data-progress='100']").any?
+      end
+
       def upgrade_product(product_name)
         open_dashboard
         browser.find(".product.#{product_name} p").trigger(:mouseover)
@@ -98,6 +103,27 @@ module OpsManagerUiDrivers
             browser.expect(ops_manager.state_change_progress).to browser.be_state_change_success
           end
         end
+      end
+
+      def most_recent_install_log
+        open_dashboard
+        if browser.all('#installation-logs li a', visible: false).any?
+          base_url = browser.first('#installation-logs li a', visible: false)[:href]
+          browser.visit "#{base_url}.text"
+          browser.source
+        end
+      end
+
+      def revert_pending_changes
+        open_dashboard
+        browser.click_on 'open-revert-installation-modal-action'
+        wait_for_modal_css_transition_to_complete
+        browser.click_on 'revert-installation-action'
+      end
+
+      def revert_available?
+        open_dashboard
+        browser.all('#open-revert-installation-modal-action').any?
       end
 
       private
@@ -160,17 +186,6 @@ module OpsManagerUiDrivers
 
       def open_dashboard
         browser.visit '/'
-      end
-
-      def revert_pending_changes
-        open_dashboard
-        browser.click_on 'open-revert-installation-modal-action'
-        wait_for_modal_css_transition_to_complete
-        browser.click_on 'revert-installation-action'
-      end
-
-      def revert_available?
-        browser.all('#open-revert-installation-modal-action').any?
       end
     end
   end
