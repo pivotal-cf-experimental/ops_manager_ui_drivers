@@ -1,5 +1,3 @@
-require 'ops_manager_ui_drivers/Version16/settings'
-
 module OpsManagerUiDrivers
   module Version16
     class OpsManagerDirector
