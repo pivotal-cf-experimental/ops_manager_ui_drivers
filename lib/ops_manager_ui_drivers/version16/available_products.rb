@@ -8,7 +8,7 @@ module OpsManagerUiDrivers
       def add_product_to_install(product_name)
         browser.visit '/'
         browser.click_on "add-#{product_name}"
-        browser.find("#show-#{product_name}-configure-action")
+        browser.find("#show-#{product_name}-configure-action", wait: 10)
       end
 
       def product_added?(product_name)
