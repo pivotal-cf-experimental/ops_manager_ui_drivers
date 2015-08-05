@@ -6,7 +6,7 @@ module OpsManagerUiDrivers
       end
 
       def add_single_az(iaas_identifier)
-        open_form('availability_zones')
+        open_form
 
         set_fields(fields: {'iaas_identifier' => iaas_identifier})
 
@@ -14,7 +14,7 @@ module OpsManagerUiDrivers
       end
 
       def add_az(fields)
-        open_form('availability_zones')
+        open_form
 
         browser.click_on 'Add'
         set_fields(fields: fields)
@@ -30,10 +30,10 @@ module OpsManagerUiDrivers
         browser.expect(browser.page).to browser.have_css('.flash-message.success')
       end
 
-      def open_form(form)
+      def open_form
         browser.visit '/'
         browser.click_on 'show-microbosh-configure-action'
-        browser.click_on "show-#{form}-action"
+        browser.click_on 'show-availability_zones-action'
       end
 
       def set_fields(fields:)

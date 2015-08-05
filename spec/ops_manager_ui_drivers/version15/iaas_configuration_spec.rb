@@ -12,13 +12,11 @@ module OpsManagerUiDrivers
         include OpsManagerUiDrivers::WaitHelper
       end
 
-      let(:browser) do
-        instance_double(FakeCapybaraExampleGroup)
-      end
+      let(:browser) { instance_double(FakeCapybaraExampleGroup) }
       let(:expectation_target) { instance_double(RSpec::Expectations::ExpectationTarget, to: nil) }
       let(:field_node) { instance_double(Capybara::Node::Element, set: nil) }
 
-      subject(:iaas_configuration) { Version15::IaasConfiguration.new(browser: browser) }
+      subject(:iaas_configuration) { IaasConfiguration.new(browser: browser) }
 
       before do
         allow(browser).to receive(:visit)
