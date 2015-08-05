@@ -4,10 +4,6 @@ module OpsManagerUiDrivers
   module PageHelpers
     include OpsManagerUiDrivers::WaitHelper
 
-    def om_1_3(ops_manager_url)
-      @om_1_3 ||= create_web_ui(ops_manager_url, Version13)
-    end
-
     def om_1_4(ops_manager_url)
       @om_1_4 ||= create_web_ui(ops_manager_url, Version14)
     end
@@ -18,10 +14,6 @@ module OpsManagerUiDrivers
 
     def om_rc(ops_manager_url)
       @om_1_6 ||= create_web_ui(ops_manager_url, Version16)
-    end
-
-    def api_1_3(host:, username:, password:)
-      Version13::Api.new(host: host, user: username, password: password)
     end
 
     def api_1_4(host:, username:, password:)
