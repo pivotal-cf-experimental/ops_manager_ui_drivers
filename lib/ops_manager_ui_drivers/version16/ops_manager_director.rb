@@ -49,20 +49,15 @@ module OpsManagerUiDrivers
         case test_settings.iaas_type
           when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
             first_network = iaas_networks.first
-            browser.click_on 'show-network-action'
-            browser.fill_in 'network[networks][][name]', with: first_network['name']
-            browser.fill_in 'network[networks][][iaas_network_identifier]', with: first_network['identifier']
-            browser.fill_in 'network[networks][][subnet]', with: first_network['subnet']
-            browser.fill_in 'network[networks][][reserved_ip_ranges]', with: first_network['reserved_ips']
-            browser.fill_in 'network[networks][][dns]', with: first_network['dns']
-            browser.fill_in 'network[networks][][gateway]', with: first_network['gateway']
-            browser.click_on 'Save'
-            flash_errors = browser.all('.flash-message.error ul.message li').to_a
-            flash_errors.reject! { |node| node.text =~ /cannot reach gateway/i }
 
-            if (flash_errors.length > 0)
-              fail flash_errors.collect(&:text).inspect
-            end
+            networks.add_single_network(
+              name:                    first_network['name'],
+              iaas_network_identifier: first_network['identifier'],
+              subnet:                  first_network['subnet'],
+              reserved_ip_ranges:      first_network['reserved_ips'],
+              dns:                     first_network['dns'],
+              gateway:                 first_network['gateway'],
+            )
           else
             iaas_networks && iaas_networks.each do |network|
               networks.add_network(

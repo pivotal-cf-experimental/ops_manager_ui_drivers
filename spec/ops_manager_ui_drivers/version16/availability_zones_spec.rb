@@ -28,7 +28,7 @@ module OpsManagerUiDrivers
       end
 
       describe '#add_single_az' do
-        it 'navigates to the root-page, microbosh-product, iaas-configuration page, and sets the iaas-identifier' do
+        it 'navigates to the root-page, microbosh-product, configure availability zone page, and sets the availability zone fields' do
           page = double(:page)
           flash_selector = double(:flash_selector)
           allow(browser).to receive(:page).and_return(page)
@@ -50,7 +50,7 @@ module OpsManagerUiDrivers
       end
 
       describe '#add_az' do
-        it 'navigates to the root-page, microbosh-product, iaas-configuration page, and sets the fields' do
+        it 'navigates to the root-page, microbosh-product, add availability zone page, and sets the availability zone fields' do
           page = double(:page)
           flash_selector = double(:flash_selector)
           allow(browser).to receive(:page).and_return(page)
@@ -64,6 +64,8 @@ module OpsManagerUiDrivers
           expect(browser).to have_received(:visit).with('/').ordered
           expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
           expect(browser).to have_received(:click_on).with('show-availability_zones-action').ordered
+          expect(browser).to have_received(:click_on).with('Add').ordered
+
           expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][field_name]').ordered
           expect(field_node).to have_received(:set).with('field-value').ordered
 

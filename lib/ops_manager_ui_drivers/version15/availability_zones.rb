@@ -8,7 +8,7 @@ module OpsManagerUiDrivers
       def add_single_az(iaas_identifier)
         open_form
 
-        set_fields(fields: {'iaas_identifier' => iaas_identifier})
+        set_fields('iaas_identifier' => iaas_identifier)
 
         save_form
       end
@@ -17,7 +17,7 @@ module OpsManagerUiDrivers
         open_form
 
         browser.click_on 'Add'
-        set_fields(fields: fields)
+        set_fields(fields)
         save_form
       end
 
@@ -36,7 +36,7 @@ module OpsManagerUiDrivers
         browser.click_on 'show-availability_zones-action'
       end
 
-      def set_fields(fields:)
+      def set_fields(fields)
         fields.each do |field, value|
           set_field(field, value)
         end
