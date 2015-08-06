@@ -23,12 +23,8 @@ module OpsManagerUiDrivers
       end
 
       def configure_iaas(test_settings)
-        iaas_configuration.open_form
-        iaas_settings = Settings.for(test_settings)
-        iaas_settings.fields.each do |name, value|
-          iaas_configuration.set_field(name, value)
-        end
-        iaas_configuration.save_form
+        iaas_specific_fields = Settings.for(test_settings).fields
+        iaas_configuration.fill_iaas_settings(iaas_specific_fields)
       end
 
       def add_availability_zones(iaas_type, iaas_availability_zones)

@@ -27,37 +27,31 @@ module OpsManagerUiDrivers
         allow(browser).to receive(:have_css)
       end
 
-      describe '#open_form' do
-        it 'navigates to the root-page, microbosh-product, and then iaas-configuration page' do
-          iaas_configuration.open_form
-
-          expect(browser).to have_received(:visit).with('/').ordered
-          expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
-          expect(browser).to have_received(:click_on).with('show-iaas_configuration-action').ordered
-        end
-      end
-
-      describe '#save_form' do
-        it 'clicks save and validates that a success flash was shown' do
+      describe '#fill_iaas_settings' do
+        it 'opens the iaas_configuration, fills out the fields and saves the form' do
           page = double(:page)
           flash_selector = double(:flash_selector)
           allow(browser).to receive(:page).and_return(page)
           allow(browser).to receive(:have_css).with('.flash-message.success').and_return(flash_selector)
 
-          iaas_configuration.save_form
+          iaas_configuration.fill_iaas_settings(
+            'field_name' => 'field-value',
+            'other_field_name' => 'other-field-value',
+          )
+
+          expect(browser).to have_received(:visit).with('/').ordered
+          expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
+          expect(browser).to have_received(:click_on).with('show-iaas_configuration-action').ordered
+
+          expect(browser).to have_received(:find_field).with('iaas_configuration[field_name]').ordered
+          expect(field_node).to have_received(:set).with('field-value').ordered
+
+          expect(browser).to have_received(:find_field).with('iaas_configuration[other_field_name]').ordered
+          expect(field_node).to have_received(:set).with('other-field-value').ordered
 
           expect(browser).to have_received(:click_on).with('Save').ordered
           expect(browser).to have_received(:expect).with(page).ordered
           expect(expectation_target).to have_received(:to).with(flash_selector).ordered
-        end
-      end
-
-      describe '#set_field' do
-        it 'finds the indicated field and sets the provided value' do
-          iaas_configuration.set_field('field-name', 'some-value')
-
-          expect(browser).to have_received(:find_field).with('iaas_configuration[field-name]').ordered
-          expect(field_node).to have_received(:set).with('some-value').ordered
         end
       end
     end
