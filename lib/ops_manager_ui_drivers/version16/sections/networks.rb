@@ -45,15 +45,15 @@ module OpsManagerUiDrivers
 
         attr_reader :browser
 
-        def save_form
-          browser.click_on 'Save'
-          browser.expect(browser.page).to browser.have_css('.flash-message.success')
-        end
-
         def open_form(form)
           browser.visit '/'
           browser.click_on 'show-microbosh-configure-action'
           browser.click_on "show-#{form}-action"
+        end
+
+        def save_form
+          browser.click_on 'Save'
+          browser.expect(browser.page).to browser.have_css('.flash-message.success')
         end
 
         def set_fields(fields)

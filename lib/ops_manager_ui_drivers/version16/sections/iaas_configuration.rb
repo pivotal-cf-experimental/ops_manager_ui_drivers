@@ -8,9 +8,7 @@ module OpsManagerUiDrivers
 
         def fill_iaas_settings(fields)
           open_form
-          fields.each do |name, value|
-            set_field(name, value)
-          end
+          set_fields(fields)
           save_form
         end
 
@@ -27,6 +25,12 @@ module OpsManagerUiDrivers
         def save_form
           browser.click_on 'Save'
           browser.expect(browser.page).to browser.have_css('.flash-message.success')
+        end
+
+        def set_fields(fields)
+          fields.each do |field, value|
+            set_field(field, value)
+          end
         end
 
         def set_field(field, value)
