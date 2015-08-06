@@ -16,7 +16,6 @@ module OpsManagerUiDrivers
       let(:expectation_target) { instance_double(RSpec::Expectations::ExpectationTarget, to: nil) }
       let(:field_node) { instance_double(Capybara::Node::Element, set: nil) }
 
-
       subject(:availability_zones) { AvailabilityZones.new(browser: browser) }
 
       before do
