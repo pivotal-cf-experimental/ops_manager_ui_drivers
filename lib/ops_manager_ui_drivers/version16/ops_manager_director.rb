@@ -1,7 +1,7 @@
 module OpsManagerUiDrivers
   module Version16
     class OpsManagerDirector
-      def initialize(browser:, iaas_configuration: Version16::IaasConfiguration.new(browser: browser))
+      def initialize(browser:, iaas_configuration: Version16::Sections::IaasConfiguration.new(browser: browser))
         @browser            = browser
         @iaas_configuration = iaas_configuration
       end
@@ -170,11 +170,11 @@ module OpsManagerUiDrivers
 
 
       def availability_zones
-        @availability_zones ||= Version16::AvailabilityZones.new(browser: browser)
+        @availability_zones ||= Version16::Sections::AvailabilityZones.new(browser: browser)
       end
 
       def networks
-        @networks ||= Version16::Networks.new(browser: browser)
+        @networks ||= Version16::Sections::Networks.new(browser: browser)
       end
     end
   end

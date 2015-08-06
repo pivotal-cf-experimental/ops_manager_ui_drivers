@@ -17,7 +17,7 @@ module OpsManagerUiDrivers
       end
 
       let(:iaas_configuration) do
-        Version15::IaasConfiguration.new(browser: browser).tap do |iaas_configuration|
+        Version15::Sections::IaasConfiguration.new(browser: browser).tap do |iaas_configuration|
           allow(iaas_configuration).to receive(:set_field)
         end
       end
