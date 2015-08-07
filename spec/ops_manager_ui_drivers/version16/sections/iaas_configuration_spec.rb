@@ -21,9 +21,9 @@ module OpsManagerUiDrivers
 
         before do
           allow(browser).to receive(:visit)
-          allow(browser).to receive(:click_on)
-          allow(browser).to receive(:find_field).and_return(field_node)
+          allow(browser).to receive(:all).and_return([field_node])
           allow(browser).to receive(:page)
+          allow(browser).to receive(:click_on)
           allow(browser).to receive(:expect).and_return(expectation_target)
           allow(browser).to receive(:have_css)
         end
@@ -44,10 +44,10 @@ module OpsManagerUiDrivers
             expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
             expect(browser).to have_received(:click_on).with('show-iaas_configuration-action').ordered
 
-            expect(browser).to have_received(:find_field).with('iaas_configuration[field_name]').ordered
+            expect(browser).to have_received(:all).with(:field, 'iaas_configuration[field_name]').ordered
             expect(field_node).to have_received(:set).with('field-value').ordered
 
-            expect(browser).to have_received(:find_field).with('iaas_configuration[other_field_name]').ordered
+            expect(browser).to have_received(:all).with(:field, 'iaas_configuration[other_field_name]').ordered
             expect(field_node).to have_received(:set).with('other-field-value').ordered
 
             expect(browser).to have_received(:click_on).with('Save').ordered
