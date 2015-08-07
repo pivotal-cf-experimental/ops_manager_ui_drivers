@@ -21,6 +21,7 @@ module OpsManagerUiDrivers
           allow(iaas_configuration).to receive(:set_field)
         end
       end
+      let(:advanced_infrastructure_configuration) { Version16::Sections::AdvancedInfrastructureConfig.new(browser: browser) }
 
       let(:test_settings_hash) do
         {}
@@ -46,11 +47,14 @@ module OpsManagerUiDrivers
         allow(browser).to receive(:have_css)
         allow(browser).to receive(:has_text?)
         allow(iaas_configuration).to receive(:fill_iaas_settings)
+
+        allow(Version16::Sections::AdvancedInfrastructureConfig).to receive(:new).and_return(advanced_infrastructure_configuration)
+        allow(advanced_infrastructure_configuration).to receive(:fill_advanced_infrastructure_config_settings)
       end
 
       describe '#configure_iaas' do
         it 'navigates to and submits the "iaas_configuration" form' do
-          settings = double('Fake IaaS Settings', iaas_configuration_fields: {})
+          settings = double('Fake IaaS Settings', iaas_configuration_fields: {}, advanced_infrastructure_config_fields: {})
           allow(Settings).to receive(:for).and_return(settings)
 
           ops_manager_director.configure_iaas(test_settings)
@@ -233,6 +237,7 @@ module OpsManagerUiDrivers
                 'security_group_name' => 'fake-openstack-security_group_name',
                 'key_pair_name' => 'fake-openstack-key_pair_name',
                 'ssh_private_key' => 'fake-openstack-ssh_private_key',
+                'connection_options' => 'fake-openstack-connection-options',
               }
             }
 
@@ -270,6 +275,14 @@ module OpsManagerUiDrivers
                 hash_including(
                   'key_pair_name' => 'fake-openstack-key_pair_name',
                   'ssh_private_key' => 'fake-openstack-ssh_private_key',
+                )
+              )
+          end
+
+          it 'sets the "connection_options" on the Advanced Infrastructure Config page' do
+            expect(advanced_infrastructure_configuration).to have_received(:fill_advanced_infrastructure_config_settings).with(
+                hash_including(
+                  'connection_options' => 'fake-openstack-connection-options'
                 )
               )
           end

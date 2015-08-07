@@ -23,8 +23,11 @@ module OpsManagerUiDrivers
       end
 
       def configure_iaas(test_settings)
-        iaas_specific_fields = Settings.for(test_settings).iaas_configuration_fields
+        iaas_settings = Settings.for(test_settings)
+        iaas_specific_fields = iaas_settings.iaas_configuration_fields
+        advanced_infrastructure_config_fields = iaas_settings.advanced_infrastructure_config_fields
         iaas_configuration.fill_iaas_settings(iaas_specific_fields)
+        advanced_infrastructure_config.fill_advanced_infrastructure_config_settings(advanced_infrastructure_config_fields)
       end
 
       def add_availability_zones(iaas_type, iaas_availability_zones)
@@ -175,6 +178,10 @@ module OpsManagerUiDrivers
 
       def networks
         @networks ||= Version16::Sections::Networks.new(browser: browser)
+      end
+
+      def advanced_infrastructure_config
+        @advanced_infrastructure_config ||= Version16::Sections::AdvancedInfrastructureConfig.new(browser: browser)
       end
     end
   end

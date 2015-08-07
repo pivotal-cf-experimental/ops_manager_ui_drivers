@@ -5,28 +5,31 @@ module OpsManagerUiDrivers
   module Version16
     RSpec.describe Settings do
       describe 'Openstack settings' do
-        let(:settings_hash) { {
-          iaas_type: 'openstack',
-          ops_manager: {
-            openstack: {
-              identity_endpoint: 'IdentityEndpoint',
-              username: 'Username',
-              password: 'Password',
-              tenant: 'Tenant',
-              security_group_name: 'SecurityGroupName',
-              region: 'Region',
-              key_pair_name: 'KeyPairName',
-              ssh_private_key: 'SshPrivateKey',
-              disable_dhcp: false,
+        let(:settings_hash) do
+          {
+            iaas_type: 'openstack',
+            ops_manager: {
+              openstack: {
+                identity_endpoint: 'IdentityEndpoint',
+                username: 'Username',
+                password: 'Password',
+                tenant: 'Tenant',
+                security_group_name: 'SecurityGroupName',
+                region: 'Region',
+                key_pair_name: 'KeyPairName',
+                ssh_private_key: 'SshPrivateKey',
+                disable_dhcp: false,
+                connection_options: 'ConnectionOptions',
+              }
             }
           }
-        } }
+        end
         let(:test_settings) { RecursiveOpenStruct.new(settings_hash, recurse_over_arrays: true) }
 
         subject(:openstack_settings) { Settings.for(test_settings) }
 
         it 'should have the correct iaas_configuration fields' do
-          iaas_configuration_fields = subject.iaas_configuration_fields
+          iaas_configuration_fields = openstack_settings.iaas_configuration_fields
           expect(iaas_configuration_fields['identity_endpoint']).to eq('IdentityEndpoint')
           expect(iaas_configuration_fields['username']).to eq('Username')
           expect(iaas_configuration_fields['password']).to eq('Password')
@@ -36,6 +39,11 @@ module OpsManagerUiDrivers
           expect(iaas_configuration_fields['key_pair_name']).to eq('KeyPairName')
           expect(iaas_configuration_fields['ssh_private_key']).to eq('SshPrivateKey')
           expect(iaas_configuration_fields['disable_dhcp']).to eq(false)
+        end
+
+        it 'should have the correct advanced_infrastructure_config fields' do
+          iaas_configuration_fields = openstack_settings.advanced_infrastructure_config_fields
+          expect(iaas_configuration_fields['connection_options']).to eq('ConnectionOptions')
         end
       end
 
@@ -69,6 +77,11 @@ module OpsManagerUiDrivers
           expect(iaas_configuration_fields['key_pair_name']).to eq('KeyPairName')
           expect(iaas_configuration_fields['ssh_private_key']).to eq('SSHKey')
           expect(iaas_configuration_fields['region']).to eq('Region')
+        end
+
+        it 'should have the correct advanced_infrastructure_config fields' do
+          iaas_configuration_fields = aws_settings.advanced_infrastructure_config_fields
+          expect(iaas_configuration_fields).to eq({})
         end
       end
 
@@ -106,6 +119,11 @@ module OpsManagerUiDrivers
           expect(iaas_configuration_fields['microbosh_vm_folder']).to eq('MicroboshVmFolder')
           expect(iaas_configuration_fields['microbosh_template_folder']).to eq('MicroboshTemplateFolder')
         end
+
+        it 'should have the correct advanced_infrastructure_config fields' do
+          iaas_configuration_fields = vsphere_settings.advanced_infrastructure_config_fields
+          expect(iaas_configuration_fields).to eq({})
+        end
       end
 
       describe 'vCloud settings' do
@@ -142,6 +160,11 @@ module OpsManagerUiDrivers
           expect(iaas_configuration_fields['datacenter']).to eq('VdcName')
           expect(iaas_configuration_fields['storage_profile']).to eq('VdcStorageProfile')
           expect(iaas_configuration_fields['catalog_name']).to eq('VdcCatalogName')
+        end
+
+        it 'should have the correct advanced_infrastructure_config fields' do
+          iaas_configuration_fields = vcloud_settings.advanced_infrastructure_config_fields
+          expect(iaas_configuration_fields).to eq({})
         end
       end
     end

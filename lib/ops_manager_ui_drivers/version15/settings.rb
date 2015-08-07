@@ -29,6 +29,10 @@ module OpsManagerUiDrivers
           }
         end
 
+        def advanced_infrastructure_config_fields
+          { }
+        end
+
         private
 
         attr_reader :test_settings
@@ -54,6 +58,10 @@ module OpsManagerUiDrivers
             'microbosh_template_folder' => test_settings.ops_manager.vcenter.microbosh_template_folder,
             'microbosh_disk_path'       => test_settings.ops_manager.vcenter.microbosh_disk_path,
           }
+        end
+
+        def advanced_infrastructure_config_fields
+          { }
         end
 
         private
@@ -82,6 +90,10 @@ module OpsManagerUiDrivers
           }
         end
 
+        def advanced_infrastructure_config_fields
+          { }
+        end
+
         private
 
         attr_reader :test_settings
@@ -108,6 +120,10 @@ module OpsManagerUiDrivers
             'region'            => test_settings.ops_manager.openstack.region,
             'disable_dhcp'      => test_settings.ops_manager.openstack.disable_dhcp,
           }
+        end
+
+        def advanced_infrastructure_config_fields
+          { 'connection_options' => test_settings.ops_manager.openstack.connection_options }
         end
 
         private
