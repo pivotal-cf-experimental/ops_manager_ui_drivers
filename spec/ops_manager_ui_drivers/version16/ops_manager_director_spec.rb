@@ -50,7 +50,7 @@ module OpsManagerUiDrivers
 
       describe '#configure_iaas' do
         it 'navigates to and submits the "iaas_configuration" form' do
-          settings = double('Fake IaaS Settings', fields: {})
+          settings = double('Fake IaaS Settings', iaas_configuration_fields: {})
           allow(Settings).to receive(:for).and_return(settings)
 
           ops_manager_director.configure_iaas(test_settings)

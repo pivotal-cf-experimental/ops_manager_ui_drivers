@@ -23,7 +23,7 @@ module OpsManagerUiDrivers
       end
 
       def configure_iaas(test_settings)
-        iaas_specific_fields = Settings.for(test_settings).fields
+        iaas_specific_fields = Settings.for(test_settings).iaas_configuration_fields
         iaas_configuration.fill_iaas_settings(iaas_specific_fields)
       end
 

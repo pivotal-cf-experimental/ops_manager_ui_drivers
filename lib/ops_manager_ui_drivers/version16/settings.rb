@@ -17,7 +17,7 @@ module OpsManagerUiDrivers
           @test_settings = test_settings
         end
 
-        def fields
+        def iaas_configuration_fields
           {
             'vcd_url'         => test_settings.ops_manager.vcloud.creds.url,
             'organization'    => test_settings.ops_manager.vcloud.creds.organization,
@@ -43,7 +43,7 @@ module OpsManagerUiDrivers
           @test_settings = test_settings
         end
 
-        def fields
+        def iaas_configuration_fields
           {
             'vcenter_ip'                => test_settings.ops_manager.vcenter.creds.ip,
             'vcenter_username'          => test_settings.ops_manager.vcenter.creds.username,
@@ -70,7 +70,7 @@ module OpsManagerUiDrivers
           @test_settings = test_settings
         end
 
-        def fields
+        def iaas_configuration_fields
           {
             'access_key_id'     => test_settings.ops_manager.aws.aws_access_key,
             'secret_access_key' => test_settings.ops_manager.aws.aws_secret_key,
@@ -96,7 +96,7 @@ module OpsManagerUiDrivers
           @test_settings = test_settings
         end
 
-        def fields
+        def iaas_configuration_fields
           {
             'identity_endpoint' => test_settings.ops_manager.openstack.identity_endpoint,
             'username'          => test_settings.ops_manager.openstack.username,
