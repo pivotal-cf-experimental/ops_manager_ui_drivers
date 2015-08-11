@@ -1,6 +1,6 @@
 module OpsManagerUiDrivers
   module Version15
-    module Sections
+    module MicroboshSections
       class IaasConfiguration
         def initialize(browser:)
           @microbosh_form_section = MicroboshFormSection.new(browser, 'iaas_configuration')

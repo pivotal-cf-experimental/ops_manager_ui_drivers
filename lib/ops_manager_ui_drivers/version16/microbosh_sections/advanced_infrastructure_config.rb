@@ -1,6 +1,6 @@
 module OpsManagerUiDrivers
   module Version16
-    module Sections
+    module MicroboshSections
       class AdvancedInfrastructureConfig
         def initialize(browser:)
           @microbosh_form_section = MicroboshFormSection.new(browser, 'advanced_infrastructure_config')

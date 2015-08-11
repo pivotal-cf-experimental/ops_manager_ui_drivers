@@ -5,7 +5,7 @@ require 'recursive-open-struct'
 
 module OpsManagerUiDrivers
   module Version15
-    module Sections
+    module MicroboshSections
       RSpec.describe Networks do
         class FakeCapybaraExampleGroup < RSpec::Core::ExampleGroup
           include Capybara::DSL

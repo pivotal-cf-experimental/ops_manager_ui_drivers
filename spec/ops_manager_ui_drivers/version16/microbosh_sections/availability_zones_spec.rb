@@ -5,7 +5,7 @@ require 'recursive-open-struct'
 
 module OpsManagerUiDrivers
   module Version16
-    module Sections
+    module MicroboshSections
       RSpec.describe AvailabilityZones do
         class FakeCapybaraExampleGroup < RSpec::Core::ExampleGroup
           include Capybara::DSL

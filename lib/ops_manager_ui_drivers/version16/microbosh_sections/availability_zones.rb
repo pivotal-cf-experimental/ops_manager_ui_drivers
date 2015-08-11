@@ -1,6 +1,6 @@
 module OpsManagerUiDrivers
-  module Version15
-    module Sections
+  module Version16
+    module MicroboshSections
       class AvailabilityZones
         def initialize(browser:)
           @browser = browser

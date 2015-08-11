@@ -17,11 +17,11 @@ module OpsManagerUiDrivers
       end
 
       let(:iaas_configuration) do
-        Version15::Sections::IaasConfiguration.new(browser: browser).tap do |iaas_configuration|
+        Version15::MicroboshSections::IaasConfiguration.new(browser: browser).tap do |iaas_configuration|
           allow(iaas_configuration).to receive(:set_field)
         end
       end
-      let(:advanced_infrastructure_configuration) { Version15::Sections::AdvancedInfrastructureConfig.new(browser: browser) }
+      let(:advanced_infrastructure_configuration) { Version15::MicroboshSections::AdvancedInfrastructureConfig.new(browser: browser) }
 
       let(:test_settings_hash) do
         {}
@@ -48,7 +48,7 @@ module OpsManagerUiDrivers
         allow(browser).to receive(:has_text?)
         allow(iaas_configuration).to receive(:fill_iaas_settings)
 
-        allow(Version15::Sections::AdvancedInfrastructureConfig).to receive(:new).and_return(advanced_infrastructure_configuration)
+        allow(Version15::MicroboshSections::AdvancedInfrastructureConfig).to receive(:new).and_return(advanced_infrastructure_configuration)
         allow(advanced_infrastructure_configuration).to receive(:fill_advanced_infrastructure_config_settings)
       end
 

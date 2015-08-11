@@ -3,8 +3,8 @@ require 'capybara'
 require 'capybara/rspec/matchers'
 
 module OpsManagerUiDrivers
-  module Version16
-    module Sections
+  module Version15
+    module MicroboshSections
       describe MicroboshFormSection do
         class FakeCapybaraExampleGroup < RSpec::Core::ExampleGroup
           include Capybara::DSL
