@@ -21,6 +21,10 @@ module OpsManagerUiDrivers
         Version16::ProductForm.new(browser: browser, product_name: product_name, form_name: form_name)
       end
 
+      def product_errands
+        Version16::ProductErrands.new(browser: browser, product_name: product_name)
+      end
+
       private
 
       attr_reader :browser, :product_name
