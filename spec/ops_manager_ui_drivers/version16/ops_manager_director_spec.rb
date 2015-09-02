@@ -45,7 +45,7 @@ module OpsManagerUiDrivers
         allow(browser).to receive(:page)
         allow(browser).to receive(:expect).and_return(instance_double(RSpec::Expectations::ExpectationTarget, to: nil))
         allow(browser).to receive(:have_css)
-        allow(browser).to receive(:has_text?)
+        allow(browser).to receive(:assert_text)
         allow(iaas_configuration).to receive(:fill_iaas_settings)
 
         allow(Version16::MicroboshSections::AdvancedInfrastructureConfig).to receive(:new).and_return(advanced_infrastructure_configuration)
@@ -388,7 +388,7 @@ module OpsManagerUiDrivers
           expect(browser).to have_received(:choose).with('Generate passwords').ordered
           expect(browser).to have_received(:click_on).with('Save').ordered
           expect(browser).to have_received(:wait).ordered
-          expect(browser).to have_received(:has_text?).with('Settings updated').ordered
+          expect(browser).to have_received(:assert_text).with('Settings updated').ordered
         end
 
         context 'when the users specifies whether to use generated passwords' do
