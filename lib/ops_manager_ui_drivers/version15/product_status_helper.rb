@@ -51,7 +51,7 @@ module OpsManagerUiDrivers
       end
 
       def wait_for_loading_indicator_to_disappear
-        Capybara.using_wait_time 10 do
+        Capybara.using_wait_time 20 do
           browser.all('.status-loading', count: 0) # blocks until there are no spinners
         end
       end
