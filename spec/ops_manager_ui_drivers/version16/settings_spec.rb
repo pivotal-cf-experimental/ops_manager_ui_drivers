@@ -60,6 +60,7 @@ module OpsManagerUiDrivers
                 key_pair_name: 'KeyPairName',
                 ssh_key: 'SSHKey',
                 region: 'Region',
+                encrypt_disk: false,
               }
             }
           }
@@ -77,6 +78,7 @@ module OpsManagerUiDrivers
           expect(iaas_configuration_fields['key_pair_name']).to eq('KeyPairName')
           expect(iaas_configuration_fields['ssh_private_key']).to eq('SSHKey')
           expect(iaas_configuration_fields['region']).to eq('Region')
+          expect(iaas_configuration_fields['encrypted']).to eq(false)
         end
 
         it 'should have the correct advanced_infrastructure_config fields' do
