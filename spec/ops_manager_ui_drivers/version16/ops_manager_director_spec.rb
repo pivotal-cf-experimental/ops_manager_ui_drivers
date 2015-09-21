@@ -118,9 +118,9 @@ module OpsManagerUiDrivers
                 },
                 'datacenter' => 'fake-vcenter-datacenter',
                 'datastore' => 'fake-vcenter-datastores',
-                'microbosh_vm_folder' => 'fake-vcenter-microbosh_vm_folder',
-                'microbosh_template_folder' => 'fake-vcenter-microbosh_template_folder',
-                'microbosh_disk_path' => 'fake-vcenter-microbosh_disk_path',
+                'bosh_vm_folder' => 'fake-vcenter-bosh_vm_folder',
+                'bosh_template_folder' => 'fake-vcenter-bosh_template_folder',
+                'bosh_disk_path' => 'fake-vcenter-bosh_disk_path',
               }
             }
 
@@ -149,8 +149,8 @@ module OpsManagerUiDrivers
           it 'sets the microbosh vm & template folders' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
                 hash_including(
-                  'microbosh_vm_folder' => 'fake-vcenter-microbosh_vm_folder',
-                  'microbosh_template_folder' => 'fake-vcenter-microbosh_template_folder',
+                  'bosh_vm_folder' => 'fake-vcenter-bosh_vm_folder',
+                  'bosh_template_folder' => 'fake-vcenter-bosh_template_folder',
                 )
               )
           end
@@ -158,7 +158,7 @@ module OpsManagerUiDrivers
           it 'sets the microbosh disk path' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
                 hash_including(
-                  'microbosh_disk_path' => 'fake-vcenter-microbosh_disk_path'
+                  'bosh_disk_path' => 'fake-vcenter-bosh_disk_path'
                 )
               )
           end

@@ -100,9 +100,9 @@ module OpsManagerUiDrivers
                 },
                 datacenter: 'Datacenter',
                 datastore: 'Datastore',
-                microbosh_vm_folder: 'MicroboshVmFolder',
-                microbosh_template_folder: 'MicroboshTemplateFolder',
-                microbosh_disk_path: 'MicroboshDiskPath',
+                bosh_vm_folder: 'BoshVmFolder',
+                bosh_template_folder: 'BoshTemplateFolder',
+                bosh_disk_path: 'BoshDiskPath',
               }
             }
           }
@@ -118,8 +118,8 @@ module OpsManagerUiDrivers
           expect(iaas_configuration_fields['vcenter_password']).to eq('Password')
           expect(iaas_configuration_fields['datacenter']).to eq('Datacenter')
           expect(iaas_configuration_fields['datastores_string']).to eq('Datastore')
-          expect(iaas_configuration_fields['microbosh_vm_folder']).to eq('MicroboshVmFolder')
-          expect(iaas_configuration_fields['microbosh_template_folder']).to eq('MicroboshTemplateFolder')
+          expect(iaas_configuration_fields['bosh_vm_folder']).to eq('BoshVmFolder')
+          expect(iaas_configuration_fields['bosh_template_folder']).to eq('BoshTemplateFolder')
         end
 
         it 'should have the correct advanced_infrastructure_config fields' do
