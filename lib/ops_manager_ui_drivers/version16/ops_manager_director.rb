@@ -1,7 +1,7 @@
 module OpsManagerUiDrivers
   module Version16
     class OpsManagerDirector
-      def initialize(browser:, iaas_configuration: Version16::MicroboshSections::IaasConfiguration.new(browser: browser))
+      def initialize(browser:, iaas_configuration: Version16::BoshProductSections::IaasConfiguration.new(browser: browser))
         @browser            = browser
         @iaas_configuration = iaas_configuration
       end
@@ -173,15 +173,15 @@ module OpsManagerUiDrivers
 
 
       def availability_zones
-        @availability_zones ||= Version16::MicroboshSections::AvailabilityZones.new(browser: browser)
+        @availability_zones ||= Version16::BoshProductSections::AvailabilityZones.new(browser: browser)
       end
 
       def networks
-        @networks ||= Version16::MicroboshSections::Networks.new(browser: browser)
+        @networks ||= Version16::BoshProductSections::Networks.new(browser: browser)
       end
 
       def advanced_infrastructure_config
-        @advanced_infrastructure_config ||= Version16::MicroboshSections::AdvancedInfrastructureConfig.new(browser: browser)
+        @advanced_infrastructure_config ||= Version16::BoshProductSections::AdvancedInfrastructureConfig.new(browser: browser)
       end
     end
   end

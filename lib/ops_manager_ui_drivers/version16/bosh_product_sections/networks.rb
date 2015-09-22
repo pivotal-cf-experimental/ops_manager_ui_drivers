@@ -1,6 +1,6 @@
 module OpsManagerUiDrivers
   module Version16
-    module MicroboshSections
+    module BoshProductSections
       class Networks
         def initialize(browser:)
           @browser = browser
