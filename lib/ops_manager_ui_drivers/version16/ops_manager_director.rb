@@ -6,7 +6,7 @@ module OpsManagerUiDrivers
         @iaas_configuration = iaas_configuration
       end
 
-      def configure_microbosh(test_settings)
+      def configure_bosh_product(test_settings)
         configure_iaas(test_settings)
 
         config_director(test_settings.ops_manager)
