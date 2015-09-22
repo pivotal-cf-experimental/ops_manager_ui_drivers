@@ -9,7 +9,7 @@ module OpsManagerUiDrivers
 
         def open_form(form_name)
           @browser.visit '/'
-          @browser.click_on 'show-microbosh-configure-action'
+          @browser.click_on 'show-p-bosh-configure-action'
           @browser.click_on "show-#{form_name}-action"
         end
 

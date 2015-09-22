@@ -38,7 +38,7 @@ module OpsManagerUiDrivers
             availability_zones.add_single_az('iaas-identifier')
 
             expect(browser).to have_received(:visit).with('/').ordered
-            expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
+            expect(browser).to have_received(:click_on).with('show-p-bosh-configure-action').ordered
             expect(browser).to have_received(:click_on).with('show-availability_zones-action').ordered
             expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').ordered
 
@@ -63,7 +63,7 @@ module OpsManagerUiDrivers
             )
 
             expect(browser).to have_received(:visit).with('/').ordered
-            expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
+            expect(browser).to have_received(:click_on).with('show-p-bosh-configure-action').ordered
             expect(browser).to have_received(:click_on).with('show-availability_zones-action').ordered
             expect(browser).to have_received(:click_on).with('Add').ordered
 

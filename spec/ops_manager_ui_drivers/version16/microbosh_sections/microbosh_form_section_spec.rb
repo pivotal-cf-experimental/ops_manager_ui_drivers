@@ -20,7 +20,7 @@ module OpsManagerUiDrivers
         describe '#open_form' do
           it 'opens the given form in the microbosh tile' do
             expect(browser).to receive(:visit).with('/').ordered
-            expect(browser).to receive(:click_on).with('show-microbosh-configure-action').ordered
+            expect(browser).to receive(:click_on).with('show-p-bosh-configure-action').ordered
             expect(browser).to receive(:click_on).with('show-SOME_FORM-action').ordered
 
             microbosh_form_section.open_form('SOME_FORM')

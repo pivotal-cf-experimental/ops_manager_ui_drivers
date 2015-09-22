@@ -79,7 +79,7 @@ module OpsManagerUiDrivers
 
       def availability_zone_guid_for_name(az_name)
         browser.visit '/'
-        browser.click_on 'show-microbosh-configure-action'
+        browser.click_on 'show-p-bosh-configure-action'
         browser.click_on 'show-director-availability-zone-assignment-action'
 
         availability_zone_options = find_az_field

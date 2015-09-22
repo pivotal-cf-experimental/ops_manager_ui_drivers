@@ -298,7 +298,7 @@ module OpsManagerUiDrivers
             ops_manager_director.add_availability_zones(OpsManagerUiDrivers::AWS_IAAS_TYPE, [{'iaas_identifier' => 'aws_az'}])
 
             expect(browser).to have_received(:visit).with('/').ordered
-            expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
+            expect(browser).to have_received(:click_on).with('show-p-bosh-configure-action').ordered
             expect(browser).to have_received(:click_on).with('show-availability_zones-action').ordered
             expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').ordered
             expect(iaas_identifier_field).to have_received(:set).with('aws_az').ordered
@@ -314,7 +314,7 @@ module OpsManagerUiDrivers
             ops_manager_director.add_availability_zones(OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE, [{'iaas_identifier' => 'openstack_az'}])
 
             expect(browser).to have_received(:visit).with('/').ordered
-            expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
+            expect(browser).to have_received(:click_on).with('show-p-bosh-configure-action').ordered
             expect(browser).to have_received(:click_on).with('show-availability_zones-action').ordered
             expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').ordered
             expect(iaas_identifier_field).to have_received(:set).with('openstack_az').ordered
@@ -335,7 +335,7 @@ module OpsManagerUiDrivers
             ops_manager_director.add_availability_zones(OpsManagerUiDrivers::VSPHERE_IAAS_TYPE, [vsphere_options])
 
             expect(browser).to have_received(:visit).with('/').ordered
-            expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
+            expect(browser).to have_received(:click_on).with('show-p-bosh-configure-action').ordered
             expect(browser).to have_received(:click_on).with('show-availability_zones-action').ordered
             expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][name]').ordered
             expect(name_field).to have_received(:set).with('vsphere_az').ordered

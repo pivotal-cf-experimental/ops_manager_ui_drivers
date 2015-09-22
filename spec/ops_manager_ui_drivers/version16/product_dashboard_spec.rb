@@ -13,13 +13,13 @@ module OpsManagerUiDrivers
         end
 
         it 'returns true when complete' do
-          expect(browser).to receive(:all).with("a#show-microbosh-configure-action[data-progress='100']").and_return([instance_double(Capybara::Node)])
-          expect(product_dashboard.product_complete?('microbosh')).to eq(true)
+          expect(browser).to receive(:all).with("a#show-p-bosh-configure-action[data-progress='100']").and_return([instance_double(Capybara::Node)])
+          expect(product_dashboard.product_complete?('p-bosh')).to eq(true)
         end
 
         it 'returns false when incomplete' do
-          expect(browser).to receive(:all).with("a#show-microbosh-configure-action[data-progress='100']").and_return([])
-          expect(product_dashboard.product_complete?('microbosh')).to eq(false)
+          expect(browser).to receive(:all).with("a#show-p-bosh-configure-action[data-progress='100']").and_return([])
+          expect(product_dashboard.product_complete?('p-bosh')).to eq(false)
         end
       end
     end

@@ -41,7 +41,7 @@ module OpsManagerUiDrivers
             )
 
             expect(browser).to have_received(:visit).with('/').ordered
-            expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
+            expect(browser).to have_received(:click_on).with('show-p-bosh-configure-action').ordered
             expect(browser).to have_received(:click_on).with('show-iaas_configuration-action').ordered
 
             expect(browser).to have_received(:all).with(:field, 'iaas_configuration[field_name]').ordered

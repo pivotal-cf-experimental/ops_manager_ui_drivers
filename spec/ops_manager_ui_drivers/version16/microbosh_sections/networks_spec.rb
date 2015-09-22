@@ -76,7 +76,7 @@ module OpsManagerUiDrivers
             )
 
             expect(browser).to have_received(:visit).with('/').ordered
-            expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
+            expect(browser).to have_received(:click_on).with('show-p-bosh-configure-action').ordered
             expect(browser).to have_received(:click_on).with('show-network-action').ordered
 
             expect(browser).to have_received(:all).with(:field, 'network[networks][][name]').ordered
@@ -122,7 +122,7 @@ module OpsManagerUiDrivers
             )
 
             expect(browser).to have_received(:visit).with('/').ordered
-            expect(browser).to have_received(:click_on).with('show-microbosh-configure-action').ordered
+            expect(browser).to have_received(:click_on).with('show-p-bosh-configure-action').ordered
             expect(browser).to have_received(:click_on).with('show-network-action').ordered
             expect(browser).to have_received(:click_on).with('Add').ordered
 

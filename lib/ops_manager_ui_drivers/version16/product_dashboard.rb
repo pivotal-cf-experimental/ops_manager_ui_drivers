@@ -28,12 +28,6 @@ module OpsManagerUiDrivers
         browser.wait { browser.assert_text('Successfully imported installation.') }
       end
 
-      def upgrade_microbosh
-        open_dashboard
-        browser.find('p', text: 'Ops Manager Director').trigger(:mouseover)
-        browser.click_on 'upgrade-microbosh'
-      end
-
       def delete_product(product_name)
         open_dashboard
         browser.click_on "open-delete-#{product_name}-modal"
