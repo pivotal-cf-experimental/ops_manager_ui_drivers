@@ -5,7 +5,7 @@ require 'capybara/rspec/matchers'
 module OpsManagerUiDrivers
   module Version16
     module BoshProductSections
-      describe MicroboshFormSection do
+      describe BoshProductFormSection do
         class FakeCapybaraExampleGroup < RSpec::Core::ExampleGroup
           include Capybara::DSL
           include Capybara::RSpecMatchers
@@ -15,15 +15,15 @@ module OpsManagerUiDrivers
         let(:browser) { instance_double(FakeCapybaraExampleGroup) }
         let(:expectation_target) { instance_double(RSpec::Expectations::ExpectationTarget, to: nil) }
 
-        subject(:microbosh_form_section) { MicroboshFormSection.new(browser, 'field-prefix') }
+        subject(:bosh_product_form_section) { BoshProductFormSection.new(browser, 'field-prefix') }
 
         describe '#open_form' do
-          it 'opens the given form in the microbosh tile' do
+          it 'opens the given form in the p-bosh tile' do
             expect(browser).to receive(:visit).with('/').ordered
             expect(browser).to receive(:click_on).with('show-p-bosh-configure-action').ordered
             expect(browser).to receive(:click_on).with('show-SOME_FORM-action').ordered
 
-            microbosh_form_section.open_form('SOME_FORM')
+            bosh_product_form_section.open_form('SOME_FORM')
           end
         end
 
@@ -37,7 +37,7 @@ module OpsManagerUiDrivers
             expect(browser).to receive(:click_on).with('Save')
             expect(browser).to receive(:expect).with(page).and_return(expectation_target)
             expect(expectation_target).to receive(:to).with(flash_selector)
-            microbosh_form_section.save_form
+            bosh_product_form_section.save_form
           end
         end
 
@@ -56,7 +56,7 @@ module OpsManagerUiDrivers
 
             expect(field_A).to receive(:set).with('value-A')
             expect(field_B).to receive(:set).with('value-B')
-            microbosh_form_section.set_fields(fields)
+            bosh_product_form_section.set_fields(fields)
           end
 
           it 'sets the last field' do
@@ -70,7 +70,7 @@ module OpsManagerUiDrivers
             allow(browser).to receive(:all).with(:field, 'field-prefix[field-A]').and_return([field_A, another_field_A])
 
             expect(another_field_A).to receive(:set).with('value-A')
-            microbosh_form_section.set_fields(fields)
+            bosh_product_form_section.set_fields(fields)
           end
         end
       end

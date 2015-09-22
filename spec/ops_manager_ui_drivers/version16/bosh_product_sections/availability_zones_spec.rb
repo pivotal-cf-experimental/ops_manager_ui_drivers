@@ -29,7 +29,7 @@ module OpsManagerUiDrivers
         end
 
         describe '#add_single_az' do
-          it 'navigates to the root-page, microbosh-product, configure availability zone page, and sets the availability zone fields' do
+          it 'navigates to the root-page > p-bosh configuration > configure availability zone page > and sets the availability zone fields' do
             page = double(:page)
             flash_selector = double(:flash_selector)
             allow(browser).to receive(:page).and_return(page)
@@ -51,7 +51,7 @@ module OpsManagerUiDrivers
         end
 
         describe '#add_az' do
-          it 'navigates to the root-page, microbosh-product, add availability zone page, and sets the availability zone fields' do
+          it 'navigates to the root-page > p-bosh configuration > add availability zone page > and sets the availability zone fields' do
             page = double(:page)
             flash_selector = double(:flash_selector)
             allow(browser).to receive(:page).and_return(page)

@@ -4,13 +4,13 @@ module OpsManagerUiDrivers
       class Networks
         def initialize(browser:)
           @browser = browser
-          @microbosh_form_section = MicroboshFormSection.new(browser, 'network[networks][]')
+          @bosh_product_form_section = BoshProductFormSection.new(browser, 'network[networks][]')
         end
 
         def add_single_network(name:, iaas_network_identifier:, subnet:, dns:, gateway:, reserved_ip_ranges:)
-          @microbosh_form_section.open_form('network')
+          @bosh_product_form_section.open_form('network')
 
-          @microbosh_form_section.set_fields(
+          @bosh_product_form_section.set_fields(
             'name' => name,
             'iaas_network_identifier' => iaas_network_identifier,
             'subnet' => subnet,
@@ -28,10 +28,10 @@ module OpsManagerUiDrivers
         end
 
         def add_network(name:, iaas_network_identifier:, subnet:, dns:, gateway:, reserved_ip_ranges:)
-          @microbosh_form_section.open_form('network')
+          @bosh_product_form_section.open_form('network')
 
           browser.click_on 'Add'
-          @microbosh_form_section.set_fields(
+          @bosh_product_form_section.set_fields(
             'name' => name,
             'iaas_network_identifier' => iaas_network_identifier,
             'subnet' => subnet,
@@ -39,7 +39,7 @@ module OpsManagerUiDrivers
             'gateway' => gateway,
             'reserved_ip_ranges' => reserved_ip_ranges,
           )
-          @microbosh_form_section.save_form
+          @bosh_product_form_section.save_form
         end
 
         private

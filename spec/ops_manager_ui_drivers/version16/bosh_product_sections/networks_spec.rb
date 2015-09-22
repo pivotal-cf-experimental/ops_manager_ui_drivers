@@ -63,7 +63,7 @@ module OpsManagerUiDrivers
             ) }.not_to raise_error
           end
 
-          it 'navigates to the root-page, microbosh-product, configure networks page, and sets the network fields' do
+          it 'navigates to the root-page > p-bosh configuration > configure networks page > and sets the network fields' do
             allow(browser).to receive(:all).with('.flash-message.error ul.message li').and_return([])
 
             networks.add_single_network(
@@ -106,7 +106,7 @@ module OpsManagerUiDrivers
             allow(browser).to receive(:expect).and_return(expectation_target)
           end
 
-          it 'navigates to the root-page, microbosh-product, add network page, and sets the network fields' do
+          it 'navigates to the root-page > p-bosh configuration > configure networks page > and sets the network fields' do
             page = double(:page)
             flash_selector = double(:flash_selector)
             allow(browser).to receive(:page).and_return(page)

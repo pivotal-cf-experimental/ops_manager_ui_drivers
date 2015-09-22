@@ -1,7 +1,7 @@
 module OpsManagerUiDrivers
   module Version16
     module BoshProductSections
-      class MicroboshFormSection
+      class BoshProductFormSection
         def initialize(browser, field_prefix)
           @browser = browser
           @field_prefix = field_prefix

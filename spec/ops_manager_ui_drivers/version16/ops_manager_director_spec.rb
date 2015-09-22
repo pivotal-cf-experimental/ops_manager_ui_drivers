@@ -146,7 +146,7 @@ module OpsManagerUiDrivers
               )
           end
 
-          it 'sets the microbosh vm & template folders' do
+          it 'sets the bosh product vm & template folders' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
                 hash_including(
                   'bosh_vm_folder' => 'fake-vcenter-bosh_vm_folder',
@@ -155,7 +155,7 @@ module OpsManagerUiDrivers
               )
           end
 
-          it 'sets the microbosh disk path' do
+          it 'sets the bosh product disk path' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
                 hash_including(
                   'bosh_disk_path' => 'fake-vcenter-bosh_disk_path'
@@ -417,7 +417,7 @@ module OpsManagerUiDrivers
       end
 
       describe '#customize_resource_config' do
-        context 'when a microbosh persistent disk size is configured' do
+        context 'when the bosh product persistent disk size is configured' do
           let(:test_settings_hash) do
             {
               'ops_manager' => {
@@ -436,7 +436,7 @@ module OpsManagerUiDrivers
           end
         end
 
-        context 'when a microbosh persistent disk size is not configured' do
+        context 'when the bosh product persistent disk size is not configured' do
           let(:test_settings_hash) do
             {
               'ops_manager' => {}
