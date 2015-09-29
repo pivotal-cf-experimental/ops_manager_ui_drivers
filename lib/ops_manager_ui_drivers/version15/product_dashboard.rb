@@ -154,9 +154,9 @@ module OpsManagerUiDrivers
       end
 
       def allow_privilege_verification_errors
-        return if @allowed_ignorable_errors.include?(/required privileges/i)
+        return if @allowed_ignorable_errors.include?(/required datacenter privileges/i)
 
-        @allowed_ignorable_errors << /required privileges/i
+        @allowed_ignorable_errors << /required datacenter privileges/i
       end
 
       def allow_icmp_verification_errors
