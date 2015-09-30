@@ -12,8 +12,12 @@ module OpsManagerUiDrivers
       @om_1_5 ||= create_web_ui(ops_manager_url, Version15)
     end
 
-    def om_rc(ops_manager_url)
+    def om_1_6(ops_manager_url)
       @om_1_6 ||= create_web_ui(ops_manager_url, Version16)
+    end
+
+    def om_rc(ops_manager_url)
+      @om_1_7 ||= create_web_ui(ops_manager_url, Version17)
     end
 
     def api_1_4(host:, username:, password:)
@@ -22,6 +26,10 @@ module OpsManagerUiDrivers
 
     def api_1_5(host:, username:, password:)
       Version15::Api.new(host: host, user: username, password: password)
+    end
+
+    def api_1_6(host:, username:, password:)
+      Version16::Api.new(host: host, user: username, password: password)
     end
 
     private
