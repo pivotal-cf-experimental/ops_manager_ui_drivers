@@ -49,14 +49,15 @@ module OpsManagerUiDrivers
 
         def iaas_configuration_fields
           {
-            'vcenter_ip'                => test_settings.ops_manager.vcenter.creds.ip,
-            'vcenter_username'          => test_settings.ops_manager.vcenter.creds.username,
-            'vcenter_password'          => test_settings.ops_manager.vcenter.creds.password,
-            'datacenter'                => test_settings.ops_manager.vcenter.datacenter,
-            'datastores_string'         => test_settings.ops_manager.vcenter.datastore,
-            'bosh_vm_folder'            => test_settings.ops_manager.vcenter.bosh_vm_folder,
-            'bosh_template_folder'      => test_settings.ops_manager.vcenter.bosh_template_folder,
-            'bosh_disk_path'            => test_settings.ops_manager.vcenter.bosh_disk_path,
+            'vcenter_ip'                   => test_settings.ops_manager.vcenter.creds.ip,
+            'vcenter_username'             => test_settings.ops_manager.vcenter.creds.username,
+            'vcenter_password'             => test_settings.ops_manager.vcenter.creds.password,
+            'datacenter'                   => test_settings.ops_manager.vcenter.datacenter,
+            'ephemeral_datastores_string'  => test_settings.ops_manager.vcenter.ephemeral_datastore,
+            'persistent_datastores_string' => test_settings.ops_manager.vcenter.persistent_datastore,
+            'bosh_vm_folder'               => test_settings.ops_manager.vcenter.bosh_vm_folder,
+            'bosh_template_folder'         => test_settings.ops_manager.vcenter.bosh_template_folder,
+            'bosh_disk_path'               => test_settings.ops_manager.vcenter.bosh_disk_path,
           }
         end
 

@@ -99,7 +99,8 @@ module OpsManagerUiDrivers
                   password: 'Password'
                 },
                 datacenter: 'Datacenter',
-                datastore: 'Datastore',
+                ephemeral_datastore: 'Ephemeral Datastore',
+                persistent_datastore: 'Persistent Datastore',
                 bosh_vm_folder: 'BoshVmFolder',
                 bosh_template_folder: 'BoshTemplateFolder',
                 bosh_disk_path: 'BoshDiskPath',
@@ -117,7 +118,8 @@ module OpsManagerUiDrivers
           expect(iaas_configuration_fields['vcenter_username']).to eq('Username')
           expect(iaas_configuration_fields['vcenter_password']).to eq('Password')
           expect(iaas_configuration_fields['datacenter']).to eq('Datacenter')
-          expect(iaas_configuration_fields['datastores_string']).to eq('Datastore')
+          expect(iaas_configuration_fields['ephemeral_datastores_string']).to eq('Ephemeral Datastore')
+          expect(iaas_configuration_fields['persistent_datastores_string']).to eq('Persistent Datastore')
           expect(iaas_configuration_fields['bosh_vm_folder']).to eq('BoshVmFolder')
           expect(iaas_configuration_fields['bosh_template_folder']).to eq('BoshTemplateFolder')
         end

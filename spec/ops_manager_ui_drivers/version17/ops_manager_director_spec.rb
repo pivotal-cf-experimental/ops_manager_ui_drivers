@@ -117,7 +117,8 @@ module OpsManagerUiDrivers
                   'password' => 'fake-vcenter-creds-password',
                 },
                 'datacenter' => 'fake-vcenter-datacenter',
-                'datastore' => 'fake-vcenter-datastores',
+                'ephemeral_datastore' => 'e-fake-vcenter-datastores',
+                'persistent_datastore' => 'p-fake-vcenter-datastores',
                 'bosh_vm_folder' => 'fake-vcenter-bosh_vm_folder',
                 'bosh_template_folder' => 'fake-vcenter-bosh_template_folder',
                 'bosh_disk_path' => 'fake-vcenter-bosh_disk_path',
@@ -137,11 +138,12 @@ module OpsManagerUiDrivers
               )
           end
 
-          it 'sets the vcenter datacenter and datastore for bosh managed vms' do
+          it 'sets the vcenter datacenter and datastores for bosh managed vms' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
                 hash_including(
                   'datacenter' => 'fake-vcenter-datacenter',
-                  'datastores_string' => 'fake-vcenter-datastores',
+                  'ephemeral_datastores_string' => 'e-fake-vcenter-datastores',
+                  'persistent_datastores_string' => 'p-fake-vcenter-datastores',
                 )
               )
           end
