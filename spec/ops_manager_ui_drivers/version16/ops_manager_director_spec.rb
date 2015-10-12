@@ -117,7 +117,7 @@ module OpsManagerUiDrivers
                   'password' => 'fake-vcenter-creds-password',
                 },
                 'datacenter' => 'fake-vcenter-datacenter',
-                'datastore' => 'fake-vcenter-datastores',
+                'persistent_datastore' => 'fake-vcenter-datastores',
                 'bosh_vm_folder' => 'fake-vcenter-bosh_vm_folder',
                 'bosh_template_folder' => 'fake-vcenter-bosh_template_folder',
                 'bosh_disk_path' => 'fake-vcenter-bosh_disk_path',
