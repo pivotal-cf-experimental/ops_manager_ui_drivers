@@ -99,7 +99,7 @@ module OpsManagerUiDrivers
                   password: 'Password'
                 },
                 datacenter: 'Datacenter',
-                persistent_datastore: 'Datastore',
+                datastore: 'Datastore',
                 bosh_vm_folder: 'BoshVmFolder',
                 bosh_template_folder: 'BoshTemplateFolder',
                 bosh_disk_path: 'BoshDiskPath',

@@ -53,7 +53,7 @@ module OpsManagerUiDrivers
             'vcenter_username'          => test_settings.ops_manager.vcenter.creds.username,
             'vcenter_password'          => test_settings.ops_manager.vcenter.creds.password,
             'datacenter'                => test_settings.ops_manager.vcenter.datacenter,
-            'datastores_string'         => test_settings.ops_manager.vcenter.persistent_datastore,
+            'datastores_string'         => test_settings.ops_manager.vcenter.datastore,
             'microbosh_vm_folder'       => test_settings.ops_manager.vcenter.bosh_vm_folder,
             'microbosh_template_folder' => test_settings.ops_manager.vcenter.bosh_template_folder,
             'microbosh_disk_path'       => test_settings.ops_manager.vcenter.bosh_disk_path,
