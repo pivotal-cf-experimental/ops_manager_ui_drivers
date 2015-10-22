@@ -21,15 +21,19 @@ module OpsManagerUiDrivers
     end
 
     def api_1_4(host:, username:, password:)
-      Version14::Api.new(host: host, user: username, password: password)
+      Version14::Api.new(host_uri: host, username: username, password: password)
     end
 
     def api_1_5(host:, username:, password:)
-      Version15::Api.new(host: host, user: username, password: password)
+      Version15::Api.new(host_uri: host, username: username, password: password)
     end
 
     def api_1_6(host:, username:, password:)
-      Version16::Api.new(host: host, user: username, password: password)
+      Version16::Api.new(host_uri: host, username: username, password: password)
+    end
+
+    def api_rc(host:, username:, password:)
+      Version17::Api.new(host_uri: host, username: username, password: password)
     end
 
     private
