@@ -7,7 +7,7 @@ module OpsManagerUiDrivers
 
       def setup_and_login(user:, password:)
         browser.visit '/setup'
-        browser.fill_in 'user[user_name]', with: user
+        browser.fill_in 'user[user_name]', with: user, wait: 4
         browser.fill_in 'user[password]', with: password
         browser.fill_in 'user[password_confirmation]', with: password
         browser.check 'user_eula_accepted'
@@ -16,7 +16,7 @@ module OpsManagerUiDrivers
 
       def login(user: nil, password: nil)
         browser.visit '/login'
-        browser.fill_in 'login[user_name]', with: user
+        browser.fill_in 'login[user_name]', with: user, wait: 4
         browser.fill_in 'login[password]', with: password
         browser.click_on 'login-action'
 
