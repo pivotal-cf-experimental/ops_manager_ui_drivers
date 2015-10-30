@@ -36,7 +36,7 @@ module OpsManagerUiDrivers
               username: test_settings.ops_manager.vcenter.creds.username,
               password: test_settings.ops_manager.vcenter.creds.password,
               datacenter: test_settings.ops_manager.vcenter.datacenter,
-              datastores: test_settings.ops_manager.vcenter.datastore,
+              datastores: test_settings.ops_manager.vcenter.persistent_datastore,
             )
           when OpsManagerUiDrivers::AWS_IAAS_TYPE then
             configure_aws(
