@@ -56,7 +56,7 @@ module OpsManagerUiDrivers
 
     def create_web_ui(ops_manager_url:, browser:, version_module:)
       Capybara.app_host = ops_manager_url
-      puts "Preparing to interact with #{version_module.inspect} at #{Capybara.app_host}"
+      Logger.debug "Preparing to interact with #{version_module.inspect} at #{Capybara.app_host}"
       version_module::WebUi.new(browser: browser)
     end
   end
