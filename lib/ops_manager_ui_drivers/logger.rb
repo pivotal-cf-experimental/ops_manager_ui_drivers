@@ -9,7 +9,7 @@ module OpsManagerUiDrivers
     end
 
     def self.debug(string)
-      logger.debug(string)
+      logger.debug("#{string} app_host => #{Capybara.app_host}")
     end
   end
 end
