@@ -146,7 +146,7 @@ module OpsManagerUiDrivers
           browser.select deployment_network
         end
         browser.click_on 'Save'
-        browser.wait { browser.assert_text('Successfully assigned infrastructure network') }
+        browser.poll_up_to_times(20) { browser.assert_text('Successfully assigned infrastructure network') }
       end
 
       def assign_network(deployment_network:)
@@ -164,7 +164,7 @@ module OpsManagerUiDrivers
           browser.choose('Use default BOSH password')
         end
         browser.click_on 'Save'
-        browser.wait { browser.assert_text('Settings updated') }
+        browser.poll_up_to_times(20) { browser.assert_text('Settings updated') }
       end
 
       private

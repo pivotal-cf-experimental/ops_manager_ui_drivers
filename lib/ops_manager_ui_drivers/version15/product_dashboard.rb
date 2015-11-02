@@ -25,7 +25,7 @@ module OpsManagerUiDrivers
         browser.click_on 'close-warning'
         browser.attach_file 'import[file]', file_path
         browser.click_on 'import-settings'
-        browser.wait { browser.assert_text('Successfully imported installation.') }
+        browser.poll_up_to_times(20) { browser.assert_text('Successfully imported installation.') }
       end
 
       def upgrade_microbosh

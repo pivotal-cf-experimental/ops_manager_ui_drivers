@@ -12,7 +12,7 @@ module OpsManagerUiDrivers
         visit_product_page
         browser.click_on "show-#{product_name}-stemcell-assignment-action"
         browser.attach_file('product_stemcell[file]', stemcell_file_path, {visible: false})
-        browser.wait {
+        browser.poll_up_to_times(20) {
           browser.assert_text("Stemcell '#{File.basename(stemcell_file_path)}' has been uploaded successfully.")
         }
       end

@@ -41,7 +41,7 @@ module OpsManagerUiDrivers
         allow(browser).to receive(:fill_in)
         allow(browser).to receive(:select)
         allow(browser).to receive(:choose)
-        allow(browser).to receive(:wait).and_yield
+        allow(browser).to receive(:poll_up_to_times).and_yield
         allow(browser).to receive(:page)
         allow(browser).to receive(:expect).and_return(instance_double(RSpec::Expectations::ExpectationTarget, to: nil))
         allow(browser).to receive(:have_css)
@@ -387,7 +387,7 @@ module OpsManagerUiDrivers
           expect(browser).to have_received(:click_on).with('Security').ordered
           expect(browser).to have_received(:choose).with('Generate passwords').ordered
           expect(browser).to have_received(:click_on).with('Save').ordered
-          expect(browser).to have_received(:wait).ordered
+          expect(browser).to have_received(:poll_up_to_times).ordered
           expect(browser).to have_received(:assert_text).with('Settings updated').ordered
         end
 

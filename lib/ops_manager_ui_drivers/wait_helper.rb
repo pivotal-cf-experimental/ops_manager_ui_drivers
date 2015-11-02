@@ -1,21 +1,44 @@
 require 'time'
-require 'benchmark'
 
 module OpsManagerUiDrivers
   module WaitHelper
-    SLEEP_INTERVAL = 1
+    SLEEP_INTERVAL = 0.5
 
     EarlyFailException = Class.new(Exception)
 
-    def wait(retries_left=20, interval=0.5, &blk)
+    def fail_early(msg)
+      fail(EarlyFailException.new(msg))
+    end
+
+    def poll_up_to_mins(minutes, &blk)
+      title = "Polling for #{minutes} mins"
+
+      Logger.debug "--- BEGIN #{title}"
+      retry_until(minutes_to_time(minutes), &blk)
+    ensure
+      Logger.debug "--- END   #{title}"
+    end
+
+    def poll_up_to_times(times, &blk)
+      title = "Polling for #{times} times"
+
+      Logger.debug "--- BEGIN #{title}"
+      retry_times(times, &blk)
+    ensure
+      Logger.debug "--- END   #{title}"
+    end
+
+    private
+
+    def retry_times(retries, &blk)
       blk.call
     rescue EarlyFailException
       raise
     rescue RSpec::Expectations::ExpectationNotMetError, StandardError => e
-      Logger.debug "------- retries_left=#{retries_left}"
-      retries_left -= 1
-      if retries_left > 0
-        sleep(interval)
+      retries -= 1
+      Logger.debug "------- retries_left=#{retries}"
+      if retries > 0
+        sleep(SLEEP_INTERVAL)
         retry
       else
         Logger.debug "------- propagate error=#{e}"
@@ -23,34 +46,13 @@ module OpsManagerUiDrivers
       end
     end
 
-    def fail_early(msg)
-      fail(EarlyFailException.new(msg))
-    end
-
-    def poll_up_to_mins(minutes, &blk)
-      wait_debug("Polling for up to #{minutes} mins") do
-        wait_until(minutes_to_time(minutes), &blk)
-      end
-    end
-
-    private
-
-    def wait_debug(title, &blk)
-      Logger.debug "--- BEGIN #{title}"
-      Benchmark.bm do |x|
-        x.report { blk.call }
-      end
-    ensure
-      Logger.debug "--- END   #{title}"
-    end
-
-    def wait_until(end_time, &blk)
+    def retry_until(end_time, &blk)
       blk.call
     rescue EarlyFailException
       raise
     rescue RSpec::Expectations::ExpectationNotMetError, StandardError => e
       seconds_left = (end_time - Time.now).round
-      Logger.debug "------- time_left=#{seconds_left} sec"
+      Logger.debug "------- seconds_left=#{seconds_left}"
       if seconds_left > SLEEP_INTERVAL
         sleep(SLEEP_INTERVAL)
         retry
