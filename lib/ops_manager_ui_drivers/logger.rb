@@ -9,7 +9,7 @@ module OpsManagerUiDrivers
     end
 
     def self.debug(string)
-      logger.debug("#{string} @ #{DateTime.now}")
+      logger.debug(string)
     end
   end
 end
