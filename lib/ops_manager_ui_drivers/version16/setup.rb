@@ -1,3 +1,5 @@
+require 'ops_manager_ui_drivers/version16/api'
+
 module OpsManagerUiDrivers
   module Version16
     class Setup < Version15::Setup
