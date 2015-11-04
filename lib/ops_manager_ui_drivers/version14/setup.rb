@@ -12,6 +12,7 @@ module OpsManagerUiDrivers
         browser.fill_in 'user[password_confirmation]', with: password
         browser.check 'user_eula_accepted'
         browser.click_on 'create-user-action'
+        verify_login(user, password)
       end
 
       def login(user: nil, password: nil)
@@ -19,6 +20,7 @@ module OpsManagerUiDrivers
         browser.fill_in 'login[user_name]', with: user, wait: 4
         browser.fill_in 'login[password]', with: password
         browser.click_on 'login-action'
+        verify_login(user, password)
       end
 
       def setup_or_login(user:, password:)
@@ -35,6 +37,11 @@ module OpsManagerUiDrivers
 
       attr_reader :browser
 
+      def verify_login(user, password)
+        unless browser.first('#main-page-marker')
+          fail(RuntimeError, "failed to log in as #{user}/#{password}.")
+        end
+      end
     end
   end
 end
