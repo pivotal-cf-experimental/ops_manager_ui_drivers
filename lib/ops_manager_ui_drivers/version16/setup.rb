@@ -1,4 +1,4 @@
-require 'ops_manager_ui_drivers/version16/api'
+require 'ops_manager_ui_drivers/version16/setup'
 
 module OpsManagerUiDrivers
   module Version16
