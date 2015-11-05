@@ -12,7 +12,6 @@ module OpsManagerUiDrivers
         browser.click_on 'create-setup-action'
         verify_login(user, password)
       end
-
     end
   end
 end
