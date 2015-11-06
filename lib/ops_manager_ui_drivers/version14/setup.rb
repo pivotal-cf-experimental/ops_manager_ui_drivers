@@ -1,7 +1,7 @@
 module OpsManagerUiDrivers
   module Version14
     class Setup
-      def initialize(browser: nil)
+      def initialize(browser:)
         @browser = browser
       end
 
@@ -15,7 +15,7 @@ module OpsManagerUiDrivers
         verify_login(user, password)
       end
 
-      def login(user: nil, password: nil)
+      def login(user:, password:)
         browser.visit '/login'
         browser.fill_in 'login[user_name]', with: user, wait: 4
         browser.fill_in 'login[password]', with: password

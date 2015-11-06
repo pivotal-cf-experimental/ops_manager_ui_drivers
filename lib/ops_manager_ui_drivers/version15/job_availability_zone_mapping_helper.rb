@@ -1,7 +1,7 @@
 module OpsManagerUiDrivers
   module Version15
     class JobAvailabilityZoneMappingHelper
-      def initialize(product_name: nil, browser: nil)
+      def initialize(product_name:, browser:)
         @product_name = product_name
         @browser = browser
       end

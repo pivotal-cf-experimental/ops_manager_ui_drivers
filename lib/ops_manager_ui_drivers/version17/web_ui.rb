@@ -4,7 +4,7 @@ require 'date'
 module OpsManagerUiDrivers
   module Version17
     class WebUi
-      def initialize(browser: nil)
+      def initialize(browser:)
         @browser = browser
       end
 
