@@ -4,7 +4,7 @@ module OpsManagerUiDrivers
       class Networks
         def initialize(browser:)
           @browser = browser
-          @bosh_product_form_section = BoshProductFormSection.new(browser, 'network[networks][]')
+          @bosh_product_form_section = BoshProductFormSection.new(browser, 'network_collection[networks_attributes][0]')
         end
 
         def add_single_network(name:, iaas_network_identifier:, subnet:, dns:, gateway:, reserved_ip_ranges:)
