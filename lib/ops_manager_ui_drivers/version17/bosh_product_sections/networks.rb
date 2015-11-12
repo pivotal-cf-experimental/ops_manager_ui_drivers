@@ -42,6 +42,14 @@ module OpsManagerUiDrivers
           @bosh_product_form_section.save_form
         end
 
+        def delete_network(network_name)
+          @bosh_product_form_section.open_form('network')
+          button = browser.find("i[id='delete-#{network_name}']")
+          button.trigger('click')
+
+          @bosh_product_form_section.save_form
+        end
+
         private
 
         attr_reader :browser

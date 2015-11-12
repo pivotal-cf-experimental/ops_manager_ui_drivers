@@ -16,6 +16,10 @@ module OpsManagerUiDrivers
         let(:browser) { instance_double(FakeCapybaraExampleGroup) }
         let(:expectation_target) { instance_double(RSpec::Expectations::ExpectationTarget, to: nil) }
         let(:field_node) { instance_double(Capybara::Node::Element, set: nil) }
+        let(:delete_button) { double('delete button') }
+        let(:page) { double(:page) }
+        let(:flash_selector) {double(:flash_selector)}
+
 
         subject(:networks) { Networks.new(browser: browser) }
 
@@ -25,14 +29,13 @@ module OpsManagerUiDrivers
           allow(browser).to receive(:page)
           allow(browser).to receive(:click_on)
           allow(browser).to receive(:have_css)
+          allow(browser).to receive(:find).and_return(delete_button)
+          allow(browser).to receive(:page).and_return(page)
+          allow(browser).to receive(:have_css).with('.flash-message.success').and_return(flash_selector)
+          allow(browser).to receive(:expect).and_return(expectation_target)
         end
 
         describe '#add_single_network' do
-          let(:page) { double(:page) }
-          before do
-            allow(browser).to receive(:page).and_return(page)
-          end
-
           it 'fails when there are unexpected errors' do
             error = double(:error, text: 'error_message')
             unexpected_errors = [error]
@@ -102,16 +105,7 @@ module OpsManagerUiDrivers
         end
 
         describe '#add_network' do
-          before do
-            allow(browser).to receive(:expect).and_return(expectation_target)
-          end
-
           it 'navigates to the root-page > p-bosh configuration > configure networks page > and sets the network fields' do
-            page = double(:page)
-            flash_selector = double(:flash_selector)
-            allow(browser).to receive(:page).and_return(page)
-            allow(browser).to receive(:have_css).with('.flash-message.success').and_return(flash_selector)
-
             networks.add_network(
               name: 'Name',
               iaas_network_identifier: 'IaasNetworkIdentifier',
@@ -143,6 +137,25 @@ module OpsManagerUiDrivers
 
             expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][reserved_ip_ranges]').ordered
             expect(field_node).to have_received(:set).with('ReservedIpRanges').ordered
+
+            expect(browser).to have_received(:click_on).with('Save').ordered
+            expect(browser).to have_received(:expect).with(page).ordered
+            expect(expectation_target).to have_received(:to).with(flash_selector).ordered
+          end
+        end
+
+        describe '#delete_network' do
+          before do
+            allow(delete_button).to receive(:trigger).with('click')
+          end
+
+          it 'navigates to the root-page > p-bosh configuration > configure networks page > and deletes the specified network' do
+            networks.delete_network('Name')
+
+            expect(browser).to have_received(:visit).with('/').ordered
+            expect(browser).to have_received(:click_on).with('show-p-bosh-configure-action').ordered
+            expect(browser).to have_received(:click_on).with('show-network-action').ordered
+            expect(browser).to have_received(:find).with("i[id='delete-Name']").ordered
 
             expect(browser).to have_received(:click_on).with('Save').ordered
             expect(browser).to have_received(:expect).with(page).ordered

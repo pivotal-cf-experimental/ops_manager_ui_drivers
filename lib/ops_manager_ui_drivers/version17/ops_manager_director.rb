@@ -71,6 +71,10 @@ module OpsManagerUiDrivers
         end
       end
 
+      def delete_network(network_name)
+        networks.delete_network(network_name)
+      end
+
       def config_director(ops_manager)
         browser.click_on 'Director Config'
         browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.ntp_servers)
