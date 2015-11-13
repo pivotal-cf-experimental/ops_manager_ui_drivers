@@ -32,16 +32,17 @@ module OpsManagerUiDrivers
           allow(browser).to receive(:find).and_return(delete_button)
           allow(browser).to receive(:page).and_return(page)
           allow(browser).to receive(:have_css).with('.flash-message.success').and_return(flash_selector)
+          allow(browser).to receive(:have_css).with('.flash-message').and_return(flash_selector)
           allow(browser).to receive(:expect).and_return(expectation_target)
         end
 
-        describe '#add_single_network' do
+        describe '#add_network' do
           it 'fails when there are unexpected errors' do
             error = double(:error, text: 'error_message')
             unexpected_errors = [error]
             allow(browser).to receive(:all).with('.flash-message.error ul.message li').and_return(unexpected_errors)
 
-            expect { networks.add_single_network(
+            expect { networks.add_network(
               name: 'Name',
               iaas_network_identifier: 'IaasNetworkIdentifier',
               subnet: 'Subnet',
@@ -56,7 +57,7 @@ module OpsManagerUiDrivers
             unexpected_errors = [error]
             allow(browser).to receive(:all).with('.flash-message.error ul.message li').and_return(unexpected_errors)
 
-            expect { networks.add_single_network(
+            expect { networks.add_network(
               name: 'Name',
               iaas_network_identifier: 'IaasNetworkIdentifier',
               subnet: 'Subnet',
@@ -69,43 +70,6 @@ module OpsManagerUiDrivers
           it 'navigates to the root-page > p-bosh configuration > configure networks page > and sets the network fields' do
             allow(browser).to receive(:all).with('.flash-message.error ul.message li').and_return([])
 
-            networks.add_single_network(
-              name: 'Name',
-              iaas_network_identifier: 'IaasNetworkIdentifier',
-              subnet: 'Subnet',
-              dns: 'Dns',
-              gateway: 'Gateway',
-              reserved_ip_ranges: 'ReservedIpRanges',
-            )
-
-            expect(browser).to have_received(:visit).with('/').ordered
-            expect(browser).to have_received(:click_on).with('show-p-bosh-configure-action').ordered
-            expect(browser).to have_received(:click_on).with('show-network-action').ordered
-
-            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][name]').ordered
-            expect(field_node).to have_received(:set).with('Name').ordered
-
-            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][iaas_network_identifier]').ordered
-            expect(field_node).to have_received(:set).with('IaasNetworkIdentifier').ordered
-
-            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][subnet]').ordered
-            expect(field_node).to have_received(:set).with('Subnet').ordered
-
-            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][dns]').ordered
-            expect(field_node).to have_received(:set).with('Dns').ordered
-
-            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][gateway]').ordered
-            expect(field_node).to have_received(:set).with('Gateway').ordered
-
-            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][reserved_ip_ranges]').ordered
-            expect(field_node).to have_received(:set).with('ReservedIpRanges').ordered
-
-            expect(browser).to have_received(:click_on).with('Save').ordered
-          end
-        end
-
-        describe '#add_network' do
-          it 'navigates to the root-page > p-bosh configuration > configure networks page > and sets the network fields' do
             networks.add_network(
               name: 'Name',
               iaas_network_identifier: 'IaasNetworkIdentifier',

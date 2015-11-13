@@ -2,7 +2,7 @@ module OpsManagerUiDrivers
   module Version17
     class OpsManagerDirector
       def initialize(browser:, iaas_configuration: Version17::BoshProductSections::IaasConfiguration.new(browser: browser))
-        @browser            = browser
+        @browser = browser
         @iaas_configuration = iaas_configuration
       end
 
@@ -45,29 +45,15 @@ module OpsManagerUiDrivers
       def add_networks(test_settings)
         iaas_networks = test_settings.ops_manager.networks
 
-        case test_settings.iaas_type
-          when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
-            first_network = iaas_networks.first
-
-            networks.add_single_network(
-              name:                    first_network['name'],
-              iaas_network_identifier: first_network['identifier'],
-              subnet:                  first_network['subnet'],
-              reserved_ip_ranges:      first_network['reserved_ips'],
-              dns:                     first_network['dns'],
-              gateway:                 first_network['gateway'],
-            )
-          else
-            iaas_networks && iaas_networks.each do |network|
-              networks.add_network(
-                name:                    network['name'],
-                iaas_network_identifier: network['identifier'],
-                subnet:                  network['subnet'],
-                reserved_ip_ranges:      network['reserved_ips'],
-                dns:                     network['dns'],
-                gateway:                 network['gateway'],
-              )
-            end
+        iaas_networks && iaas_networks.each do |network|
+          networks.add_network(
+            name: network['name'],
+            iaas_network_identifier: network['identifier'],
+            subnet: network['subnet'],
+            reserved_ip_ranges: network['reserved_ips'],
+            dns: network['dns'],
+            gateway: network['gateway'],
+          )
         end
       end
 
@@ -117,19 +103,7 @@ module OpsManagerUiDrivers
       end
 
       def assign_networks(ops_manager)
-        if ops_manager.vcenter
-          deployment_network = ops_manager.networks[0]
-
-          infrastructure_network =
-            ops_manager.networks[1] ? ops_manager.networks[1] : ops_manager.networks[0]
-
-          assign_networks_vsphere(
-            infrastructure_network: infrastructure_network['name'],
-            deployment_network:     deployment_network['name'],
-          )
-        else
-          assign_network(deployment_network: ops_manager.networks[0]['name'])
-        end
+        assign_network(ops_manager.networks[0]['name'])
       end
 
       def customize_resource_config(resource_config)
@@ -139,24 +113,10 @@ module OpsManagerUiDrivers
         end
       end
 
-      def assign_networks_vsphere(infrastructure_network:, deployment_network:)
+      def assign_network(network_name)
         browser.click_on 'Assign Networks'
 
-        browser.within browser.find '#director_network_assignments_infrastructure_network' do
-          browser.select infrastructure_network
-        end
-
-        browser.within browser.find '#director_network_assignments_deployment_network' do
-          browser.select deployment_network
-        end
-        browser.click_on 'Save'
-        browser.poll_up_to_times(20) { browser.assert_text('Successfully assigned infrastructure network') }
-      end
-
-      def assign_network(deployment_network:)
-        browser.click_on 'Assign Networks'
-
-        browser.select(deployment_network, from: 'Network')
+        browser.select(network_name, from: 'Network')
         browser.click_on 'Save'
       end
 
