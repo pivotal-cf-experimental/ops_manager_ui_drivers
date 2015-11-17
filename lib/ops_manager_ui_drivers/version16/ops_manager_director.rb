@@ -114,14 +114,11 @@ module OpsManagerUiDrivers
 
       def assign_networks(ops_manager)
         if ops_manager.vcenter
-          deployment_network = ops_manager.networks[0]
-
-          infrastructure_network =
-            ops_manager.networks[1] ? ops_manager.networks[1] : ops_manager.networks[0]
+          network = ops_manager.networks[0]
 
           assign_networks_vsphere(
-            infrastructure_network: infrastructure_network['name'],
-            deployment_network:     deployment_network['name'],
+            infrastructure_network: network['name'],
+            deployment_network:     network['name'],
           )
         else
           assign_network(deployment_network: ops_manager.networks[0]['name'])
