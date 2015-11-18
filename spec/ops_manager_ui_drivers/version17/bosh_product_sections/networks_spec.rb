@@ -41,6 +41,7 @@ module OpsManagerUiDrivers
             error = double(:error, text: 'error_message')
             unexpected_errors = [error]
             allow(browser).to receive(:all).with('.flash-message.error ul.message li').and_return(unexpected_errors)
+            expect_any_instance_of(BoshProductFormSection).to receive(:select_all_az_references_on_page)
 
             expect { networks.add_network(
               name: 'Name',

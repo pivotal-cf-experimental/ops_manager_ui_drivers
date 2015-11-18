@@ -24,6 +24,12 @@ module OpsManagerUiDrivers
           end
         end
 
+        def select_all_az_references_on_page
+          @browser.all(:field, "#{@field_prefix}[availability_zone_references][]").each do |node|
+            node.set(true)
+          end
+        end
+
         private
 
         def set_field(field, value)

@@ -2,6 +2,9 @@ module OpsManagerUiDrivers
   module Version17
     module BoshProductSections
       class Networks
+        FLASH_MESSAGE_CLASS = '.flash-message'.freeze
+        FLASH_MESSAGE_ERRORS = '.flash-message.error ul.message li'.freeze
+
         def initialize(browser:)
           @browser = browser
           @bosh_product_form_section = BoshProductFormSection.new(@browser, 'network_collection[networks_attributes][0]')
@@ -19,9 +22,10 @@ module OpsManagerUiDrivers
             'gateway' => gateway,
             'reserved_ip_ranges' => reserved_ip_ranges,
           )
+          @bosh_product_form_section.select_all_az_references_on_page
           @browser.click_on 'Save'
-          @browser.expect(@browser.page).to @browser.have_css('.flash-message')
-          flash_errors = @browser.all('.flash-message.error ul.message li').to_a
+          @browser.expect(@browser.page).to @browser.have_css(FLASH_MESSAGE_CLASS)
+          flash_errors = @browser.all(FLASH_MESSAGE_ERRORS).to_a
           flash_errors.reject! { |node| node.text =~ /cannot reach gateway/i }
 
           if (flash_errors.length > 0)
