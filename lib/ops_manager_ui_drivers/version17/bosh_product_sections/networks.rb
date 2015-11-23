@@ -16,13 +16,9 @@ module OpsManagerUiDrivers
           @browser.click_on 'Add'
           @bosh_product_form_section.set_fields(
             'name' => name,
-            'iaas_network_identifier' => iaas_network_identifier,
-            'subnet' => subnet,
-            'dns' => dns,
-            'gateway' => gateway,
-            'reserved_ip_ranges' => reserved_ip_ranges,
           )
-          @bosh_product_form_section.select_all_az_references_on_page
+          subnet_section = Subnet.new(browser: @browser, network_form: @bosh_product_form_section)
+          subnet_section.add_subnet(iaas_identifier: iaas_network_identifier, subnet: subnet, dns: dns, gateway: gateway, reserved_ip_ranges: reserved_ip_ranges)
           @browser.click_on 'Save'
           @browser.expect(@browser.page).to @browser.have_css(FLASH_MESSAGE_CLASS)
           flash_errors = @browser.all(FLASH_MESSAGE_ERRORS).to_a

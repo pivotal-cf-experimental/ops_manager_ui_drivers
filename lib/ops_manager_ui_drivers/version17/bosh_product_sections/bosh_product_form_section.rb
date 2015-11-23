@@ -2,6 +2,8 @@ module OpsManagerUiDrivers
   module Version17
     module BoshProductSections
       class BoshProductFormSection
+        attr_reader :field_prefix
+
         def initialize(browser, field_prefix)
           @browser = browser
           @field_prefix = field_prefix
@@ -20,7 +22,7 @@ module OpsManagerUiDrivers
 
         def set_fields(fields)
           fields.each do |field, value|
-            set_field(field, value)
+              set_field(field, value)
           end
         end
 
