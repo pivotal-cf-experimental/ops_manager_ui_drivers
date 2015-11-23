@@ -88,19 +88,19 @@ module OpsManagerUiDrivers
             expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][name]').ordered
             expect(field_node).to have_received(:set).with('Name').ordered
 
-            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][iaas_network_identifier]').ordered
+            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][subnets][0][iaas_identifier]').ordered
             expect(field_node).to have_received(:set).with('IaasNetworkIdentifier').ordered
 
-            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][subnet]').ordered
+            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][subnets][0][cidr]').ordered
             expect(field_node).to have_received(:set).with('Subnet').ordered
 
-            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][dns]').ordered
+            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][subnets][0][dns]').ordered
             expect(field_node).to have_received(:set).with('Dns').ordered
 
-            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][gateway]').ordered
+            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][subnets][0][gateway]').ordered
             expect(field_node).to have_received(:set).with('Gateway').ordered
 
-            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][reserved_ip_ranges]').ordered
+            expect(browser).to have_received(:all).with(:field, 'network_collection[networks_attributes][0][subnets][0][reserved_ip_ranges]').ordered
             expect(field_node).to have_received(:set).with('ReservedIpRanges').ordered
 
             expect(browser).to have_received(:click_on).with('Save').ordered
