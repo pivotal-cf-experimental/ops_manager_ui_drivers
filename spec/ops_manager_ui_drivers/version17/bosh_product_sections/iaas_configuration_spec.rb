@@ -44,10 +44,10 @@ module OpsManagerUiDrivers
             expect(browser).to have_received(:click_on).with('show-p-bosh-configure-action').ordered
             expect(browser).to have_received(:click_on).with('show-iaas_configuration-action').ordered
 
-            expect(browser).to have_received(:all).with(:field, 'iaas_configuration[field_name]').ordered
+            expect(browser).to have_received(:all).with(:field, 'iaas_configuration[field_name]', minimum: 1).ordered
             expect(field_node).to have_received(:set).with('field-value').ordered
 
-            expect(browser).to have_received(:all).with(:field, 'iaas_configuration[other_field_name]').ordered
+            expect(browser).to have_received(:all).with(:field, 'iaas_configuration[other_field_name]', minimum: 1).ordered
             expect(field_node).to have_received(:set).with('other-field-value').ordered
 
             expect(browser).to have_received(:click_on).with('Save').ordered

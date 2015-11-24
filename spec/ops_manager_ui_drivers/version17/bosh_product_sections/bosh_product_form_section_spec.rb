@@ -51,8 +51,8 @@ module OpsManagerUiDrivers
             field_A = double(:field, set: nil)
             field_B = double(:field, set: nil)
 
-            allow(browser).to receive(:all).with(:field, 'field-prefix[field-A]').and_return([field_A])
-            allow(browser).to receive(:all).with(:field, 'field-prefix[field-B]').and_return([field_B])
+            allow(browser).to receive(:all).with(:field, 'field-prefix[field-A]', minimum: 1).and_return([field_A])
+            allow(browser).to receive(:all).with(:field, 'field-prefix[field-B]', minimum: 1).and_return([field_B])
 
             expect(field_A).to receive(:set).with('value-A')
             expect(field_B).to receive(:set).with('value-B')
@@ -67,7 +67,7 @@ module OpsManagerUiDrivers
             field_A = double(:field, set: nil)
             another_field_A = double(:field, set: nil)
 
-            allow(browser).to receive(:all).with(:field, 'field-prefix[field-A]').and_return([field_A, another_field_A])
+            allow(browser).to receive(:all).with(:field, 'field-prefix[field-A]', minimum: 1).and_return([field_A, another_field_A])
 
             expect(another_field_A).to receive(:set).with('value-A')
             bosh_product_form_section.set_fields(fields)

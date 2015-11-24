@@ -39,7 +39,7 @@ module OpsManagerUiDrivers
         end
 
         def last_field(field)
-          @browser.all(:field, "#{@field_prefix}[#{field}]").last
+          @browser.all(:field, "#{@field_prefix}[#{field}]", minimum: 1).last
         end
       end
     end

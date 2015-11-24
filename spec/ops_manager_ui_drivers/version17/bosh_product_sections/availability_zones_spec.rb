@@ -40,7 +40,7 @@ module OpsManagerUiDrivers
             expect(browser).to have_received(:visit).with('/').ordered
             expect(browser).to have_received(:click_on).with('show-p-bosh-configure-action').ordered
             expect(browser).to have_received(:click_on).with('show-availability_zones-action').ordered
-            expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').ordered
+            expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]', minimum: 1).ordered
 
             expect(field_node).to have_received(:set).with('iaas-identifier').ordered
 
@@ -67,10 +67,10 @@ module OpsManagerUiDrivers
             expect(browser).to have_received(:click_on).with('show-availability_zones-action').ordered
             expect(browser).to have_received(:click_on).with('Add').ordered
 
-            expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][field_name]').ordered
+            expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][field_name]', minimum: 1).ordered
             expect(field_node).to have_received(:set).with('field-value').ordered
 
-            expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][other_field_name]').ordered
+            expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][other_field_name]', minimum: 1).ordered
             expect(field_node).to have_received(:set).with('other-field-value').ordered
 
             expect(browser).to have_received(:click_on).with('Save').ordered
