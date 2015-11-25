@@ -20,6 +20,8 @@ module OpsManagerUiDrivers
         assign_networks(test_settings.ops_manager)
 
         customize_resource_config(test_settings.ops_manager.resource_config)
+
+        configure_experimental_features(test_settings.ops_manager.experimental_features)
       end
 
       def configure_iaas(test_settings)
@@ -162,6 +164,14 @@ module OpsManagerUiDrivers
         end
         browser.click_on 'Save'
         browser.poll_up_to_times(20) { browser.assert_text('Settings updated') }
+      end
+
+      def configure_experimental_features(experimental_features)
+        browser.click_on 'Experimental Features'
+
+        trusted_certificates = experimental_features ? experimental_features.trusted_certificates : ''
+
+        browser.fill_in('experimental_features[trusted_certificates]', with: trusted_certificates)
       end
 
       private
