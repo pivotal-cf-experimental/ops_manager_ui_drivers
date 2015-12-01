@@ -350,38 +350,6 @@ module OpsManagerUiDrivers
         end
       end
 
-      describe '#assign_availability_zone' do
-        context 'when the infrastructure is AWS' do
-          it 'assigns an availability zone' do
-            ops_manager_director.assign_availability_zone('aws', [{'iaas_identifier' => 'fake-iaas_identifier'}])
-
-            expect(browser).to have_received(:click_on).with('Assign Availability Zones')
-            expect(browser).to have_received(:select).with('fake-iaas_identifier')
-            expect(browser).to have_received(:click_on).with('Save')
-          end
-        end
-
-        context 'when the infrastructure is OpenStack' do
-          it 'assigns an availability zone' do
-            ops_manager_director.assign_availability_zone('openstack', [{'iaas_identifier' => 'fake-iaas_identifier'}])
-
-            expect(browser).to have_received(:click_on).with('Assign Availability Zones')
-            expect(browser).to have_received(:select).with('fake-iaas_identifier')
-            expect(browser).to have_received(:click_on).with('Save')
-          end
-        end
-
-        context 'when the infrastructure is vSphere' do
-          it 'assigns an availability zone' do
-            ops_manager_director.assign_availability_zone('vsphere', [{'name' => 'fake-name'}])
-
-            expect(browser).to have_received(:click_on).with('Assign Availability Zones')
-            expect(browser).to have_received(:select).with('fake-name')
-            expect(browser).to have_received(:click_on).with('Save')
-          end
-        end
-      end
-
       describe '#configure_vm_passwords' do
         it 'navigates to and submits the vm_passwords form' do
           ops_manager_director.configure_vm_passwords

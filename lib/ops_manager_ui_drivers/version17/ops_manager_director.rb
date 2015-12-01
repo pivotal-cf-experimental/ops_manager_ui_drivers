@@ -13,11 +13,9 @@ module OpsManagerUiDrivers
 
         add_availability_zones(test_settings.iaas_type, test_settings.ops_manager.availability_zones)
 
-        assign_availability_zone(test_settings.iaas_type, test_settings.ops_manager.availability_zones)
-
         add_networks(test_settings)
 
-        assign_networks(test_settings.ops_manager)
+        assign_azs_and_networks(test_settings.iaas_type, test_settings.ops_manager.availability_zones, test_settings.ops_manager)
 
         customize_resource_config(test_settings.ops_manager.resource_config)
 
@@ -90,22 +88,21 @@ module OpsManagerUiDrivers
         browser.click_on 'Save'
       end
 
-      def assign_availability_zone(iaas_type, iaas_availability_zones)
-        return unless iaas_availability_zones
+      def assign_azs_and_networks(iaas_type, iaas_availability_zones, ops_manager)
         case iaas_type
           when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
-            browser.click_on 'Assign Availability Zones'
+            browser.click_on 'Assign AZs and Networks'
+            browser.select(ops_manager.networks[0]['name'], from: 'Network')
             browser.select(iaas_availability_zones.first['iaas_identifier'])
-            browser.click_on 'Save'
           when OpsManagerUiDrivers::VSPHERE_IAAS_TYPE
-            browser.click_on 'Assign Availability Zones'
+            browser.click_on 'Assign AZs and Networks'
+            browser.select(ops_manager.networks[0]['name'], from: 'Network')
             browser.select(iaas_availability_zones.first['name'])
-            browser.click_on 'Save'
+          when OpsManagerUiDrivers::VCLOUD_IAAS_TYPE
+            browser.click_on 'Assign Networks'
+            browser.select(ops_manager.networks[0]['name'], from: 'Network')
         end
-      end
-
-      def assign_networks(ops_manager)
-        assign_network(ops_manager.networks[0]['name'])
+        browser.click_on 'Save'
       end
 
       def customize_resource_config(resource_config)
@@ -113,13 +110,6 @@ module OpsManagerUiDrivers
         if resource_config
           browser.fill_in('product_resources_form[director][persistent_disk][value]', with: resource_config.persistent_disk)
         end
-      end
-
-      def assign_network(network_name)
-        browser.click_on 'Assign Networks'
-
-        browser.select(network_name, from: 'Network')
-        browser.click_on 'Save'
       end
 
       def configure_vm_passwords(use_generated_passwords: true)
