@@ -1,7 +1,7 @@
 module OpsManagerUiDrivers
   module Version17
     class JobNetworkMappingHelper
-      PRODUCT_NETWORK_FIELD_NAME = 'product_network_assignment'
+      PRODUCT_NETWORK_FIELD_NAME = 'product_network_reference'
 
       def initialize(product_name:, browser:)
         @product_name = product_name
