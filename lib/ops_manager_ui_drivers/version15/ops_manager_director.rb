@@ -176,6 +176,7 @@ module OpsManagerUiDrivers
         trusted_certificates = experimental_features ? experimental_features.trusted_certificates : ''
 
         browser.fill_in('experimental_features[trusted_certificates]', with: trusted_certificates)
+        browser.click_on 'Save'
       end
 
       private
