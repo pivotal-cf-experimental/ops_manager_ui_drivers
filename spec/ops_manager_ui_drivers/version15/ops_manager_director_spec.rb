@@ -450,42 +450,6 @@ module OpsManagerUiDrivers
           end
         end
       end
-
-      describe '#configure_experimental_features' do
-        context 'when trusted certs are present in the experimental features configuration' do
-          let(:test_settings_hash) do
-            {
-              'ops_manager' => {
-                'experimental_features' => {
-                  'trusted_certificates' => 'NO REALLY, I AM A CERTIFICATE THAT IS TOTALLY VALID',
-                }
-              }
-            }
-          end
-
-          it 'adds the certs to the `Trusted Certificates` area' do
-            ops_manager_director.configure_experimental_features(test_settings.ops_manager.experimental_features)
-
-            expect(browser).to have_received(:click_on).with('Experimental Features')
-            expect(browser).to have_received(:fill_in).with('experimental_features[trusted_certificates]', with: 'NO REALLY, I AM A CERTIFICATE THAT IS TOTALLY VALID')
-          end
-        end
-
-        context 'when experimental features are not configured' do
-          let(:test_settings_hash) do
-            {
-              'ops_manager' => {}
-            }
-          end
-
-          it 'makes sure that the `Trusted Certificates` area is empty' do
-            ops_manager_director.configure_experimental_features(test_settings.ops_manager.experimental_features)
-
-            expect(browser).to have_received(:click_on).with('Experimental Features')
-            expect(browser).to have_received(:fill_in).with('experimental_features[trusted_certificates]', with: '')
-          end
-        end
-      end
     end
   end
 end
