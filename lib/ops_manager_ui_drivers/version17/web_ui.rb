@@ -44,24 +44,24 @@ module OpsManagerUiDrivers
         Version17::ProductStatusHelper.new(browser: browser, product_name: product_name)
       end
 
-      def job_network_mapping_for(product_name)
-        Version17::JobNetworkMappingHelper.new(browser: browser, product_name: product_name)
-      end
-
       def product_availability_zones(product_name)
         Version17::ProductAvailabilityZones.new(browser: browser, product: product_name)
       end
 
-      def assign_availability_zones_for_product(product:, zones:)
-        if zones
-          Version17::JobAvailabilityZoneMappingHelper.new(
-            browser: browser,
-            product_name: product,
-          ).assign_availability_zones!(
-            singleton_availability_zone: zones[0]['name'],
-            availability_zones: zones.map { |z| z['name'] },
-          )
-        end
+      def job_azs_and_network_mapping_for(product_name)
+        Version17::JobAzAndNetworkMappingHelper.new(
+          browser: browser,
+          product_name: product_name,
+        )
+      end
+
+      def assign_azs_and_network_for_product(product_name:, zones:, network:)
+
+        job_azs_and_network_mapping_for(product_name).assign_azs_and_network(
+          singleton_availability_zone: zones[0]['name'],
+          availability_zones: zones.map { |z| z['name'] },
+          network: network
+        )
       end
 
       def current_time

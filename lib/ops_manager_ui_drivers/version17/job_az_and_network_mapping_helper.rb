@@ -1,6 +1,6 @@
 module OpsManagerUiDrivers
   module Version17
-    class JobAvailabilityZoneMappingHelper
+    class JobAzAndNetworkMappingHelper
       def initialize(product_name:, browser:)
         @product_name = product_name
         @browser = browser
@@ -8,19 +8,22 @@ module OpsManagerUiDrivers
 
       SINGLETON_AVAILABILITY_ZONE_INPUT_SELECTOR = "input[name='product[singleton_availability_zone_reference]']"
       AVAILABILITY_ZONE_INPUT_SELECTOR = "input[name='product[availability_zone_references][]']"
+      NETWORK_FIELD_NAME = "product_network_reference"
 
-      def assign_availability_zones!(singleton_availability_zone:, availability_zones:)
+      def assign_azs_and_network(singleton_availability_zone: nil, availability_zones: [], network:)
         open_form
 
+        got_azs = false
         browser.all(AVAILABILITY_ZONE_INPUT_SELECTOR).each do |checkbox|
+          got_azs = true
           checkbox.set(false)
         end
 
-        availability_zones.each do |az_name|
-          browser.check("#{az_name}")
-        end
+        availability_zones.each { |az_name| browser.check("#{az_name}") } if got_azs
 
-        browser.choose("#{singleton_availability_zone}")
+        browser.choose("#{singleton_availability_zone}") if got_azs
+
+        browser.find_field(NETWORK_FIELD_NAME).find(:option, text: network).select_option
 
         save_form
       end
@@ -44,6 +47,13 @@ module OpsManagerUiDrivers
         end
       end
 
+      def product_network
+        open_form
+        selected_options = browser.find_field(NETWORK_FIELD_NAME).all('option[selected]')
+        raise ArgumentError, "#{NETWORK_FIELD_NAME} not selected" if selected_options.empty?
+        selected_options.first.text
+      end
+
       private
 
       attr_reader :browser, :product_name
@@ -51,7 +61,7 @@ module OpsManagerUiDrivers
       def open_form
         browser.visit '/'
         browser.click_on "show-#{product_name}-configure-action"
-        browser.click_on "show-#{product_name}-availability-zone-assignment-action"
+        browser.click_on "show-#{product_name}-azs-and-network-assignment-action"
       end
 
       def save_form
