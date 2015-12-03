@@ -386,41 +386,6 @@ module OpsManagerUiDrivers
         end
       end
 
-      describe '#customize_resource_config' do
-        context 'when the bosh product persistent disk size is configured' do
-          let(:test_settings_hash) do
-            {
-              'ops_manager' => {
-                'resource_config' => {
-                  'persistent_disk' => 10240,
-                }
-              }
-            }
-          end
-
-          it 'decreases the persistent disk size to 10gb to minimize our usage' do
-            ops_manager_director.customize_resource_config(test_settings.ops_manager.resource_config)
-
-            expect(browser).to have_received(:click_on).with('Resource Config')
-            expect(browser).to have_received(:fill_in).with('product_resources_form[director][persistent_disk][value]', with: 10240)
-          end
-        end
-
-        context 'when the bosh product persistent disk size is not configured' do
-          let(:test_settings_hash) do
-            {
-              'ops_manager' => {}
-            }
-          end
-
-          it 'uses the default the persistent disk size to 10gb to minimize our usage' do
-            ops_manager_director.customize_resource_config(test_settings.ops_manager.resource_config)
-
-            expect(browser).not_to have_received(:fill_in).with('product_resources_form[director][persistent_disk][value]', anything)
-          end
-        end
-      end
-
       describe '#configure_experimental_features' do
         context 'when trusted certs are present in the experimental features configuration' do
           let(:test_settings_hash) do

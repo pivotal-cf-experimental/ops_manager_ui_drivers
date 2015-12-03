@@ -17,8 +17,6 @@ module OpsManagerUiDrivers
 
         assign_azs_and_networks(test_settings.iaas_type, test_settings.ops_manager.availability_zones, test_settings.ops_manager)
 
-        customize_resource_config(test_settings.ops_manager.resource_config)
-
         configure_experimental_features(test_settings.ops_manager.experimental_features)
       end
 
@@ -103,13 +101,6 @@ module OpsManagerUiDrivers
             browser.select(ops_manager.networks[0]['name'], from: 'Network')
         end
         browser.click_on 'Save'
-      end
-
-      def customize_resource_config(resource_config)
-        browser.click_on 'Resource Config'
-        if resource_config
-          browser.fill_in('product_resources_form[director][persistent_disk][value]', with: resource_config.persistent_disk)
-        end
       end
 
       def configure_vm_passwords(use_generated_passwords: true)

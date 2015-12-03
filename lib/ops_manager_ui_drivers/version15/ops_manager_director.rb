@@ -18,8 +18,6 @@ module OpsManagerUiDrivers
         add_networks(test_settings)
 
         assign_networks(test_settings.ops_manager)
-
-        customize_resource_config(test_settings.ops_manager.resource_config)
       end
 
       def configure_iaas(test_settings)
@@ -125,13 +123,6 @@ module OpsManagerUiDrivers
           )
         else
           assign_network(deployment_network: ops_manager.networks[0]['name'])
-        end
-      end
-
-      def customize_resource_config(resource_config)
-        browser.click_on 'Resource Config'
-        if resource_config
-          browser.fill_in('product_resources_form[director][persistent_disk][value]', with: resource_config.persistent_disk)
         end
       end
 
