@@ -56,10 +56,10 @@ module OpsManagerUiDrivers
       end
 
       def assign_azs_and_network_for_product(product_name:, zones:, network:)
-
+        zones_present = zones && zones.first
         job_azs_and_network_mapping_for(product_name).assign_azs_and_network(
-          singleton_availability_zone: zones[0]['name'],
-          availability_zones: zones.map { |z| z['name'] },
+          singleton_availability_zone: zones_present ? zones[0]['name'] : nil,
+          availability_zones: zones_present ? zones.map { |z| z['name'] } : [],
           network: network
         )
       end
