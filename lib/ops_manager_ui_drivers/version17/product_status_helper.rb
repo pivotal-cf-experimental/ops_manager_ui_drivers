@@ -46,7 +46,7 @@ module OpsManagerUiDrivers
       def open_page
         browser.visit '/'
 
-        browser.click_on "show-#{dasherized_product_name}-configure-action"
+        browser.click_on "show-#{product_name.dasherize}-configure-action"
         browser.click_on 'show-status-action'
       end
 
@@ -54,10 +54,6 @@ module OpsManagerUiDrivers
         Capybara.using_wait_time 20 do
           browser.all('.status-loading', count: 0) # blocks until there are no spinners
         end
-      end
-
-      def dasherized_product_name
-        product_name.to_s.gsub(/[_]/, '-')
       end
     end
   end

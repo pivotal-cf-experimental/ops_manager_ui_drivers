@@ -6,9 +6,10 @@ module OpsManagerUiDrivers
         @allowed_ignorable_errors = []
       end
 
-      def apply_updates
+      def apply_updates(validate: true)
         open_dashboard
         browser.click_on 'install-action'
+        return unless validate
         fail 'Install failed verification' if nonignorable_verification_failed?
         allow_cpu_verification_errors
         allow_privilege_verification_errors
@@ -34,9 +35,9 @@ module OpsManagerUiDrivers
 
       def delete_product(product_name)
         open_dashboard
-        browser.click_on "open-delete-#{product_name}-modal"
+        browser.click_on "open-delete-#{product_name.dasherize}-modal"
         wait_for_modal_css_transition_to_complete
-        browser.click_on "delete-#{product_name}-action"
+        browser.click_on "delete-#{product_name.dasherize}-action"
       end
 
       def import_product_from(full_path)
