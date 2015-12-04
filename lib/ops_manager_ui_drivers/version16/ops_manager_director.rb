@@ -157,13 +157,13 @@ module OpsManagerUiDrivers
         browser.poll_up_to_times(20) { browser.assert_text('Settings updated') }
       end
 
-      # WARNING: these features are experimental and may change or disappear in later versions of opsman
       def configure_experimental_features(experimental_features)
         browser.click_on 'Experimental Features'
 
         trusted_certificates = experimental_features ? experimental_features.trusted_certificates : ''
 
         browser.fill_in('experimental_features[trusted_certificates]', with: trusted_certificates)
+        browser.click_on 'Save'
       end
 
       private

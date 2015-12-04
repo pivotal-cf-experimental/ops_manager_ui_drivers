@@ -433,6 +433,7 @@ module OpsManagerUiDrivers
 
             expect(browser).to have_received(:click_on).with('Experimental Features')
             expect(browser).to have_received(:fill_in).with('experimental_features[trusted_certificates]', with: 'NO REALLY, I AM A CERTIFICATE THAT IS TOTALLY VALID')
+            expect(browser).to have_received(:click_on).with('Save')
           end
         end
 
@@ -448,6 +449,7 @@ module OpsManagerUiDrivers
 
             expect(browser).to have_received(:click_on).with('Experimental Features')
             expect(browser).to have_received(:fill_in).with('experimental_features[trusted_certificates]', with: '')
+            expect(browser).to have_received(:click_on).with('Save')
           end
         end
       end
