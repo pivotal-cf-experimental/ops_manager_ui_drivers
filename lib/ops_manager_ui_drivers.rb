@@ -1,4 +1,5 @@
 require 'active_support'
+require 'active_support/core_ext'
 Dir[File.join(__dir__, '**', '*.rb')].each do |ops_manager_ui_drivers|
   require ops_manager_ui_drivers
 end
