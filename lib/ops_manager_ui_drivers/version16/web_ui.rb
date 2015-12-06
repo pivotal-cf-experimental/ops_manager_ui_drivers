@@ -64,6 +64,11 @@ module OpsManagerUiDrivers
         end
       end
 
+      def assign_azs_and_network_for_product(product_name:, zones:, network:)
+        job_network_mapping_for(product_name).assign_product_to_network(network)
+        assign_availability_zones_for_product(product: product_name, zones: zones)
+      end
+
       def current_time
         uri = URI(Capybara.app_host)
         uri.path = '/'
