@@ -123,6 +123,28 @@ module OpsManagerUiDrivers
         browser.fill_in('experimental_features[trusted_certificates]', with: trusted_certificates)
       end
 
+      def selected_network_name(iaas_type)
+        case iaas_type
+          when OpsManagerUiDrivers::VCLOUD_IAAS_TYPE
+            browser.click_on 'Assign Networks'
+          else
+            browser.click_on 'Assign AZs and Networks'
+        end
+        selected_options = browser.find_field('Network').all('option[selected]')
+        selected_options.first.text unless selected_options.empty?
+      end
+
+      def selected_singleton_az_name(iaas_type)
+        case iaas_type
+          when OpsManagerUiDrivers::VCLOUD_IAAS_TYPE
+            browser.click_on 'Assign Networks'
+          else
+            browser.click_on 'Assign AZs and Networks'
+        end
+        selected_options = browser.find_field('bosh_product[singleton_availability_zone_reference]').all('option[selected]')
+        selected_options.first.text unless selected_options.empty?
+      end
+
       private
 
       attr_reader :browser, :iaas_configuration
