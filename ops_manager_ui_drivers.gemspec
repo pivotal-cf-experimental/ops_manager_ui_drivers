@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'capybara'
   spec.add_dependency 'capybara-webkit'
   spec.add_dependency 'selenium-webdriver'
+  spec.add_dependency 'cf-uaa-lib'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'codeclimate-test-reporter'

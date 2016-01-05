@@ -1,4 +1,5 @@
 require 'ops_manager_ui_drivers/version16/api'
+require 'uaa'
 
 module OpsManagerUiDrivers
   module Version17
@@ -9,12 +10,36 @@ module OpsManagerUiDrivers
         http.request(put(feature_flag_path, enabled: value))
       end
 
+      def get_products
+        http.request(get('v0/products'), uaa_token.auth_header)
+      end
+
       private
 
-      def put(endpoint, form_data)
+      def uaa_token
+        target_url = @host_uri.to_s + '/uaa'
+        token_issuer = CF::UAA::TokenIssuer.new(target_url, 'opsman', nil, {:skip_ssl_validation => true})
+        token_issuer.owner_password_grant('admin', 'admin')
+      end
+
+      def get(endpoint, token=nil)
+        Net::HTTP::Get.new(api_uri(endpoint).request_uri).tap do |get|
+          add_auth_to_request(get, token)
+        end
+      end
+
+      def put(endpoint, form_data, token=nil)
         Net::HTTP::Put.new(api_uri(endpoint).request_uri).tap do |put_request|
-          put_request.basic_auth(@username, @password)
+          add_auth_to_request(put_request, token)
           put_request.set_form_data(form_data)
+        end
+      end
+
+      def add_auth_to_request(request, token)
+        if token.present?
+          request['Authorization'] = token
+        else
+          request.basic_auth(@username, @password)
         end
       end
     end
