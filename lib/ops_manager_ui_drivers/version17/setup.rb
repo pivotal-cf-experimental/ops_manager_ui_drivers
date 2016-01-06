@@ -3,13 +3,13 @@ require 'ops_manager_ui_drivers/version16/setup'
 module OpsManagerUiDrivers
   module Version17
     class Setup < Version16::Setup
-      def setup_and_login(user:, password:)
+      def setup_and_login(user:, password:, decryption_passphrase: password)
         browser.visit '/setup'
         browser.fill_in 'setup[admin_user_name]', with: user, wait: 4
         browser.fill_in 'setup[admin_password]', with: password
         browser.fill_in 'setup[admin_password_confirmation]', with: password
-        browser.fill_in 'setup[decryption_passphrase]', with: password
-        browser.fill_in 'setup[decryption_passphrase_confirmation]', with: password
+        browser.fill_in 'setup[decryption_passphrase]', with: decryption_passphrase
+        browser.fill_in 'setup[decryption_passphrase_confirmation]', with: decryption_passphrase
         browser.check 'setup_eula_accepted'
         browser.click_on 'create-setup-action'
 
@@ -31,14 +31,24 @@ module OpsManagerUiDrivers
         end
       end
 
-      def setup_or_login(user:, password:)
+      def setup_or_login(user:, password:, decryption_passphrase: password)
         browser.visit '/'
 
         if browser.current_path == '/setup'
-          setup_and_login(user: user, password: password)
+          setup_and_login(user: user, password: password, decryption_passphrase: decryption_passphrase)
+        elsif browser.current_path == '/unlock'
+          unlock_and_login(user: user, password: password, decryption_passphrase: decryption_passphrase)
         elsif browser.current_path == '/uaa/login'
           login(user: user, password: password)
         end
+      end
+
+      private
+
+      def unlock_and_login(user:, password:, decryption_passphrase: password)
+        browser.fill_in 'login[passphrase]', with: decryption_passphrase
+        browser.click_on 'Login'
+        login(user: user, password: password) unless browser.has_selector?('#main-page-marker', wait: 1)
       end
     end
   end
