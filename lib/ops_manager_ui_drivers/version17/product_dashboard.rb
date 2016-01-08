@@ -3,7 +3,7 @@ require 'ops_manager_ui_drivers/version16/product_dashboard'
 module OpsManagerUiDrivers
   module Version17
     class ProductDashboard < Version16::ProductDashboard
-      def import_installation_file(file_path)
+      def import_installation_file(_file_path)
         fail('Importing is no longer supported via the Product Dashboard. See Version17::Setup#import_installation_file')
       end
 
