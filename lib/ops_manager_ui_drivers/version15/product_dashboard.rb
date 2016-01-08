@@ -8,6 +8,7 @@ module OpsManagerUiDrivers
         browser.click_on 'toggle-installation-dropdown-action'
         browser.click_on 'show-settings'
         browser.click_on 'close-warning'
+        browser.expect(browser.page).to_not browser.have_selector('#close-warning', visible: true)
         browser.attach_file 'import[file]', file_path
         browser.click_on 'import-settings'
         browser.poll_up_to_times(20) { browser.assert_text('Successfully imported installation.') }

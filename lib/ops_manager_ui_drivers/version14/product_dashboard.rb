@@ -43,7 +43,8 @@ module OpsManagerUiDrivers
       def import_product_from(full_path)
         open_dashboard
         browser.attach_file('component_add[file]', full_path, {visible: false})
-        expect_no_flash_errors
+
+        browser.expect(browser.page).to browser.have_text('Successfully added product')
       end
 
       def product_available?(product_name, product_version)
