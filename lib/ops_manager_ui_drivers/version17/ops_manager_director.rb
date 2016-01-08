@@ -1,3 +1,5 @@
+using OpsManagerUiDrivers::BackportRefinements
+
 module OpsManagerUiDrivers
   module Version17
     class OpsManagerDirector

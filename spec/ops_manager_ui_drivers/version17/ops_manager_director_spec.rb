@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'capybara'
 require 'capybara/rspec/matchers'
+using OpsManagerUiDrivers::BackportRefinements
 
 module OpsManagerUiDrivers
   module Version17

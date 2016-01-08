@@ -1,3 +1,4 @@
+using OpsManagerUiDrivers::BackportRefinements
 module OpsManagerUiDrivers
   module Version15
     module Settings
