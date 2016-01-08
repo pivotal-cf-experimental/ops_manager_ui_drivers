@@ -38,12 +38,12 @@ module OpsManagerUiDrivers
 
       def set_openstack_credentials(
         identity_endpoint:,
-          username:,
-          password:,
-          tenant:,
-          security_group_name:,
-          key_pair_name:,
-          ssh_private_key:
+        username:,
+        password:,
+        tenant:,
+        security_group_name:,
+        key_pair_name:,
+        ssh_private_key:
       )
         set_field('identity_endpoint', identity_endpoint)
         set_field('username', username)

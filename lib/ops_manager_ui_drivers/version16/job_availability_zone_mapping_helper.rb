@@ -3,11 +3,11 @@ module OpsManagerUiDrivers
     class JobAvailabilityZoneMappingHelper
       def initialize(product_name:, browser:)
         @product_name = product_name
-        @browser = browser
+        @browser      = browser
       end
 
       SINGLETON_AVAILABILITY_ZONE_INPUT_SELECTOR = "input[name='product[singleton_availability_zone_reference]']"
-      AVAILABILITY_ZONE_INPUT_SELECTOR = "input[name='product[availability_zone_references][]']"
+      AVAILABILITY_ZONE_INPUT_SELECTOR           = "input[name='product[availability_zone_references][]']"
 
       def assign_availability_zones!(singleton_availability_zone:, availability_zones:)
         open_form

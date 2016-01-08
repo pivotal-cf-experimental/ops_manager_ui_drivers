@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'capybara'
 require 'capybara/rspec/matchers'
-require 'recursive-open-struct'
 
 module OpsManagerUiDrivers
   module Version15

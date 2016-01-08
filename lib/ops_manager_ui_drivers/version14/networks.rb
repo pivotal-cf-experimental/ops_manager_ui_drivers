@@ -12,12 +12,12 @@ module OpsManagerUiDrivers
         browser.click_on 'Add'
         set_fields(
           fields: {
-            'name' => name,
+            'name'                    => name,
             'iaas_network_identifier' => iaas_network_identifier,
-            'subnet' => subnet,
-            'dns' => dns,
-            'gateway' => gateway,
-            'reserved_ip_ranges' => reserved_ip_ranges,
+            'subnet'                  => subnet,
+            'dns'                     => dns,
+            'gateway'                 => gateway,
+            'reserved_ip_ranges'      => reserved_ip_ranges,
           }
         )
         save_form

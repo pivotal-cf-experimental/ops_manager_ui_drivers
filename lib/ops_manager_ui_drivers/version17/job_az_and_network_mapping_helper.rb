@@ -3,12 +3,12 @@ module OpsManagerUiDrivers
     class JobAzAndNetworkMappingHelper
       def initialize(product_name:, browser:)
         @product_name = product_name
-        @browser = browser
+        @browser      = browser
       end
 
       SINGLETON_AVAILABILITY_ZONE_INPUT_SELECTOR = "input[name='product[singleton_availability_zone_reference]']"
-      AVAILABILITY_ZONE_INPUT_SELECTOR = "input[name='product[availability_zone_references][]']"
-      NETWORK_FIELD_NAME = "product_network_reference"
+      AVAILABILITY_ZONE_INPUT_SELECTOR           = "input[name='product[availability_zone_references][]']"
+      NETWORK_FIELD_NAME                         = "product_network_reference"
 
       def assign_azs_and_network(singleton_availability_zone: nil, availability_zones: [], network:)
         open_form

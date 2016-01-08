@@ -2,27 +2,27 @@ module OpsManagerUiDrivers
   module Version17
     class OpsManagerDirector
       def initialize(browser:, iaas_configuration: Version17::BoshProductSections::IaasConfiguration.new(browser: browser))
-        @browser = browser
+        @browser            = browser
         @iaas_configuration = iaas_configuration
       end
 
       def configure_bosh_product(test_settings)
         configure_iaas(test_settings)
 
-        config_director(test_settings.ops_manager)
+        config_director(test_settings.dig('ops_manager'))
 
-        add_availability_zones(test_settings.iaas_type, test_settings.ops_manager.availability_zones)
+        add_availability_zones(test_settings.dig('iaas_type'), test_settings.dig('ops_manager', 'availability_zones'))
 
         add_networks(test_settings)
 
-        assign_azs_and_networks(test_settings.iaas_type, test_settings.ops_manager.availability_zones, test_settings.ops_manager)
+        assign_azs_and_networks(test_settings.dig('iaas_type'), test_settings.dig('ops_manager', 'availability_zones'), test_settings.dig('ops_manager'))
 
-        configure_experimental_features(test_settings.ops_manager.experimental_features)
+        configure_experimental_features(test_settings.dig('ops_manager', 'experimental_features'))
       end
 
       def configure_iaas(test_settings)
-        iaas_settings = Settings.for(test_settings)
-        iaas_specific_fields = iaas_settings.iaas_configuration_fields
+        iaas_settings                         = Settings.for(test_settings)
+        iaas_specific_fields                  = iaas_settings.iaas_configuration_fields
         advanced_infrastructure_config_fields = iaas_settings.advanced_infrastructure_config_fields
         iaas_configuration.fill_iaas_settings(iaas_specific_fields)
         advanced_infrastructure_config.fill_advanced_infrastructure_config_settings(advanced_infrastructure_config_fields)
@@ -41,16 +41,16 @@ module OpsManagerUiDrivers
       end
 
       def add_networks(test_settings)
-        iaas_networks = test_settings.ops_manager.networks
+        iaas_networks = test_settings.dig('ops_manager', 'networks')
 
         iaas_networks && iaas_networks.each do |network|
           networks.add_network(
-            name: network['name'],
+            name:                    network['name'],
             iaas_network_identifier: network['identifier'],
-            subnet: network['subnet'],
-            reserved_ip_ranges: network['reserved_ips'],
-            dns: network['dns'],
-            gateway: network['gateway'],
+            subnet:                  network['subnet'],
+            reserved_ip_ranges:      network['reserved_ips'],
+            dns:                     network['dns'],
+            gateway:                 network['gateway'],
           )
         end
       end
@@ -61,10 +61,10 @@ module OpsManagerUiDrivers
 
       def config_director(ops_manager)
         browser.click_on 'Director Config'
-        browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.ntp_servers)
-        browser.check('Enable VM Resurrector Plugin') if ops_manager.resurrector_enabled
+        browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.dig('ntp_servers'))
+        browser.check('Enable VM Resurrector Plugin') if ops_manager.dig('resurrector_enabled')
 
-        s3_blobstore = ops_manager.s3_blobstore
+        s3_blobstore = ops_manager.dig('s3_blobstore')
         if s3_blobstore
           browser.choose('S3 Compatible Blobstore')
           browser.fill_in('director_configuration[s3_blobstore_options][endpoint]', with: s3_blobstore.endpoint)
@@ -73,7 +73,7 @@ module OpsManagerUiDrivers
           browser.fill_in('director_configuration[s3_blobstore_options][secret_key]', with: s3_blobstore.secret_access_key)
         end
 
-        mysql = ops_manager.mysql
+        mysql = ops_manager.dig('mysql')
         if mysql
           browser.choose('External MySQL Database')
           browser.fill_in('director_configuration[external_database_options][host]', with: mysql.host)
@@ -90,15 +90,15 @@ module OpsManagerUiDrivers
         case iaas_type
           when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
             browser.click_on 'Assign AZs and Networks'
-            browser.select(ops_manager.networks[0]['name'], from: 'Network')
+            browser.select(ops_manager.dig('networks', 0, 'name'), from: 'Network')
             browser.select(iaas_availability_zones.first['iaas_identifier'])
           when OpsManagerUiDrivers::VSPHERE_IAAS_TYPE
             browser.click_on 'Assign AZs and Networks'
-            browser.select(ops_manager.networks[0]['name'], from: 'Network')
+            browser.select(ops_manager.dig('networks', 0, 'name'), from: 'Network')
             browser.select(iaas_availability_zones.first['name'])
           when OpsManagerUiDrivers::VCLOUD_IAAS_TYPE
             browser.click_on 'Assign Networks'
-            browser.select(ops_manager.networks[0]['name'], from: 'Network')
+            browser.select(ops_manager.dig('networks', 0, 'name'), from: 'Network')
         end
         browser.click_on 'Save'
       end
@@ -118,7 +118,7 @@ module OpsManagerUiDrivers
       def configure_experimental_features(experimental_features)
         browser.click_on 'Experimental Features'
 
-        trusted_certificates = experimental_features ? experimental_features.trusted_certificates : ''
+        trusted_certificates = experimental_features ? experimental_features.dig('trusted_certificates') : ''
 
         browser.fill_in('experimental_features[trusted_certificates]', with: trusted_certificates)
       end

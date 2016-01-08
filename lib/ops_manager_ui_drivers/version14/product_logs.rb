@@ -4,7 +4,7 @@ module OpsManagerUiDrivers
   module Version14
     class ProductLogs
       def initialize(browser:, product_name:)
-        @browser = browser
+        @browser      = browser
         @product_name = product_name
       end
 

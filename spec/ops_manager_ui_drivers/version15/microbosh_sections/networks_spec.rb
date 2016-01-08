@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'capybara'
 require 'capybara/rspec/matchers'
-require 'recursive-open-struct'
 
 module OpsManagerUiDrivers
   module Version15
@@ -34,32 +33,32 @@ module OpsManagerUiDrivers
           end
 
           it 'fails when there are unexpected errors' do
-            error = double(:error, text: 'error_message')
+            error             = double(:error, text: 'error_message')
             unexpected_errors = [error]
             allow(browser).to receive(:all).with('.flash-message.error ul.message li').and_return(unexpected_errors)
 
             expect { networks.add_single_network(
-              name: 'Name',
+              name:                    'Name',
               iaas_network_identifier: 'IaasNetworkIdentifier',
-              subnet: 'Subnet',
-              dns: 'Dns',
-              gateway: 'Gateway',
-              reserved_ip_ranges: 'ReservedIpRanges',
+              subnet:                  'Subnet',
+              dns:                     'Dns',
+              gateway:                 'Gateway',
+              reserved_ip_ranges:      'ReservedIpRanges',
             ) }.to raise_error(/error_message/)
           end
 
           it 'does not fail on icmp errors' do
-            error = double(:error, text: 'cannot reach gateway')
+            error             = double(:error, text: 'cannot reach gateway')
             unexpected_errors = [error]
             allow(browser).to receive(:all).with('.flash-message.error ul.message li').and_return(unexpected_errors)
 
             expect { networks.add_single_network(
-              name: 'Name',
+              name:                    'Name',
               iaas_network_identifier: 'IaasNetworkIdentifier',
-              subnet: 'Subnet',
-              dns: 'Dns',
-              gateway: 'Gateway',
-              reserved_ip_ranges: 'ReservedIpRanges',
+              subnet:                  'Subnet',
+              dns:                     'Dns',
+              gateway:                 'Gateway',
+              reserved_ip_ranges:      'ReservedIpRanges',
             ) }.not_to raise_error
           end
 
@@ -67,12 +66,12 @@ module OpsManagerUiDrivers
             allow(browser).to receive(:all).with('.flash-message.error ul.message li').and_return([])
 
             networks.add_single_network(
-              name: 'Name',
+              name:                    'Name',
               iaas_network_identifier: 'IaasNetworkIdentifier',
-              subnet: 'Subnet',
-              dns: 'Dns',
-              gateway: 'Gateway',
-              reserved_ip_ranges: 'ReservedIpRanges',
+              subnet:                  'Subnet',
+              dns:                     'Dns',
+              gateway:                 'Gateway',
+              reserved_ip_ranges:      'ReservedIpRanges',
             )
 
             expect(browser).to have_received(:visit).with('/').ordered
@@ -107,18 +106,18 @@ module OpsManagerUiDrivers
           end
 
           it 'navigates to the root-page, microbosh-product, add network page, and sets the network fields' do
-            page = double(:page)
+            page           = double(:page)
             flash_selector = double(:flash_selector)
             allow(browser).to receive(:page).and_return(page)
             allow(browser).to receive(:have_css).with('.flash-message.success').and_return(flash_selector)
 
             networks.add_network(
-              name: 'Name',
+              name:                    'Name',
               iaas_network_identifier: 'IaasNetworkIdentifier',
-              subnet: 'Subnet',
-              dns: 'Dns',
-              gateway: 'Gateway',
-              reserved_ip_ranges: 'ReservedIpRanges',
+              subnet:                  'Subnet',
+              dns:                     'Dns',
+              gateway:                 'Gateway',
+              reserved_ip_ranges:      'ReservedIpRanges',
             )
 
             expect(browser).to have_received(:visit).with('/').ordered

@@ -9,23 +9,23 @@ module OpsManagerUiDrivers
       def configure_bosh_product(test_settings)
         configure_iaas(test_settings)
 
-        config_director(test_settings.ops_manager)
+        config_director(test_settings.dig('ops_manager'))
 
-        add_availability_zones(test_settings.iaas_type, test_settings.ops_manager.availability_zones)
+        add_availability_zones(test_settings.dig('iaas_type'), test_settings.dig('ops_manager', 'availability_zones'))
 
-        assign_availability_zone(test_settings.iaas_type, test_settings.ops_manager.availability_zones)
+        assign_availability_zone(test_settings.dig('iaas_type'), test_settings.dig('ops_manager', 'availability_zones'))
 
         add_networks(test_settings)
 
-        assign_networks(test_settings.ops_manager)
+        assign_networks(test_settings.dig('ops_manager'))
       end
 
       def configure_iaas(test_settings)
         iaas_settings = Settings.for(test_settings)
-        iaas_specific_fields = iaas_settings.iaas_configuration_fields
-        advanced_infrastructure_config_fields = iaas_settings.advanced_infrastructure_config_fields
-        iaas_configuration.fill_iaas_settings(iaas_specific_fields)
-        advanced_infrastructure_config.fill_advanced_infrastructure_config_settings(advanced_infrastructure_config_fields)
+        iaas_configuration.fill_iaas_settings(iaas_settings.iaas_configuration_fields)
+        advanced_infrastructure_config.fill_advanced_infrastructure_config_settings(
+          iaas_settings.advanced_infrastructure_config_fields
+        )
       end
 
       def add_availability_zones(iaas_type, iaas_availability_zones)
@@ -41,9 +41,9 @@ module OpsManagerUiDrivers
       end
 
       def add_networks(test_settings)
-        iaas_networks = test_settings.ops_manager.networks
+        iaas_networks = test_settings.dig('ops_manager', 'networks')
 
-        case test_settings.iaas_type
+        case test_settings.dig('iaas_type')
           when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
             first_network = iaas_networks.first
 

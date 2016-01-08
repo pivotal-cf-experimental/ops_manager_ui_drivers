@@ -3,7 +3,7 @@ module OpsManagerUiDrivers
     module BoshProductSections
       class BoshProductFormSection
         def initialize(browser, field_prefix)
-          @browser = browser
+          @browser      = browser
           @field_prefix = field_prefix
         end
 

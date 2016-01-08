@@ -3,7 +3,7 @@ module OpsManagerUiDrivers
     module BoshProductSections
       class AvailabilityZones
         def initialize(browser:)
-          @browser = browser
+          @browser                   = browser
           @bosh_product_form_section = BoshProductFormSection.new(browser, 'availability_zones[availability_zones][]')
         end
 

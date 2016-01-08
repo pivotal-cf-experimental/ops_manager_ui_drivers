@@ -3,7 +3,7 @@ module OpsManagerUiDrivers
     class ProductStatusHelper
       def initialize(product_name:, browser:)
         @product_name = product_name
-        @browser = browser
+        @browser      = browser
       end
 
       def job_status(job_name)

@@ -55,17 +55,17 @@ module OpsManagerUiDrivers
       def assign_availability_zones_for_product(product:, zones:)
         if zones
           Version14::JobAvailabilityZoneMappingHelper.new(
-            browser: browser,
+            browser:      browser,
             product_name: product,
           ).assign_availability_zones!(
             singleton_availability_zone: zones[0]['name'],
-            availability_zones: zones.map { |z| z['name'] },
+            availability_zones:          zones.map { |z| z['name'] },
           )
         end
       end
 
       def current_time
-        uri = URI(Capybara.app_host)
+        uri      = URI(Capybara.app_host)
         uri.path = '/'
         Net::HTTP.start(uri.hostname, uri.port, use_ssl: (uri.scheme == 'https'), verify_mode: OpenSSL::SSL::VERIFY_NONE) do |http|
           response = http.request(Net::HTTP::Get.new(uri))

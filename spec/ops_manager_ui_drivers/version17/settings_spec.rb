@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'recursive-open-struct'
 
 module OpsManagerUiDrivers
   module Version17
@@ -7,26 +6,25 @@ module OpsManagerUiDrivers
       describe 'Openstack settings' do
         let(:settings_hash) do
           {
-            iaas_type: 'openstack',
-            ops_manager: {
-              openstack: {
-                identity_endpoint: 'IdentityEndpoint',
-                username: 'Username',
-                password: 'Password',
-                tenant: 'Tenant',
-                security_group_name: 'SecurityGroupName',
-                region: 'Region',
-                key_pair_name: 'KeyPairName',
-                ssh_private_key: 'SshPrivateKey',
-                disable_dhcp: false,
-                connection_options: 'ConnectionOptions',
+            'iaas_type'   => 'openstack',
+            'ops_manager' => {
+              'openstack' => {
+                'identity_endpoint'   => 'IdentityEndpoint',
+                'username'            => 'Username',
+                'password'            => 'Password',
+                'tenant'              => 'Tenant',
+                'security_group_name' => 'SecurityGroupName',
+                'region'              => 'Region',
+                'key_pair_name'       => 'KeyPairName',
+                'ssh_private_key'     => 'SshPrivateKey',
+                'disable_dhcp'        => false,
+                'connection_options'  => 'ConnectionOptions',
               }
             }
           }
         end
-        let(:test_settings) { RecursiveOpenStruct.new(settings_hash, recurse_over_arrays: true) }
 
-        subject(:openstack_settings) { Settings.for(test_settings) }
+        subject(:openstack_settings) { Settings.for(settings_hash) }
 
         it 'should have the correct iaas_configuration fields' do
           iaas_configuration_fields = openstack_settings.iaas_configuration_fields
@@ -50,24 +48,23 @@ module OpsManagerUiDrivers
       describe 'AWS settings' do
         let(:settings_hash) do
           {
-            iaas_type: 'aws',
-            ops_manager: {
-              aws: {
-                aws_access_key: 'AwsAccessKey',
-                aws_secret_key: 'AwsSecretKey',
-                vpc_id: 'VpcId',
-                security_group: 'SecurityGroup',
-                key_pair_name: 'KeyPairName',
-                ssh_key: 'SSHKey',
-                region: 'Region',
-                encrypt_disk: false,
+            'iaas_type'   => 'aws',
+            'ops_manager' => {
+              'aws' => {
+                'aws_access_key' => 'AwsAccessKey',
+                'aws_secret_key' => 'AwsSecretKey',
+                'vpc_id'         => 'VpcId',
+                'security_group' => 'SecurityGroup',
+                'key_pair_name'  => 'KeyPairName',
+                'ssh_key'        => 'SSHKey',
+                'region'         => 'Region',
+                'encrypt_disk'   => false,
               }
             }
           }
         end
-        let(:test_settings) { RecursiveOpenStruct.new(settings_hash, recurse_over_arrays: true) }
 
-        subject(:aws_settings) { Settings.for(test_settings) }
+        subject(:aws_settings) { Settings.for(settings_hash) }
 
         it 'should have the correct iaas_configuration fields' do
           iaas_configuration_fields = aws_settings.iaas_configuration_fields
@@ -90,27 +87,26 @@ module OpsManagerUiDrivers
       describe 'vSphere settings' do
         let(:settings_hash) do
           {
-            iaas_type: 'vsphere',
-            ops_manager: {
-              vcenter: {
-                creds: {
-                  ip: 'CredsIp',
-                  username: 'Username',
-                  password: 'Password'
+            'iaas_type'   => 'vsphere',
+            'ops_manager' => {
+              'vcenter' => {
+                'creds'                => {
+                  'ip'       => 'CredsIp',
+                  'username' => 'Username',
+                  'password' => 'Password'
                 },
-                datacenter: 'Datacenter',
-                ephemeral_datastore: 'Ephemeral Datastore',
-                persistent_datastore: 'Persistent Datastore',
-                bosh_vm_folder: 'BoshVmFolder',
-                bosh_template_folder: 'BoshTemplateFolder',
-                bosh_disk_path: 'BoshDiskPath',
+                'datacenter'           => 'Datacenter',
+                'ephemeral_datastore'  => 'Ephemeral Datastore',
+                'persistent_datastore' => 'Persistent Datastore',
+                'bosh_vm_folder'       => 'BoshVmFolder',
+                'bosh_template_folder' => 'BoshTemplateFolder',
+                'bosh_disk_path'       => 'BoshDiskPath',
               }
             }
           }
         end
-        let(:test_settings) { RecursiveOpenStruct.new(settings_hash, recurse_over_arrays: true) }
 
-        subject(:vsphere_settings) { Settings.for(test_settings) }
+        subject(:vsphere_settings) { Settings.for(settings_hash) }
 
         it 'should have the correct iaas_configuration fields' do
           iaas_configuration_fields = vsphere_settings.iaas_configuration_fields
@@ -133,27 +129,26 @@ module OpsManagerUiDrivers
       describe 'vCloud settings' do
         let(:settings_hash) do
           {
-            iaas_type: 'vcloud',
-            ops_manager: {
-              vcloud: {
-                creds: {
-                  url: 'CredsURL',
-                  organization: 'CredsOrganization',
-                  user: 'Username',
-                  password: 'Password'
+            'iaas_type'   => 'vcloud',
+            'ops_manager' => {
+              'vcloud' => {
+                'creds' => {
+                  'url'          => 'CredsURL',
+                  'organization' => 'CredsOrganization',
+                  'user'         => 'Username',
+                  'password'     => 'Password'
                 },
-                vdc: {
-                  name: 'VdcName',
-                  storage_profile: 'VdcStorageProfile',
-                  catalog_name: 'VdcCatalogName',
+                'vdc'   => {
+                  'name'            => 'VdcName',
+                  'storage_profile' => 'VdcStorageProfile',
+                  'catalog_name'    => 'VdcCatalogName',
                 },
               }
             }
           }
         end
-        let(:test_settings) { RecursiveOpenStruct.new(settings_hash, recurse_over_arrays: true) }
 
-        subject(:vcloud_settings) { Settings.for(test_settings) }
+        subject(:vcloud_settings) { Settings.for(settings_hash) }
 
         it 'should have the correct iaas_configuration fields' do
           iaas_configuration_fields = vcloud_settings.iaas_configuration_fields

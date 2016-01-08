@@ -3,7 +3,7 @@ module OpsManagerUiDrivers
     module BoshProductSections
       class Networks
         def initialize(browser:)
-          @browser = browser
+          @browser                   = browser
           @bosh_product_form_section = BoshProductFormSection.new(browser, 'network[networks][]')
         end
 
@@ -11,12 +11,12 @@ module OpsManagerUiDrivers
           @bosh_product_form_section.open_form('network')
 
           @bosh_product_form_section.set_fields(
-            'name' => name,
+            'name'                    => name,
             'iaas_network_identifier' => iaas_network_identifier,
-            'subnet' => subnet,
-            'dns' => dns,
-            'gateway' => gateway,
-            'reserved_ip_ranges' => reserved_ip_ranges,
+            'subnet'                  => subnet,
+            'dns'                     => dns,
+            'gateway'                 => gateway,
+            'reserved_ip_ranges'      => reserved_ip_ranges,
           )
           browser.click_on 'Save'
           flash_errors = browser.all('.flash-message.error ul.message li').to_a
@@ -32,12 +32,12 @@ module OpsManagerUiDrivers
 
           browser.click_on 'Add'
           @bosh_product_form_section.set_fields(
-            'name' => name,
+            'name'                    => name,
             'iaas_network_identifier' => iaas_network_identifier,
-            'subnet' => subnet,
-            'dns' => dns,
-            'gateway' => gateway,
-            'reserved_ip_ranges' => reserved_ip_ranges,
+            'subnet'                  => subnet,
+            'dns'                     => dns,
+            'gateway'                 => gateway,
+            'reserved_ip_ranges'      => reserved_ip_ranges,
           )
           @bosh_product_form_section.save_form
         end

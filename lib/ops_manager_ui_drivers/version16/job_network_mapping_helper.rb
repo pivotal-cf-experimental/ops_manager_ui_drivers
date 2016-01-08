@@ -5,7 +5,7 @@ module OpsManagerUiDrivers
 
       def initialize(product_name:, browser:)
         @product_name = product_name
-        @browser = browser
+        @browser      = browser
       end
 
       def assign_product_to_network(network)

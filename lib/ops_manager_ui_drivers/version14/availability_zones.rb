@@ -19,8 +19,8 @@ module OpsManagerUiDrivers
         browser.click_on 'Add'
         set_fields(
           fields: {
-            'name' => name,
-            'cluster' => cluster,
+            'name'          => name,
+            'cluster'       => cluster,
             'resource_pool' => resource_pool,
           }
         )

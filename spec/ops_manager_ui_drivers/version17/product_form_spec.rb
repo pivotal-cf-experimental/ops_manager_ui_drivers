@@ -5,9 +5,9 @@ module OpsManagerUiDrivers
       describe '#fill_in_selector_property' do
         let(:product_form) {
           OpsManagerUiDrivers::Version17::ProductForm.new(
-            browser: browser,
+            browser:      browser,
             product_name: 'product_name',
-            form_name: 'form_name',
+            form_name:    'form_name',
           )
         }
         let(:browser) { double('browser') }
@@ -20,15 +20,15 @@ module OpsManagerUiDrivers
 
         it 'finds and clicks the specified radio button' do
           expect(browser).to receive(:first)
-            .with(%Q(input[type="radio"][name="form_name[.properties.selector_property][value]"][value="value_external"]))
-            .and_return(radio_button)
+                               .with(%Q(input[type="radio"][name="form_name[.properties.selector_property][value]"][value="value_external"]))
+                               .and_return(radio_button)
 
           expect(radio_button).to receive(:click)
           product_form.fill_in_selector_property(
             selector_input_reference: '.properties.selector_property',
-            selector_name: 'name_external',
-            selector_value: 'value_external',
-            sub_field_answers: {},
+            selector_name:            'name_external',
+            selector_value:           'value_external',
+            sub_field_answers:        {},
           )
         end
 
@@ -36,9 +36,9 @@ module OpsManagerUiDrivers
           it 'does not fill in any fields' do
             product_form.fill_in_selector_property(
               selector_input_reference: '.properties.selector_property',
-              selector_name: 'name_external',
-              selector_value: 'value_external',
-              sub_field_answers: {},
+              selector_name:            'name_external',
+              selector_value:           'value_external',
+              sub_field_answers:        {},
             )
           end
         end
@@ -49,22 +49,22 @@ module OpsManagerUiDrivers
 
           it 'fills in each field with the specified value' do
             expect(browser).to receive(:find_field)
-              .with('form_name[.properties.selector_property][name_external][label_1]')
-              .and_return(field_1)
+                                 .with('form_name[.properties.selector_property][name_external][label_1]')
+                                 .and_return(field_1)
             expect(browser).to receive(:find_field)
-              .with('form_name[.properties.selector_property][name_external][label_2]')
-              .and_return(field_2)
+                                 .with('form_name[.properties.selector_property][name_external][label_2]')
+                                 .and_return(field_2)
 
             expect(field_1).to receive(:set).with('value_1')
             expect(field_2).to receive(:set).with('value_2')
 
             product_form.fill_in_selector_property(
               selector_input_reference: '.properties.selector_property',
-              selector_name: 'name_external',
-              selector_value: 'value_external',
-              sub_field_answers: {
-                'label_1' => { attribute_value: 'value_1' },
-                'label_2' => { attribute_value: 'value_2' },
+              selector_name:            'name_external',
+              selector_value:           'value_external',
+              sub_field_answers:        {
+                'label_1' => {attribute_value: 'value_1'},
+                'label_2' => {attribute_value: 'value_2'},
               },
             )
           end
@@ -83,11 +83,11 @@ module OpsManagerUiDrivers
 
             product_form.fill_in_selector_property(
               selector_input_reference: '.properties.selector_property',
-              selector_name: 'name_external',
-              selector_value: 'value_external',
-              sub_field_answers: {
+              selector_name:            'name_external',
+              selector_value:           'value_external',
+              sub_field_answers:        {
                 'label' => {
-                  attribute_name: 'secret',
+                  attribute_name:  'secret',
                   attribute_value: 'value',
                 }
               },

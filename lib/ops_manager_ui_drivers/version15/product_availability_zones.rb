@@ -3,7 +3,7 @@ module OpsManagerUiDrivers
     class WebUi
       class ProductAvailabilityZones
         def initialize(browser:, product_name:)
-          @browser = browser
+          @browser      = browser
           @product_name = product_name
         end
 

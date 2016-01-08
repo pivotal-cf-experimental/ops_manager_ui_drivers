@@ -8,54 +8,54 @@ module OpsManagerUiDrivers
       def configure_microbosh(test_settings)
         configure_iaas(test_settings)
 
-        config_director(test_settings.ops_manager)
+        config_director(test_settings.dig('ops_manager'))
 
-        add_azs(test_settings.iaas_type, test_settings.ops_manager.availability_zones)
+        add_azs(test_settings.dig('iaas_type'), test_settings.dig('ops_manager', 'availability_zones'))
 
-        assign_availability_zone(test_settings.iaas_type, test_settings.ops_manager.availability_zones)
+        assign_availability_zone(test_settings.dig('iaas_type'), test_settings.dig('ops_manager', 'availability_zones'))
 
         add_networks(test_settings)
 
-        assign_networks(test_settings.ops_manager)
+        assign_networks(test_settings.dig('ops_manager'))
       end
 
       def configure_iaas(test_settings)
-        case test_settings.iaas_type
+        case test_settings.dig('iaas_type')
           when OpsManagerUiDrivers::VCLOUD_IAAS_TYPE then
             configure_vcloud(
-              vcd_url: test_settings.ops_manager.vcloud.creds.url,
-              organization: test_settings.ops_manager.vcloud.creds.organization,
-              user: test_settings.ops_manager.vcloud.creds.user,
-              password: test_settings.ops_manager.vcloud.creds.password,
-              datacenter: test_settings.ops_manager.vcloud.vdc.name,
-              storage_profile: test_settings.ops_manager.vcloud.vdc.storage_profile,
+              vcd_url:         test_settings.dig('ops_manager', 'vcloud', 'creds', 'url'),
+              organization:    test_settings.dig('ops_manager', 'vcloud', 'creds', 'organization'),
+              user:            test_settings.dig('ops_manager', 'vcloud', 'creds', 'user'),
+              password:        test_settings.dig('ops_manager', 'vcloud', 'creds', 'password'),
+              datacenter:      test_settings.dig('ops_manager', 'vcloud', 'vdc', 'name'),
+              storage_profile: test_settings.dig('ops_manager', 'vcloud', 'vdc', 'storage_profile'),
             )
           when OpsManagerUiDrivers::VSPHERE_IAAS_TYPE then
             configure_vcenter(
-              ip: test_settings.ops_manager.vcenter.creds.ip,
-              username: test_settings.ops_manager.vcenter.creds.username,
-              password: test_settings.ops_manager.vcenter.creds.password,
-              datacenter: test_settings.ops_manager.vcenter.datacenter,
-              datastores: test_settings.ops_manager.vcenter.persistent_datastore,
+              ip:         test_settings.dig('ops_manager', 'vcenter', 'creds', 'ip'),
+              username:   test_settings.dig('ops_manager', 'vcenter', 'creds', 'username'),
+              password:   test_settings.dig('ops_manager', 'vcenter', 'creds', 'password'),
+              datacenter: test_settings.dig('ops_manager', 'vcenter', 'datacenter'),
+              datastores: test_settings.dig('ops_manager', 'vcenter', 'persistent_datastore'),
             )
           when OpsManagerUiDrivers::AWS_IAAS_TYPE then
             configure_aws(
-              aws_access_key: test_settings.ops_manager.aws.aws_access_key,
-              aws_secret_key: test_settings.ops_manager.aws.aws_secret_key,
-              vpc_id: test_settings.ops_manager.aws.vpc_id,
-              security_group: test_settings.ops_manager.aws.security_group,
-              key_pair_name: test_settings.ops_manager.aws.key_pair_name,
-              ssh_private_key: test_settings.ops_manager.aws.ssh_key
+              aws_access_key:  test_settings.dig('ops_manager', 'aws', 'aws_access_key'),
+              aws_secret_key:  test_settings.dig('ops_manager', 'aws', 'aws_secret_key'),
+              vpc_id:          test_settings.dig('ops_manager', 'aws', 'vpc_id'),
+              security_group:  test_settings.dig('ops_manager', 'aws', 'security_group'),
+              key_pair_name:   test_settings.dig('ops_manager', 'aws', 'key_pair_name'),
+              ssh_private_key: test_settings.dig('ops_manager', 'aws', 'ssh_key'),
             )
           when OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE then
             configure_openstack(
-              identity_endpoint: test_settings.ops_manager.openstack.identity_endpoint,
-              username: test_settings.ops_manager.openstack.username,
-              password: test_settings.ops_manager.openstack.password,
-              tenant: test_settings.ops_manager.openstack.tenant,
-              security_group_name: test_settings.ops_manager.openstack.security_group_name,
-              key_pair_name: test_settings.ops_manager.openstack.key_pair_name,
-              ssh_private_key: test_settings.ops_manager.openstack.ssh_private_key
+              identity_endpoint:   test_settings.dig('ops_manager', 'openstack', 'identity_endpoint'),
+              username:            test_settings.dig('ops_manager', 'openstack', 'username'),
+              password:            test_settings.dig('ops_manager', 'openstack', 'password'),
+              tenant:              test_settings.dig('ops_manager', 'openstack', 'tenant'),
+              security_group_name: test_settings.dig('ops_manager', 'openstack', 'security_group_name'),
+              key_pair_name:       test_settings.dig('ops_manager', 'openstack', 'key_pair_name'),
+              ssh_private_key:     test_settings.dig('ops_manager', 'openstack', 'ssh_private_key'),
             )
         end
       end
@@ -95,12 +95,12 @@ module OpsManagerUiDrivers
           else
             iaas_networks && iaas_networks.each do |network|
               networks.add_network(
-                name: network['name'],
+                name:                    network['name'],
                 iaas_network_identifier: network['identifier'],
-                subnet: network['subnet'],
-                reserved_ip_ranges: network['reserved_ips'],
-                dns: network['dns'],
-                gateway: network['gateway'],
+                subnet:                  network['subnet'],
+                reserved_ip_ranges:      network['reserved_ips'],
+                dns:                     network['dns'],
+                gateway:                 network['gateway'],
               )
             end
         end
@@ -108,25 +108,25 @@ module OpsManagerUiDrivers
 
       def config_director(ops_manager)
         browser.click_on 'Director Config'
-        browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.ntp_servers)
-        browser.check('Enable VM Resurrector Plugin') if ops_manager.resurrector_enabled
+        browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.dig('ntp_servers'))
+        browser.check('Enable VM Resurrector Plugin') if ops_manager.dig('resurrector_enabled')
 
-        s3_blobstore = ops_manager.s3_blobstore
+        s3_blobstore = ops_manager.dig('s3_blobstore')
         if s3_blobstore
           browser.choose('Amazon S3')
-          browser.fill_in('director_configuration[amazon_s3_blobstore_options][bucket_name]', with: s3_blobstore.bucket_name)
-          browser.fill_in('director_configuration[amazon_s3_blobstore_options][access_key]', with: s3_blobstore.access_key_id)
-          browser.fill_in('director_configuration[amazon_s3_blobstore_options][secret_key]', with: s3_blobstore.secret_access_key)
+          browser.fill_in('director_configuration[amazon_s3_blobstore_options][bucket_name]', with: s3_blobstore.dig('bucket_name'))
+          browser.fill_in('director_configuration[amazon_s3_blobstore_options][access_key]', with: s3_blobstore.dig('access_key_id'))
+          browser.fill_in('director_configuration[amazon_s3_blobstore_options][secret_key]', with: s3_blobstore.dig('secret_access_key'))
         end
 
-        mysql = ops_manager.mysql
+        mysql = ops_manager.dig('mysql')
         if mysql
           browser.choose('External MySQL Database')
-          browser.fill_in('director_configuration[external_database_options][host]', with: mysql.host)
-          browser.fill_in('director_configuration[external_database_options][port]', with: mysql.port)
-          browser.fill_in('director_configuration[external_database_options][user]', with: mysql.user)
-          browser.fill_in('director_configuration[external_database_options][password]', with: mysql.password)
-          browser.fill_in('director_configuration[external_database_options][database]', with: mysql.dbname)
+          browser.fill_in('director_configuration[external_database_options][host]', with: mysql.dig('host'))
+          browser.fill_in('director_configuration[external_database_options][port]', with: mysql.dig('port'))
+          browser.fill_in('director_configuration[external_database_options][user]', with: mysql.dig('user'))
+          browser.fill_in('director_configuration[external_database_options][password]', with: mysql.dig('password'))
+          browser.fill_in('director_configuration[external_database_options][database]', with: mysql.dig('dbname'))
         end
 
         browser.click_on 'Save'
@@ -149,17 +149,17 @@ module OpsManagerUiDrivers
 
       def assign_networks(ops_manager)
         if ops_manager.vcenter
-          deployment_network = ops_manager.networks[0]
+          deployment_network = ops_manager.dig('networks', 0)
 
           infrastructure_network =
-            ops_manager.networks[1] ? ops_manager.networks[1] : ops_manager.networks[0]
+            ops_manager.networks[1] ? ops_manager.dig('networks', 1) : ops_manager.dig('networks', 0)
 
           assign_networks_vsphere(
-            deployment_network: deployment_network['name'],
+            deployment_network:     deployment_network['name'],
             infrastructure_network: infrastructure_network['name'],
           )
         else
-          assign_network(deployment_network: ops_manager.networks[0]['name'])
+          assign_network(deployment_network: ops_manager.dig('networks', 0, 'name'))
         end
       end
 
@@ -206,34 +206,34 @@ module OpsManagerUiDrivers
       def configure_aws(aws_access_key:, aws_secret_key:, vpc_id:, security_group:, key_pair_name:, ssh_private_key:)
         iaas_configuration.configure_iaas do
           iaas_configuration.set_aws_credentials(
-            access_key_id: aws_access_key,
+            access_key_id:     aws_access_key,
             secret_access_key: aws_secret_key,
-            vpc_id: vpc_id,
-            security_group: security_group,
-            key_pair_name: key_pair_name,
-            ssh_private_key: ssh_private_key
+            vpc_id:            vpc_id,
+            security_group:    security_group,
+            key_pair_name:     key_pair_name,
+            ssh_private_key:   ssh_private_key
           )
         end
       end
 
       def configure_openstack(
         identity_endpoint:,
-          username:,
-          password:,
-          tenant:,
-          security_group_name:,
-          key_pair_name:,
-          ssh_private_key:
+        username:,
+        password:,
+        tenant:,
+        security_group_name:,
+        key_pair_name:,
+        ssh_private_key:
       )
         iaas_configuration.configure_iaas do
           iaas_configuration.set_openstack_credentials(
-            identity_endpoint: identity_endpoint,
-            username: username,
-            password: password,
-            tenant: tenant,
+            identity_endpoint:   identity_endpoint,
+            username:            username,
+            password:            password,
+            tenant:              tenant,
             security_group_name: security_group_name,
-            key_pair_name: key_pair_name,
-            ssh_private_key: ssh_private_key
+            key_pair_name:       key_pair_name,
+            ssh_private_key:     ssh_private_key
           )
         end
       end

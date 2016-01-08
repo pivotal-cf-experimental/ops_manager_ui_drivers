@@ -24,8 +24,8 @@ module OpsManagerUiDrivers
 
       def http
         Net::HTTP.new(@host_uri.host, @host_uri.port).tap do |http|
-          http.use_ssl = @host_uri.is_a?(URI::HTTPS)
-          http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+          http.use_ssl      = @host_uri.is_a?(URI::HTTPS)
+          http.verify_mode  = OpenSSL::SSL::VERIFY_NONE
           http.read_timeout = 1800
         end
       end

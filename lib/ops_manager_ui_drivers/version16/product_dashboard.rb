@@ -4,7 +4,7 @@ module OpsManagerUiDrivers
   module Version16
     class ProductDashboard < Version15::ProductDashboard
       def upgrade_microbosh
-         fail('No longer implemented in this version')
+        fail('No longer implemented in this version')
       end
     end
   end

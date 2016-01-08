@@ -3,7 +3,7 @@ module OpsManagerUiDrivers
     module MicroboshSections
       class AvailabilityZones
         def initialize(browser:)
-          @browser = browser
+          @browser                = browser
           @microbosh_form_section = MicroboshFormSection.new(browser, 'availability_zones[availability_zones][]')
         end
 

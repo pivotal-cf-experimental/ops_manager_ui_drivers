@@ -2,7 +2,7 @@ module OpsManagerUiDrivers
   module Version16
     class ProductErrands
       def initialize(browser:, product_name:)
-        @browser = browser
+        @browser      = browser
         @product_name = product_name
       end
 

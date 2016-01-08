@@ -2,11 +2,11 @@ module OpsManagerUiDrivers
   module Version17
     module BoshProductSections
       class Networks
-        FLASH_MESSAGE_CLASS = '.flash-message'.freeze
+        FLASH_MESSAGE_CLASS  = '.flash-message'.freeze
         FLASH_MESSAGE_ERRORS = '.flash-message.error ul.message li'.freeze
 
         def initialize(browser:)
-          @browser = browser
+          @browser                   = browser
           @bosh_product_form_section = BoshProductFormSection.new(@browser, 'network_collection[networks_attributes][0]')
         end
 

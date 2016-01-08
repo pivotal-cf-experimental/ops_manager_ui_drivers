@@ -29,7 +29,7 @@ module OpsManagerUiDrivers
 
         describe '#save_form' do
           it 'saves the open form' do
-            page = double(:page)
+            page           = double(:page)
             flash_selector = double(:flash_selector)
             allow(browser).to receive(:page).and_return(page)
             allow(browser).to receive(:have_css).with('.flash-message.success').and_return(flash_selector)
@@ -64,7 +64,7 @@ module OpsManagerUiDrivers
               'field-A' => 'value-A',
             }
 
-            field_A = double(:field, set: nil)
+            field_A         = double(:field, set: nil)
             another_field_A = double(:field, set: nil)
 
             allow(browser).to receive(:all).with(:field, 'field-prefix[field-A]').and_return([field_A, another_field_A])

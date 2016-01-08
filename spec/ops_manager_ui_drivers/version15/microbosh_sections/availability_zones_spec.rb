@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'capybara'
 require 'capybara/rspec/matchers'
-require 'recursive-open-struct'
 
 module OpsManagerUiDrivers
   module Version15
@@ -30,7 +29,7 @@ module OpsManagerUiDrivers
 
         describe '#add_single_az' do
           it 'navigates to the root-page, microbosh-product, configure availability zone page, and sets the availability zone fields' do
-            page = double(:page)
+            page           = double(:page)
             flash_selector = double(:flash_selector)
             allow(browser).to receive(:page).and_return(page)
             allow(browser).to receive(:have_css).with('.flash-message.success').and_return(flash_selector)
@@ -52,13 +51,13 @@ module OpsManagerUiDrivers
 
         describe '#add_az' do
           it 'navigates to the root-page, microbosh-product, add availability zone page, and sets the availability zone fields' do
-            page = double(:page)
+            page           = double(:page)
             flash_selector = double(:flash_selector)
             allow(browser).to receive(:page).and_return(page)
             allow(browser).to receive(:have_css).with('.flash-message.success').and_return(flash_selector)
 
             availability_zones.add_az(
-              'field_name' => 'field-value',
+              'field_name'       => 'field-value',
               'other_field_name' => 'other-field-value',
             )
 

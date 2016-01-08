@@ -7,32 +7,32 @@ module OpsManagerUiDrivers
     def om_1_4(ops_manager_url, browser = self)
       @om_1_4 ||= create_web_ui(
         ops_manager_url: ops_manager_url,
-        browser: browser,
-        version_module: Version14,
+        browser:         browser,
+        version_module:  Version14,
       )
     end
 
     def om_1_5(ops_manager_url, browser = self)
       @om_1_5 ||= create_web_ui(
         ops_manager_url: ops_manager_url,
-        browser: browser,
-        version_module: Version15,
+        browser:         browser,
+        version_module:  Version15,
       )
     end
 
     def om_1_6(ops_manager_url, browser = self)
       @om_1_6 ||= create_web_ui(
         ops_manager_url: ops_manager_url,
-        browser: browser,
-        version_module: Version16,
+        browser:         browser,
+        version_module:  Version16,
       )
     end
 
     def om_1_7(ops_manager_url, browser = self)
       @om_1_7 ||= create_web_ui(
         ops_manager_url: ops_manager_url,
-        browser: browser,
-        version_module: Version17,
+        browser:         browser,
+        version_module:  Version17,
       )
     end
 

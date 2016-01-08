@@ -2,9 +2,9 @@ module OpsManagerUiDrivers
   module Version15
     class ProductForm
       def initialize(browser:, product_name:, form_name:)
-        @browser = browser
+        @browser      = browser
         @product_name = product_name
-        @form_name = form_name
+        @form_name    = form_name
       end
 
       def property(property_reference)

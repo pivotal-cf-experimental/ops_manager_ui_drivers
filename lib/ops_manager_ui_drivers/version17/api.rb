@@ -17,7 +17,7 @@ module OpsManagerUiDrivers
       private
 
       def uaa_token
-        target_url = @host_uri.to_s + '/uaa'
+        target_url   = @host_uri.to_s + '/uaa'
         token_issuer = CF::UAA::TokenIssuer.new(target_url, 'opsman', nil, {:skip_ssl_validation => true})
         token_issuer.owner_password_grant('admin', 'admin')
       end

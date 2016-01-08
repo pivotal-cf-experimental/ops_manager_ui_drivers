@@ -19,7 +19,7 @@ module OpsManagerUiDrivers
       def errand_ran_with_text?(errand_name)
         {
           errand_ran: errand_ran?(errand_name),
-          output: browser.find('#install-output .output', {visible: false}).text(:all),
+          output:     browser.find('#install-output .output', {visible: false}).text(:all),
         }
       end
 

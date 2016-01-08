@@ -3,7 +3,7 @@ module OpsManagerUiDrivers
     module MicroboshSections
       class Networks
         def initialize(browser:)
-          @browser = browser
+          @browser                = browser
           @microbosh_form_section = MicroboshFormSection.new(browser, 'network[networks][]')
         end
 
@@ -11,12 +11,12 @@ module OpsManagerUiDrivers
           @microbosh_form_section.open_form('network')
 
           @microbosh_form_section.set_fields(
-            'name' => name,
+            'name'                    => name,
             'iaas_network_identifier' => iaas_network_identifier,
-            'subnet' => subnet,
-            'dns' => dns,
-            'gateway' => gateway,
-            'reserved_ip_ranges' => reserved_ip_ranges,
+            'subnet'                  => subnet,
+            'dns'                     => dns,
+            'gateway'                 => gateway,
+            'reserved_ip_ranges'      => reserved_ip_ranges,
           )
           browser.click_on 'Save'
           flash_errors = browser.all('.flash-message.error ul.message li').to_a
@@ -32,12 +32,12 @@ module OpsManagerUiDrivers
 
           browser.click_on 'Add'
           @microbosh_form_section.set_fields(
-            'name' => name,
+            'name'                    => name,
             'iaas_network_identifier' => iaas_network_identifier,
-            'subnet' => subnet,
-            'dns' => dns,
-            'gateway' => gateway,
-            'reserved_ip_ranges' => reserved_ip_ranges,
+            'subnet'                  => subnet,
+            'dns'                     => dns,
+            'gateway'                 => gateway,
+            'reserved_ip_ranges'      => reserved_ip_ranges,
           )
           @microbosh_form_section.save_form
         end

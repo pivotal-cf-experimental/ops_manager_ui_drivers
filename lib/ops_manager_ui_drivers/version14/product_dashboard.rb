@@ -2,7 +2,7 @@ module OpsManagerUiDrivers
   module Version14
     class ProductDashboard
       def initialize(browser:)
-        @browser = browser
+        @browser                  = browser
         @allowed_ignorable_errors = []
       end
 

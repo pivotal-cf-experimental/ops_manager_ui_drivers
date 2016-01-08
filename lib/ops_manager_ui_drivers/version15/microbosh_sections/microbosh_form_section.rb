@@ -3,7 +3,7 @@ module OpsManagerUiDrivers
     module MicroboshSections
       class MicroboshFormSection
         def initialize(browser, field_prefix)
-          @browser = browser
+          @browser      = browser
           @field_prefix = field_prefix
         end
 
