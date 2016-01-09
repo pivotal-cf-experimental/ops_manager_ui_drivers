@@ -74,9 +74,9 @@ module OpsManagerUiDrivers
       end
 
       def add_networks(test_settings)
-        iaas_networks = test_settings.ops_manager.networks
+        iaas_networks = test_settings.dig('ops_manager', 'networks')
 
-        case test_settings.iaas_type
+        case test_settings.dig('iaas_type')
           when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE then
             first_network = iaas_networks.first
             browser.click_on 'show-network-action'
@@ -149,11 +149,10 @@ module OpsManagerUiDrivers
       end
 
       def assign_networks(ops_manager)
-        if ops_manager.vcenter
+        if ops_manager.dig('vcenter')
           deployment_network = ops_manager.dig('networks', 0)
-
           infrastructure_network =
-            ops_manager.networks[1] ? ops_manager.dig('networks', 1) : ops_manager.dig('networks', 0)
+            ops_manager.dig('networks', 1) ? ops_manager.dig('networks', 1) : ops_manager.dig('networks', 0)
 
           assign_networks_vsphere(
             deployment_network:     deployment_network['name'],

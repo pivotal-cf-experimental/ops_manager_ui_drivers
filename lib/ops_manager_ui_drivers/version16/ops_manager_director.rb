@@ -44,9 +44,9 @@ module OpsManagerUiDrivers
       end
 
       def add_networks(test_settings)
-        iaas_networks = test_settings.ops_manager.networks
+        iaas_networks = test_settings.dig('ops_manager', 'networks')
 
-        case test_settings.iaas_type
+        case test_settings.dig('iaas_type')
           when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
             first_network = iaas_networks.first
 
@@ -74,26 +74,26 @@ module OpsManagerUiDrivers
 
       def config_director(ops_manager)
         browser.click_on 'Director Config'
-        browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.ntp_servers)
-        browser.check('Enable VM Resurrector Plugin') if ops_manager.resurrector_enabled
+        browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.dig('ntp_servers'))
+        browser.check('Enable VM Resurrector Plugin') if ops_manager.dig('resurrector_enabled')
 
-        s3_blobstore = ops_manager.s3_blobstore
+        s3_blobstore = ops_manager.dig('s3_blobstore')
         if s3_blobstore
           browser.choose('S3 Compatible Blobstore')
-          browser.fill_in('director_configuration[s3_blobstore_options][endpoint]', with: s3_blobstore.endpoint)
-          browser.fill_in('director_configuration[s3_blobstore_options][bucket_name]', with: s3_blobstore.bucket_name)
-          browser.fill_in('director_configuration[s3_blobstore_options][access_key]', with: s3_blobstore.access_key_id)
-          browser.fill_in('director_configuration[s3_blobstore_options][secret_key]', with: s3_blobstore.secret_access_key)
+          browser.fill_in('director_configuration[s3_blobstore_options][endpoint]', with: s3_blobstore.dig('endpoint'))
+          browser.fill_in('director_configuration[s3_blobstore_options][bucket_name]', with: s3_blobstore.dig('bucket_name'))
+          browser.fill_in('director_configuration[s3_blobstore_options][access_key]', with: s3_blobstore.dig('access_key_id'))
+          browser.fill_in('director_configuration[s3_blobstore_options][secret_key]', with: s3_blobstore.dig('secret_access_key'))
         end
 
-        mysql = ops_manager.mysql
+        mysql = ops_manager.dig('mysql')
         if mysql
           browser.choose('External MySQL Database')
-          browser.fill_in('director_configuration[external_database_options][host]', with: mysql.host)
-          browser.fill_in('director_configuration[external_database_options][port]', with: mysql.port)
-          browser.fill_in('director_configuration[external_database_options][user]', with: mysql.user)
-          browser.fill_in('director_configuration[external_database_options][password]', with: mysql.password)
-          browser.fill_in('director_configuration[external_database_options][database]', with: mysql.dbname)
+          browser.fill_in('director_configuration[external_database_options][host]', with: mysql.dig('host'))
+          browser.fill_in('director_configuration[external_database_options][port]', with: mysql.dig('port'))
+          browser.fill_in('director_configuration[external_database_options][user]', with: mysql.dig('user'))
+          browser.fill_in('director_configuration[external_database_options][password]', with: mysql.dig('password'))
+          browser.fill_in('director_configuration[external_database_options][database]', with: mysql.dig('dbname'))
         end
 
         browser.click_on 'Save'
@@ -114,15 +114,15 @@ module OpsManagerUiDrivers
       end
 
       def assign_networks(ops_manager)
-        if ops_manager.vcenter
-          network = ops_manager.networks[0]
+        if ops_manager.dig('vcenter')
+          network = ops_manager.dig('networks', 0)
 
           assign_networks_vsphere(
-            infrastructure_network: network['name'],
-            deployment_network:     network['name'],
+            infrastructure_network: network.dig('name'),
+            deployment_network:     network.dig('name'),
           )
         else
-          assign_network(deployment_network: ops_manager.networks[0]['name'])
+          assign_network(deployment_network: ops_manager.dig('networks', 0, 'name'))
         end
       end
 
