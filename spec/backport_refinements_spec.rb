@@ -44,6 +44,12 @@ module OpsManagerUiDrivers
 
         expect(hsh.dig(:foo, 1, 'foo')).to eq('bar')
       end
+
+      it 'returns nil when unable to find a matching object while traversing' do
+        hsh = {foo: ['nope', {'foo' => 'bar'}]}
+
+        expect(hsh.dig(0, 'sure', 2, 'not_gonna_happen')).to be_nil
+      end
     end
   end
 end

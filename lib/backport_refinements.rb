@@ -9,6 +9,8 @@ module OpsManagerUiDrivers
       new_obj = obj[head]
       if indices.count == 1
         new_obj
+      elsif new_obj == nil
+        return nil
       else
         tail = indices[1..-1]
         ported_dig(new_obj, tail)
