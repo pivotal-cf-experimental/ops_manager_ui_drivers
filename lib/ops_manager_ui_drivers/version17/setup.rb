@@ -10,7 +10,9 @@ module OpsManagerUiDrivers
         browser.attach_file 'import[file]', file_path
         browser.click_on 'Import'
 
-        browser.poll_up_to_times(20) { browser.assert_text('Successfully imported installation.') }
+        browser.poll_up_to_times(40) do
+          fail Capybara::ExpectationNotMet unless browser.current_path == '/uaa/login' || browser.current_path == '/'
+        end
       end
 
       def setup_and_login(user:, password:, decryption_passphrase: password)
