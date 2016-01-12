@@ -54,7 +54,7 @@ module OpsManagerUiDrivers
                 'aws_access_key' => 'AwsAccessKey',
                 'aws_secret_key' => 'AwsSecretKey',
                 'vpc_id'         => 'VpcId',
-                'security_group' => 'SecurityGroup',
+                'security_group_id' => 'SecurityGroup',
                 'key_pair_name'  => 'KeyPairName',
                 'ssh_key'        => 'SSHKey',
                 'region'         => 'Region',

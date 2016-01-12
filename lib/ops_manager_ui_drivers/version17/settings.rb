@@ -88,7 +88,7 @@ module OpsManagerUiDrivers
             'access_key_id'     => test_settings.dig('ops_manager', 'aws', 'aws_access_key'),
             'secret_access_key' => test_settings.dig('ops_manager', 'aws', 'aws_secret_key'),
             'vpc_id'            => test_settings.dig('ops_manager', 'aws', 'vpc_id'),
-            'security_group'    => test_settings.dig('ops_manager', 'aws', 'security_group'),
+            'security_group'    => test_settings.dig('ops_manager', 'aws', 'security_group_id'),
             'key_pair_name'     => test_settings.dig('ops_manager', 'aws', 'key_pair_name'),
             'ssh_private_key'   => test_settings.dig('ops_manager', 'aws', 'ssh_key'),
             'region'            => test_settings.dig('ops_manager', 'aws', 'region'),

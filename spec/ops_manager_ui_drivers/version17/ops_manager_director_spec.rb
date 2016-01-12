@@ -170,7 +170,7 @@ module OpsManagerUiDrivers
                 'aws_access_key' => 'fake-aws-aws_access_key',
                 'aws_secret_key' => 'fake-aws-aws_secret_key',
                 'vpc_id'         => 'fake-aws-vpc_id',
-                'security_group' => 'fake-aws-security_group',
+                'security_group_id' => 'fake-aws-security_group',
                 'key_pair_name'  => 'fake-aws-key_pair_name',
                 'ssh_key'        => 'fake-aws-ssh_key',
                 'region'         => 'fake-region',
