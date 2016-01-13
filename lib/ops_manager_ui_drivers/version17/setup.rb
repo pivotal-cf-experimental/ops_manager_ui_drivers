@@ -11,6 +11,9 @@ module OpsManagerUiDrivers
         browser.click_on 'Import'
 
         browser.poll_up_to_mins(2) do
+          if browser.current_path == '/import/notes'
+            browser.click_on 'Continue'
+          end
           fail Capybara::ExpectationNotMet unless browser.current_path == '/uaa/login' || browser.current_path == '/'
         end
       end
