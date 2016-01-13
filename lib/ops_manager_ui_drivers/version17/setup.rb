@@ -10,7 +10,7 @@ module OpsManagerUiDrivers
         browser.attach_file 'import[file]', file_path
         browser.click_on 'Import'
 
-        browser.poll_up_to_times(40) do
+        browser.poll_up_to_mins(2) do
           fail Capybara::ExpectationNotMet unless browser.current_path == '/uaa/login' || browser.current_path == '/'
         end
       end
