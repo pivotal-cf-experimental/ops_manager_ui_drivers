@@ -147,6 +147,12 @@ module OpsManagerUiDrivers
         selected_options.first.text unless selected_options.empty?
       end
 
+      def configure_security_group(test_settings) # lost in upgrade from 1.6 => 1.7
+        iaas_configuration.fill_iaas_settings(
+          'security_group' => test_settings.dig('ops_manager', 'aws', 'security_group_id'),
+        )
+      end
+
       private
 
       attr_reader :browser, :iaas_configuration
