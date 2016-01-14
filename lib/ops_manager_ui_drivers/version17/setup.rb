@@ -10,7 +10,7 @@ module OpsManagerUiDrivers
         browser.attach_file 'import[file]', file_path
         browser.click_on 'Import'
 
-        browser.poll_up_to_mins(2) do
+        browser.poll_up_to_mins(3) do
           if browser.current_path == '/import/notes'
             browser.click_on 'Continue'
           end
@@ -32,7 +32,7 @@ module OpsManagerUiDrivers
       end
 
       def login(user:, password:)
-        Timeout.timeout(150) do
+        Timeout.timeout(180) do
           while browser.current_path.include?('ensure_availability')
             sleep 1
           end
