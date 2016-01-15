@@ -25,6 +25,8 @@ module OpsManagerUiDrivers
 
       private
 
+      attr_reader :browser
+
       def open_install_progress
         browser.visit '/install' unless install_progress_open?
         browser.fail_early('Install probably aborted immediately') unless install_progress_open?
@@ -34,10 +36,6 @@ module OpsManagerUiDrivers
       def install_progress_open?
         browser.current_path =~ %r(^/+install)
       end
-
-      private
-
-      attr_reader :browser
     end
   end
 end

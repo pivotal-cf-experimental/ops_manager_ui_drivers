@@ -1,0 +1,6 @@
+AllCops:
+  Include:
+    - Gemfile
+    - Rakefile
+    - ops_manager_ui_drivers.gemspec
+  TargetRubyVersion: 2.2
