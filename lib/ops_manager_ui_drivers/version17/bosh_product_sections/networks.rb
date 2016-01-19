@@ -10,14 +10,17 @@ module OpsManagerUiDrivers
           @bosh_product_form_section = BoshProductFormSection.new(@browser, 'network_collection[networks_attributes][0]')
         end
 
-        def add_network(name:, iaas_network_identifier:, subnet:, dns:, gateway:, reserved_ip_ranges:)
+        def add_network(name:, subnets:)
           @bosh_product_form_section.open_form('network')
 
           @browser.click_on 'Add Network'
           @bosh_product_form_section.set_fields('name' => name)
 
-          subnet_section = Subnet.new(browser: @browser, network_form: @bosh_product_form_section)
-          subnet_section.add_subnet(iaas_identifier: iaas_network_identifier, subnet: subnet, dns: dns, gateway: gateway, reserved_ip_ranges: reserved_ip_ranges)
+          subnets.each_with_index do |subnet, index|
+            subnet_section = Subnet.new(browser: @browser, network_form: @bosh_product_form_section, subnet_index: index)
+            subnet_section.add_subnet(**subnet.symbolize_keys)
+          end
+
 
           @browser.click_on 'Save'
           @browser.expect(@browser.page).to @browser.have_css(FLASH_MESSAGE_CLASS)

@@ -34,7 +34,9 @@ module OpsManagerUiDrivers
         case iaas_type
           when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
             return unless iaas_availability_zones
-            availability_zones.add_single_az(iaas_availability_zones.first['iaas_identifier'])
+            iaas_availability_zones && iaas_availability_zones.each do |az|
+              availability_zones.add_az('iaas_identifier' => az['iaas_identifier'])
+            end
           when OpsManagerUiDrivers::VSPHERE_IAAS_TYPE
             iaas_availability_zones && iaas_availability_zones.each do |az|
               availability_zones.add_az('name' => az['name'], 'cluster' => az['cluster'], 'resource_pool' => az['resource_pool'])
@@ -48,11 +50,7 @@ module OpsManagerUiDrivers
         iaas_networks && iaas_networks.each do |network|
           networks.add_network(
             name:                    network['name'],
-            iaas_network_identifier: network['identifier'],
-            subnet:                  network['subnet'],
-            reserved_ip_ranges:      network['reserved_ips'],
-            dns:                     network['dns'],
-            gateway:                 network['gateway'],
+            subnets:                 network['subnets'],
           )
         end
       end
