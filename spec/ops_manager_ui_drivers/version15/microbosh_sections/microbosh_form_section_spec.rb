@@ -7,9 +7,6 @@ module OpsManagerUiDrivers
     module MicroboshSections
       describe MicroboshFormSection do
         class FakeCapybaraExampleGroup < RSpec::Core::ExampleGroup
-          include Capybara::DSL
-          include Capybara::RSpecMatchers
-          include OpsManagerUiDrivers::WaitHelper
         end
 
         let(:browser) { instance_double(FakeCapybaraExampleGroup) }
