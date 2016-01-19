@@ -50,22 +50,26 @@ module OpsManagerUiDrivers
 
       def job_azs_and_network_mapping_for(product_name)
         Version17::JobAzAndNetworkMappingHelper.new(
-          browser:      browser,
+          browser: browser,
           product_name: product_name,
         )
       end
 
       def assign_azs_and_network_for_product(product_name:, zones:, network:)
         zones_present = zones && zones.first
+
+        singleton_az = zones_present ? (zones[0]['iaas_identifier'] || zones[0]['name']) : nil
+        availability_zones = zones_present ? zones.map{|zone| (zone['iaas_identifier'] || zone['name']) } : nil
+
         job_azs_and_network_mapping_for(product_name).assign_azs_and_network(
-          singleton_availability_zone: zones_present ? zones[0]['iaas_identifier'] : nil,
-          availability_zones:          zones_present ? zones.map { |z| z['iaas_identifier'] } : [],
-          network:                     network
+          singleton_availability_zone: singleton_az,
+          availability_zones: availability_zones,
+          network: network,
         )
       end
 
       def current_time
-        uri      = URI(Capybara.app_host)
+        uri = URI(Capybara.app_host)
         uri.path = '/'
         Net::HTTP.start(uri.hostname, uri.port, use_ssl: (uri.scheme == 'https'), verify_mode: OpenSSL::SSL::VERIFY_NONE) do |http|
           response = http.request(Net::HTTP::Get.new(uri))
