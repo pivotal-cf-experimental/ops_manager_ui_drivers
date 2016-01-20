@@ -39,6 +39,20 @@ module OpsManagerUiDrivers
         vm.resourcePool.name
       end
 
+      def az_name_for_job_in_az(job_name, vpc_id, az_guid)
+        job_status = job_status_in_az("#{job_name}-partition-#{az_guid}", az_guid)
+
+        job_ip = job_status.ips.fetch(0)
+
+        ec2 = ::AWS::EC2.new  # creds initialized in TestSettings::Renderer::SettingsFetcher::AWSSettings.initialize
+
+        found_instance = ec2.instances.find do |instance|
+          instance.private_ip_address == job_ip && instance.vpc_id == vpc_id && instance.status == :running
+        end
+
+        found_instance.availability_zone if found_instance
+      end
+
       private
 
       attr_reader :browser, :product_name
