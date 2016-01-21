@@ -31,6 +31,32 @@ module OpsManagerUiDrivers
         login(user: user, password: password) unless browser.has_selector?('#main-page-marker', wait: 1)
       end
 
+      def setup_with_saml_provider(decryption_passphrase:, idp_metadata:)
+        browser.visit '/setup'
+        browser.choose 'SAML'
+        browser.fill_in 'setup[decryption_passphrase]', with: decryption_passphrase
+        browser.fill_in 'setup[decryption_passphrase_confirmation]', with: decryption_passphrase
+        browser.fill_in 'setup[idp_metadata]', with: idp_metadata
+        browser.check 'setup_eula_accepted'
+        browser.click_on 'create-setup-action'
+      end
+
+      def login_saml(username:, password:)
+        Timeout.timeout(150) do
+          while browser.current_path.include?('ensure_availability')
+            sleep 1
+          end
+        end
+
+        browser.fill_in 'username', with: username
+        browser.fill_in 'password', with: password
+        browser.click_on 'Login'
+
+        unless browser.has_selector?('#main-page-marker', wait: 4)
+          fail(RuntimeError, "failed to log in as #{username}/#{password}.")
+        end
+      end
+
       def login(user:, password:)
         Timeout.timeout(180) do
           while browser.current_path.include?('ensure_availability')
