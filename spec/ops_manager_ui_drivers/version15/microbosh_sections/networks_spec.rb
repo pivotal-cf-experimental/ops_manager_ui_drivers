@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'capybara'
+require 'capybara/dsl'
 require 'capybara/rspec/matchers'
 
 module OpsManagerUiDrivers
