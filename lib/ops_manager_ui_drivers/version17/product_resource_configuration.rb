@@ -9,11 +9,17 @@ module OpsManagerUiDrivers
       end
 
       def set_instances_for_job(job_name, instance_count, validate: true)
-        set_resources_for_jobs(job_name, :instances, instance_count, validate: validate)
+        open_form
+        browser.find("select[name='product_resources_form[#{job_name}][instances]']").
+            find("option[value='#{instance_count}']").
+            select_option
+        save_form(validate: validate)
       end
 
       def set_ephemeral_disk_for_job(job_name, ephemeral_disk, validate: true)
-        set_resources_for_jobs(job_name, :ephemeral_disk, ephemeral_disk, validate: validate)
+        open_form
+        browser.fill_in("product_resources_form[#{job_name}][ephemeral_disk][value]", with: ephemeral_disk)
+        save_form(validate: validate)
       end
 
       def set_instance_type_for_job(job_name, instance_type, validate: true)
@@ -46,21 +52,16 @@ module OpsManagerUiDrivers
         save_form(validate: validate)
       end
 
-      private
-
-      attr_reader :browser
-
-      def set_resources_for_jobs(job_name, resource, value, validate: true)
-        open_form
-        browser.fill_in("product_resources_form[#{job_name}][#{resource}][value]", with: value)
-        save_form(validate: validate)
-      end
-
       def open_form
         browser.visit '/'
         browser.click_on "show-#{product_name}-configure-action"
         browser.click_on "show-#{product_name}-resource-sizes-action"
       end
+
+      private
+
+      attr_reader :browser
+
 
       def save_form(validate: true)
         browser.click_on 'Save'
