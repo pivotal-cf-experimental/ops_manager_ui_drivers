@@ -113,6 +113,11 @@ module OpsManagerUiDrivers
         browser.all('#open-revert-installation-modal-action').any?
       end
 
+      def product_configuration_percentage(product_name)
+        open_dashboard
+        browser.find("#show-#{product_name}-configure-action")['data-progress'].to_i
+      end
+
       private
 
       attr_reader :browser
