@@ -6,7 +6,7 @@ module OpsManagerUiDrivers
       def import_installation_file(file_path)
         open_dashboard
         browser.click_on 'toggle-installation-dropdown-action'
-        browser.click_on 'show-settings'
+        browser.click_on 'show-export-settings'
         browser.page.document.synchronize do
           browser.click_on 'close-warning'
           browser.find('#warning-modal[aria-hidden=true]')
