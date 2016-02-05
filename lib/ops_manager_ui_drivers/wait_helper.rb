@@ -34,7 +34,7 @@ module OpsManagerUiDrivers
       blk.call
     rescue EarlyFailException
       raise
-    rescue RSpec::Expectations::ExpectationNotMetError, StandardError => e
+    rescue RSpec::Expectations::ExpectationNotMetError, RuntimeError => e
       retries -= 1
       Logger.debug "------- retries_left=#{retries}"
       if retries > 0
@@ -50,7 +50,7 @@ module OpsManagerUiDrivers
       blk.call
     rescue EarlyFailException
       raise
-    rescue RSpec::Expectations::ExpectationNotMetError, StandardError => e
+    rescue RSpec::Expectations::ExpectationNotMetError, RuntimeError => e
       seconds_left = (end_time - Time.now).round
       Logger.debug "------- seconds_left=#{seconds_left}"
       if seconds_left > SLEEP_INTERVAL
