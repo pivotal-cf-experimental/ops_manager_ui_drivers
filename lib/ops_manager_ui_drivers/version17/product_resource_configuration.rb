@@ -22,14 +22,16 @@ module OpsManagerUiDrivers
         save_form(validate: validate)
       end
 
-      def set_instance_type_for_job(job_name, instance_type, validate: true)
+      def set_vm_type_for_job(job_name, vm_type, validate: true)
         open_form
         browser.
-          find("select[name='product_resources_form[#{job_name}][instance_type_id]']").
-          find("option[value='#{instance_type}']").
+          find("select[name='product_resources_form[#{job_name}][vm_type_id]']").
+          find("option[value='#{vm_type}']").
           select_option
         save_form(validate: validate)
       end
+
+      alias_method :set_instance_type_for_job, :set_vm_type_for_job
 
       def set_disk_type_for_job(job_name, disk_type_id, validate: true)
         open_form
