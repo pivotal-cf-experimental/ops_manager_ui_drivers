@@ -30,11 +30,13 @@ module OpsManagerUiDrivers
 
     private
 
+    # We're rescuing StandardError because Capybara throws random stuff at us.
+    
     def retry_times(retries, &blk)
       blk.call
     rescue EarlyFailException
       raise
-    rescue RSpec::Expectations::ExpectationNotMetError, RuntimeError => e
+    rescue RSpec::Expectations::ExpectationNotMetError, StandardError => e
       retries -= 1
       Logger.debug "------- retries_left=#{retries}"
       if retries > 0
@@ -50,7 +52,7 @@ module OpsManagerUiDrivers
       blk.call
     rescue EarlyFailException
       raise
-    rescue RSpec::Expectations::ExpectationNotMetError, RuntimeError => e
+    rescue RSpec::Expectations::ExpectationNotMetError, StandardError => e
       seconds_left = (end_time - Time.now).round
       Logger.debug "------- seconds_left=#{seconds_left}"
       if seconds_left > SLEEP_INTERVAL
