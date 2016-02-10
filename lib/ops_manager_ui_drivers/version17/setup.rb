@@ -20,7 +20,7 @@ module OpsManagerUiDrivers
 
       def setup_and_login(user:, password:, decryption_passphrase: password)
         browser.visit '/setup'
-        browser.click_on 'Local Authentication'
+        browser.click_on 'Internal Authentication'
         browser.fill_in 'setup[admin_user_name]', with: user, wait: 4
         browser.fill_in 'setup[admin_password]', with: password
         browser.fill_in 'setup[admin_password_confirmation]', with: password

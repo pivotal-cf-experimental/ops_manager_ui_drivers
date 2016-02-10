@@ -12,6 +12,10 @@ module OpsManagerUiDrivers
         Version17::Setup.new(browser: browser)
       end
 
+      def settings_page
+        Version17::UserSettings.new(browser: browser)
+      end
+
       def product_dashboard
         Version17::ProductDashboard.new(browser: browser)
       end
