@@ -31,7 +31,7 @@ module OpsManagerUiDrivers
     private
 
     # We're rescuing StandardError because Capybara throws random stuff at us.
-    
+
     def retry_times(retries, &blk)
       blk.call
     rescue EarlyFailException
