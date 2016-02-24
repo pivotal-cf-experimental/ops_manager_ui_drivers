@@ -110,7 +110,7 @@ module OpsManagerUiDrivers
 
         it 'should have the correct iaas_configuration fields' do
           iaas_configuration_fields = vsphere_settings.iaas_configuration_fields
-          expect(iaas_configuration_fields['vcenter_ip']).to eq('CredsIp')
+          expect(iaas_configuration_fields['vcenter_host']).to eq('CredsIp')
           expect(iaas_configuration_fields['vcenter_username']).to eq('Username')
           expect(iaas_configuration_fields['vcenter_password']).to eq('Password')
           expect(iaas_configuration_fields['datacenter']).to eq('Datacenter')

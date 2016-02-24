@@ -103,15 +103,19 @@ module OpsManagerUiDrivers
         end
 
         context 'when the IaaS is Vsphere' do
+          let(:vcenter_creds) do
+            {
+              'ip'       => 'fake-vcenter-creds-ip',
+              'username' => 'fake-vcenter-creds-username',
+              'password' => 'fake-vcenter-creds-password',
+            }
+          end
+
           before do
             test_settings_hash['iaas_type']   = 'vsphere'
             test_settings_hash['ops_manager'] = {
               'vcenter' => {
-                'creds'                => {
-                  'ip'       => 'fake-vcenter-creds-ip',
-                  'username' => 'fake-vcenter-creds-username',
-                  'password' => 'fake-vcenter-creds-password',
-                },
+                'creds'                => vcenter_creds,
                 'datacenter'           => 'fake-vcenter-datacenter',
                 'ephemeral_datastore'  => 'e-fake-vcenter-datastores',
                 'persistent_datastore' => 'p-fake-vcenter-datastores',
@@ -127,11 +131,31 @@ module OpsManagerUiDrivers
           it 'configures the vcenter creds for bosh to manage vms' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
               hash_including(
-                'vcenter_ip'       => 'fake-vcenter-creds-ip',
+                'vcenter_host'     => 'fake-vcenter-creds-ip',
                 'vcenter_username' => 'fake-vcenter-creds-username',
                 'vcenter_password' => 'fake-vcenter-creds-password',
               )
             )
+          end
+
+          context 'when vcenter host is specified' do
+            let(:vcenter_creds) do
+              {
+                'host'     => 'fake-vcenter-creds-host',
+                'username' => 'fake-vcenter-creds-username',
+                'password' => 'fake-vcenter-creds-password',
+              }
+            end
+
+            it 'configures the vcenter creds for bosh to manage vms' do
+              expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
+                hash_including(
+                  'vcenter_host'     => 'fake-vcenter-creds-host',
+                  'vcenter_username' => 'fake-vcenter-creds-username',
+                  'vcenter_password' => 'fake-vcenter-creds-password',
+                )
+              )
+            end
           end
 
           it 'sets the vcenter datacenter and datastores for bosh managed vms' do
