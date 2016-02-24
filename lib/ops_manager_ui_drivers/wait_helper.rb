@@ -2,7 +2,14 @@ require 'time'
 
 module OpsManagerUiDrivers
   module WaitHelper
-    SLEEP_INTERVAL = 0.5
+
+    def self.sleep_interval=(sleep_interval)
+      @sleep_interval = sleep_interval
+    end
+
+    def self.sleep_interval
+      @sleep_interval ||= 0.5
+    end
 
     EarlyFailException = Class.new(Exception)
 
@@ -40,7 +47,7 @@ module OpsManagerUiDrivers
       retries -= 1
       Logger.debug "------- retries_left=#{retries}"
       if retries > 0
-        sleep(SLEEP_INTERVAL)
+        sleep(WaitHelper.sleep_interval)
         retry
       else
         Logger.debug "------- propagate error=#{e}"
@@ -55,8 +62,8 @@ module OpsManagerUiDrivers
     rescue RSpec::Expectations::ExpectationNotMetError, StandardError => e
       seconds_left = (end_time - Time.now).round
       Logger.debug "------- seconds_left=#{seconds_left}"
-      if seconds_left > SLEEP_INTERVAL
-        sleep(SLEEP_INTERVAL)
+      if seconds_left > WaitHelper.sleep_interval
+        sleep(WaitHelper.sleep_interval)
         retry
       else
         Logger.debug "------- propagate error=#{e}"
