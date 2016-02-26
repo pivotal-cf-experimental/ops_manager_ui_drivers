@@ -6,19 +6,19 @@ module OpsManagerUiDrivers
       describe 'Openstack settings' do
         let(:settings_hash) do
           {
-            'iaas_type'   => 'openstack',
+            'iaas_type' => 'openstack',
             'ops_manager' => {
               'openstack' => {
-                'identity_endpoint'   => 'IdentityEndpoint',
-                'username'            => 'Username',
-                'password'            => 'Password',
-                'tenant'              => 'Tenant',
+                'identity_endpoint' => 'IdentityEndpoint',
+                'username' => 'Username',
+                'password' => 'Password',
+                'tenant' => 'Tenant',
                 'security_group_name' => 'SecurityGroupName',
-                'region'              => 'Region',
-                'key_pair_name'       => 'KeyPairName',
-                'ssh_private_key'     => 'SshPrivateKey',
-                'disable_dhcp'        => false,
-                'connection_options'  => 'ConnectionOptions',
+                'region' => 'Region',
+                'key_pair_name' => 'KeyPairName',
+                'ssh_private_key' => 'SshPrivateKey',
+                'disable_dhcp' => false,
+                'connection_options' => 'ConnectionOptions',
               }
             }
           }
@@ -48,17 +48,17 @@ module OpsManagerUiDrivers
       describe 'AWS settings' do
         let(:settings_hash) do
           {
-            'iaas_type'   => 'aws',
+            'iaas_type' => 'aws',
             'ops_manager' => {
               'aws' => {
                 'aws_access_key' => 'AwsAccessKey',
                 'aws_secret_key' => 'AwsSecretKey',
-                'vpc_id'         => 'VpcId',
+                'vpc_id' => 'VpcId',
                 'security_group_id' => 'SecurityGroup',
-                'key_pair_name'  => 'KeyPairName',
-                'ssh_key'        => 'SSHKey',
-                'region'         => 'Region',
-                'encrypt_disk'   => false,
+                'key_pair_name' => 'KeyPairName',
+                'ssh_key' => 'SSHKey',
+                'region' => 'Region',
+                'encrypt_disk' => false,
               }
             }
           }
@@ -82,25 +82,60 @@ module OpsManagerUiDrivers
           iaas_configuration_fields = aws_settings.advanced_infrastructure_config_fields
           expect(iaas_configuration_fields).to eq({})
         end
+
+        context 'when config has instance_role' do
+          let(:settings_hash) do
+            {
+              'iaas_type' => 'aws',
+              'ops_manager' => {
+                'aws' => {
+                  'aws_access_key' => 'AwsAccessKey',
+                  'aws_secret_key' => 'AwsSecretKey',
+                  'instance_profile' => 'InstanceProfile',
+                  'vpc_id' => 'VpcId',
+                  'security_group_id' => 'SecurityGroup',
+                  'key_pair_name' => 'KeyPairName',
+                  'ssh_key' => 'SSHKey',
+                  'region' => 'Region',
+                  'encrypt_disk' => false,
+                }
+              }
+            }
+          end
+
+          it 'has instance role setting instead of access keys' do
+            iaas_configuration_fields = aws_settings.iaas_configuration_fields
+            expect(iaas_configuration_fields['access_type']).to eq(true)
+            expect(iaas_configuration_fields).to_not have_key('access_key_id')
+            expect(iaas_configuration_fields).to_not have_key('secret_access_key')
+            expect(iaas_configuration_fields['iam_instance_profile']).to eq('InstanceProfile')
+            expect(iaas_configuration_fields['vpc_id']).to eq('VpcId')
+            expect(iaas_configuration_fields['security_group']).to eq('SecurityGroup')
+            expect(iaas_configuration_fields['key_pair_name']).to eq('KeyPairName')
+            expect(iaas_configuration_fields['ssh_private_key']).to eq('SSHKey')
+            expect(iaas_configuration_fields['region']).to eq('Region')
+            expect(iaas_configuration_fields['encrypted']).to eq(false)
+          end
+        end
       end
 
       describe 'vSphere settings' do
         let(:settings_hash) do
           {
-            'iaas_type'   => 'vsphere',
+            'iaas_type' => 'vsphere',
             'ops_manager' => {
               'vcenter' => {
-                'creds'                => {
-                  'ip'       => 'CredsIp',
+                'creds' => {
+                  'ip' => 'CredsIp',
                   'username' => 'Username',
                   'password' => 'Password'
                 },
-                'datacenter'           => 'Datacenter',
-                'ephemeral_datastore'  => 'Ephemeral Datastore',
+                'datacenter' => 'Datacenter',
+                'ephemeral_datastore' => 'Ephemeral Datastore',
                 'persistent_datastore' => 'Persistent Datastore',
-                'bosh_vm_folder'       => 'BoshVmFolder',
+                'bosh_vm_folder' => 'BoshVmFolder',
                 'bosh_template_folder' => 'BoshTemplateFolder',
-                'bosh_disk_path'       => 'BoshDiskPath',
+                'bosh_disk_path' => 'BoshDiskPath',
               }
             }
           }
@@ -129,19 +164,19 @@ module OpsManagerUiDrivers
       describe 'vCloud settings' do
         let(:settings_hash) do
           {
-            'iaas_type'   => 'vcloud',
+            'iaas_type' => 'vcloud',
             'ops_manager' => {
               'vcloud' => {
                 'creds' => {
-                  'url'          => 'CredsURL',
+                  'url' => 'CredsURL',
                   'organization' => 'CredsOrganization',
-                  'user'         => 'Username',
-                  'password'     => 'Password'
+                  'user' => 'Username',
+                  'password' => 'Password'
                 },
-                'vdc'   => {
-                  'name'            => 'VdcName',
+                'vdc' => {
+                  'name' => 'VdcName',
                   'storage_profile' => 'VdcStorageProfile',
-                  'catalog_name'    => 'VdcCatalogName',
+                  'catalog_name' => 'VdcCatalogName',
                 },
               }
             }
