@@ -6,18 +6,20 @@ module OpsManagerUiDrivers
         @browser = browser
       end
 
-      def switch_to_internal_authentication(user: , password:)
+      def switch_to_internal_authentication(user: , password:, decryption_passphrase:)
         browser.visit '/settings/edit'
         browser.fill_in 'change_auth_service[admin_user_name]', with: user
         browser.fill_in 'change_auth_service[admin_password]', with: password
         browser.fill_in 'change_auth_service[admin_password_confirmation]', with: password
+        browser.fill_in 'change_auth_service[decryption_passphrase]', with: decryption_passphrase
         browser.click_on 'update-auth-service-action'
         wait_for_availability!
       end
 
-      def switch_to_saml_authentication(idp_metadata:)
+      def switch_to_saml_authentication(idp_metadata:, decryption_passphrase:)
         browser.visit '/settings/edit'
         browser.fill_in 'change_auth_service[saml_idp_metadata]', with: idp_metadata
+        browser.fill_in 'change_auth_service[decryption_passphrase]', with: decryption_passphrase
         browser.click_on 'update-auth-service-action'
         wait_for_availability!
       end
