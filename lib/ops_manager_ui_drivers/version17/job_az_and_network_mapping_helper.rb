@@ -60,7 +60,7 @@ module OpsManagerUiDrivers
 
       def open_form
         browser.visit '/'
-        browser.click_on "show-#{product_name.dasherize}-configure-action"
+        browser.click_on "show-#{product_name}-configure-action"
         browser.click_on "show-#{product_name}-azs-and-network-assignment-action"
       end
 

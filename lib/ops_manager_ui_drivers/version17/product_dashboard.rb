@@ -19,7 +19,7 @@ module OpsManagerUiDrivers
 
       def deleted_product?(product_name)
         open_dashboard
-        browser.first("#show-#{product_name.dasherize}-information-action").present?
+        browser.first("#show-#{product_name}-information-action").present?
       end
     end
   end

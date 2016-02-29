@@ -13,22 +13,18 @@ module OpsManagerUiDrivers
         browser.visit '/'
         poll_up_to_times 3 do
           browser.click_on "add-#{product_name}"
-          browser.find("#show-#{product_name.dasherize}-configure-action")
+          browser.find("#show-#{product_name}-configure-action")
         end
       end
 
       def product_added?(product_name)
         browser.visit '/'
-        browser.all("#show-#{product_name.dasherize}-configure-action").any?
+        browser.all("#show-#{product_name}-configure-action").any?
       end
 
       private
 
       attr_reader :browser
-
-      def dasherized_product_name(product_name)
-        product_name.to_s.gsub(/[_]/, '-')
-      end
     end
   end
 end

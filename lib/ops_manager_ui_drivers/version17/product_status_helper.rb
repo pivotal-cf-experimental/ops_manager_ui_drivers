@@ -60,7 +60,7 @@ module OpsManagerUiDrivers
       def open_page
         browser.visit '/'
 
-        browser.click_on "show-#{product_name.dasherize}-configure-action"
+        browser.click_on "show-#{product_name}-configure-action"
         browser.click_on 'show-status-action'
       end
 
