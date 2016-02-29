@@ -102,12 +102,6 @@ module OpsManagerUiDrivers
 
       attr_reader :browser
 
-      def guid
-        # jenkins gives us the job name in an environment variable, otherwise use the hostname
-        job_name = ENV['JOB_NAME'] || `hostname`.chomp.split(/\./).first
-        job_name.gsub(/[^[:alnum:]]+/, '_')
-      end
-
       def find_az_field
         browser.find_field('Singleton Availability Zone').all('option')
       rescue Capybara::ElementNotFound
