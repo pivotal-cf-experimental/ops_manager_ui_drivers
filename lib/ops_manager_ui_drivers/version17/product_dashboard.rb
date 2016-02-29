@@ -12,6 +12,13 @@ module OpsManagerUiDrivers
         browser.all("li.#{product_name} input#product_version[value='#{product_version}']", {visible: false}).any?
       end
 
+      def delete_product(product_name)
+        open_dashboard
+        browser.click_on "open-delete-#{product_name}-modal"
+        wait_for_modal_css_transition_to_complete
+        browser.click_on "delete-#{product_name}-action"
+      end
+
       def delete_unused_products
         open_dashboard
         @browser.find('a#delete_unused_products').trigger('click')
