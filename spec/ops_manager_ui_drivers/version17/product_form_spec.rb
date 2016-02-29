@@ -94,7 +94,6 @@ module OpsManagerUiDrivers
             )
           end
         end
-
       end
     end
   end

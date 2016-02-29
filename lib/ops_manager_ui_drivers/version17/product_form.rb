@@ -15,7 +15,11 @@ module OpsManagerUiDrivers
         browser.find_field("#{form_name}[#{property_reference}][#{nested_reference}]")
       end
 
-      def generate_self_signed_cert(wildcard_domain)
+      def generate_self_signed_cert(wildcard_domain, property_reference)
+        change_link = browser.first(%Q(a[data-masked-input-name="#{form_name}[#{property_reference}][private_key_pem]"]))
+        if change_link
+          change_link.click
+        end
         browser.click_on 'Generate RSA Certificate'
         browser.within '#rsa-certificate-form' do
           browser.fill_in 'rsa_certificate[domains]', with: wildcard_domain
