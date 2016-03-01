@@ -5,7 +5,7 @@ module OpsManagerUiDrivers
         attr_reader :field_prefix
 
         def initialize(browser, field_prefix)
-          @browser      = browser
+          @browser = browser
           @field_prefix = field_prefix
         end
 
@@ -22,7 +22,11 @@ module OpsManagerUiDrivers
 
         def set_fields(fields)
           fields.each do |field, value|
-            set_field(field, value)
+            if value.is_a? Hash
+              handle_customized_field_value(value)
+            else
+              set_field(field, value)
+            end
           end
         end
 
@@ -33,6 +37,10 @@ module OpsManagerUiDrivers
         end
 
         private
+
+        def handle_customized_field_value(value)
+          @browser.send(value['browser_command'], value['browser_arg'])
+        end
 
         def set_field(field, value)
           last_field(field).set(value)

@@ -99,10 +99,17 @@ module OpsManagerUiDrivers
 
         private
 
+        def build_browser_command(command, arg)
+          {
+            'browser_command' => command,
+            'browser_arg' => arg,
+          }
+        end
+
         def iaas_security_configuration_fields
           if @test_settings.dig('ops_manager', 'aws', 'instance_profile')
             {
-              'access_type' => true,
+              'access_type' => build_browser_command('choose', 'Use AWS Instance Profile'),
               'iam_instance_profile' => @test_settings.dig('ops_manager', 'aws', 'instance_profile'),
             }
           else

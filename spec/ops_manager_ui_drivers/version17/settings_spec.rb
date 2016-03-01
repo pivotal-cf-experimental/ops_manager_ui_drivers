@@ -105,7 +105,7 @@ module OpsManagerUiDrivers
 
           it 'has instance role setting instead of access keys' do
             iaas_configuration_fields = aws_settings.iaas_configuration_fields
-            expect(iaas_configuration_fields['access_type']).to eq(true)
+            expect(iaas_configuration_fields['access_type']).to eq({'browser_command'=>'choose', 'browser_arg'=>'Use AWS Instance Profile'})
             expect(iaas_configuration_fields).to_not have_key('access_key_id')
             expect(iaas_configuration_fields).to_not have_key('secret_access_key')
             expect(iaas_configuration_fields['iam_instance_profile']).to eq('InstanceProfile')
