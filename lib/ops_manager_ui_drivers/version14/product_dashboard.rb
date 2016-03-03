@@ -1,22 +1,25 @@
 module OpsManagerUiDrivers
   module Version14
     class ProductDashboard
+
       def initialize(browser:)
-        @browser                  = browser
+        @browser = browser
         @allowed_ignorable_errors = []
       end
 
       def apply_updates(validate: true)
         open_dashboard
         browser.click_on 'install-action'
-        return unless validate
-        fail 'Install failed verification' if nonignorable_verification_failed?
-        allow_cpu_verification_errors
-        allow_privilege_verification_errors
-        allow_icmp_verification_errors #this is only for AWS; consider moving out
+        if validate
+          fail 'Install failed verification' if nonignorable_verification_failed?
+          allow_cpu_verification_errors
+          allow_privilege_verification_errors
+          allow_icmp_verification_errors #this is only for AWS; consider moving out
 
-        ignore_allowable_errors
-        assert_installation_started
+          ignore_allowable_errors
+          assert_installation_started
+        end
+        ApplyUpdatesResult.new(browser: @browser)
       end
 
       def import_installation_file(file_path)
@@ -185,6 +188,37 @@ module OpsManagerUiDrivers
 
       def open_dashboard
         browser.visit '/'
+      end
+
+      class ApplyUpdatesResult
+        include WaitHelper
+
+        def initialize(browser:)
+          @browser = browser
+        end
+
+        def has_ignorable_errors?
+          browser.has_button?('Ignore errors and start the install')
+        end
+
+        def has_nonignorable_errors?
+          browser.has_text?('Stop and fix errors') && !has_ignorable_errors?
+        end
+
+        def has_install_issues?(retries: 30)
+          wait_for_page_to_have_text 'Install Issues', retries: retries
+        end
+
+        def completed_successfully?(retries: 30)
+          wait_for_page_to_have_text 'successfully applied', retries: retries
+        end
+
+        def wait_for_page_to_have_text(text, retries:)
+          poll_up_to_times(retries) { browser.expect(browser.page.text).to browser.include(text) }
+        end
+
+        private
+        attr_reader :browser
       end
     end
   end
