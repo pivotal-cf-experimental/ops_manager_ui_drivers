@@ -139,6 +139,7 @@ module OpsManagerUiDrivers
             'security_group'    => @test_settings.dig('ops_manager', 'openstack', 'security_group_name'),
             'key_pair_name'     => @test_settings.dig('ops_manager', 'openstack', 'key_pair_name'),
             'ssh_private_key'   => @test_settings.dig('ops_manager', 'openstack', 'ssh_private_key'),
+            'api_ssl_cert'      => @test_settings.dig('ops_manager', 'openstack', 'api_ssl_cert'),
             'region'            => @test_settings.dig('ops_manager', 'openstack', 'region'),
             'disable_dhcp'      => @test_settings.dig('ops_manager', 'openstack', 'disable_dhcp'),
           }

@@ -17,6 +17,7 @@ module OpsManagerUiDrivers
                 'region' => 'Region',
                 'key_pair_name' => 'KeyPairName',
                 'ssh_private_key' => 'SshPrivateKey',
+                'api_ssl_cert' => 'ApiSslCert',
                 'disable_dhcp' => false,
                 'connection_options' => 'ConnectionOptions',
               }
@@ -36,6 +37,7 @@ module OpsManagerUiDrivers
           expect(iaas_configuration_fields['region']).to eq('Region')
           expect(iaas_configuration_fields['key_pair_name']).to eq('KeyPairName')
           expect(iaas_configuration_fields['ssh_private_key']).to eq('SshPrivateKey')
+          expect(iaas_configuration_fields['api_ssl_cert']).to eq('ApiSslCert')
           expect(iaas_configuration_fields['disable_dhcp']).to eq(false)
         end
 
