@@ -2,19 +2,21 @@ module OpsManagerUiDrivers
   module Version17
     class ProductErrands
       def initialize(browser:, product_name:)
-        @browser      = browser
+        @browser = browser
         @product_name = product_name
       end
 
       def enable_errand(errand_name)
         open_form
-        browser.find_field("errands_collection_enabled_names_#{errand_name}").set(true)
+        set_check_box("pre_delete_errands_enabled_names_#{errand_name}", true)
+        set_check_box("post_deploy_errands_enabled_names_#{errand_name}", true)
         save_form
       end
 
       def disable_errand(errand_name)
         open_form
-        browser.find_field("errands_collection_enabled_names_#{errand_name}").set(false)
+        set_check_box("pre_delete_errands_enabled_names_#{errand_name}", false)
+        set_check_box("post_deploy_errands_enabled_names_#{errand_name}", false)
         save_form
       end
 
@@ -37,6 +39,11 @@ module OpsManagerUiDrivers
       private
 
       attr_reader :browser, :product_name
+
+      def set_check_box(name, value)
+        check_box = browser.first(name)
+        check_box.set(value) if check_box
+      end
     end
   end
 end
