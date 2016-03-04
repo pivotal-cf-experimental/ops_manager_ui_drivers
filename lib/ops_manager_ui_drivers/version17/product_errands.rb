@@ -8,13 +8,15 @@ module OpsManagerUiDrivers
 
       def enable_errand(errand_name)
         open_form
-        browser.check("errands_collection_enabled_names_#{errand_name}")
+        set_check_box("pre_delete_errands_enabled_names_#{errand_name}", true)
+        set_check_box("post_deploy_errands_enabled_names_#{errand_name}", true)
         save_form
       end
 
       def disable_errand(errand_name)
         open_form
-        browser.uncheck("errands_collection_enabled_names_#{errand_name}")
+        set_check_box("pre_delete_errands_enabled_names_#{errand_name}", false)
+        set_check_box("post_deploy_errands_enabled_names_#{errand_name}", false)
         save_form
       end
 
