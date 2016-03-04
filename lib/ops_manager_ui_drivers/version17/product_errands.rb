@@ -41,7 +41,7 @@ module OpsManagerUiDrivers
       attr_reader :browser, :product_name
 
       def set_check_box(name, value)
-        check_box = browser.first(name)
+        check_box = browser.first(:css, "\##{name}")
         check_box.set(value) if check_box
       end
     end
