@@ -54,6 +54,8 @@ module OpsManagerUiDrivers
             expect(browser).to receive(:find_field)
                                  .with('form_name[.properties.selector_property][name_external][label_2]')
                                  .and_return(field_2)
+            expect(browser).to receive(:execute_script).with("$('a[data-masked-input-name=\"form_name[.properties.selector_property][name_external][label_1]\"]:contains(\"Change\")').click()")
+            expect(browser).to receive(:execute_script).with("$('a[data-masked-input-name=\"form_name[.properties.selector_property][name_external][label_2]\"]:contains(\"Change\")').click()")
 
             expect(field_1).to receive(:set).with('value_1')
             expect(field_2).to receive(:set).with('value_2')
@@ -80,6 +82,8 @@ module OpsManagerUiDrivers
                                  .and_return(field_1)
 
             expect(field_1).to receive(:set).with('value')
+
+            expect(browser).to receive(:execute_script).with("$('a[data-masked-input-name=\"form_name[.properties.selector_property][name_external][label][secret]\"]:contains(\"Change\")').click()")
 
             product_form.fill_in_selector_property(
               selector_input_reference: '.properties.selector_property',
