@@ -8,11 +8,15 @@ module OpsManagerUiDrivers
       end
 
       def property(property_reference)
-        browser.find_field("#{form_name}[#{property_reference}]")
+        name = "#{form_name}[#{property_reference}]"
+        browser.execute_script "$('a[data-masked-input-name=\"#{name}\"]:contains(\"Change\")').click()"
+        browser.find_field(name)
       end
 
       def nested_property(property_reference, nested_reference)
-        browser.find_field("#{form_name}[#{property_reference}][#{nested_reference}]")
+        name = "#{form_name}[#{property_reference}][#{nested_reference}]"
+        browser.execute_script "$('a[data-masked-input-name=\"#{name}\"]:contains(\"Change\")').click()"
+        browser.find_field(name)
       end
 
       def generate_self_signed_cert(wildcard_domain, property_reference)
@@ -37,6 +41,7 @@ module OpsManagerUiDrivers
             selector_string += "[#{value[:attribute_name]}]"
           end
 
+          browser.execute_script "$('a[data-masked-input-name=\"#{selector_string}\"]:contains(\"Change\")').click()"
           browser.find_field(selector_string).set(value[:attribute_value])
         end
       end
