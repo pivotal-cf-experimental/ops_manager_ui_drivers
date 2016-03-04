@@ -8,16 +8,21 @@ module OpsManagerUiDrivers
 
       def enable_errand(errand_name)
         open_form
-        set_check_box("pre_delete_errands_enabled_names_#{errand_name}", true)
-        set_check_box("post_deploy_errands_enabled_names_#{errand_name}", true)
+        browser.check("errands_collection_enabled_names_#{errand_name}")
         save_form
       end
 
       def disable_errand(errand_name)
         open_form
-        set_check_box("pre_delete_errands_enabled_names_#{errand_name}", false)
-        set_check_box("post_deploy_errands_enabled_names_#{errand_name}", false)
+        browser.uncheck("errands_collection_enabled_names_#{errand_name}")
         save_form
+      end
+
+      def enabled_errands
+        open_form
+        browser.all("input[type='checkbox'][name='errands_collection[enabled_names][]'][checked]").map do |checkbox|
+          checkbox.value
+        end
       end
 
       def save_form(validate: true)
