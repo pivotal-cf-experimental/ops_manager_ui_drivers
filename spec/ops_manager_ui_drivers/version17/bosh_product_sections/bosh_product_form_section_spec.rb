@@ -14,6 +14,10 @@ module OpsManagerUiDrivers
 
         subject(:bosh_product_form_section) { BoshProductFormSection.new(browser, 'field-prefix') }
 
+        before do
+          allow(browser).to receive(:execute_script)
+        end
+
         describe '#open_form' do
           it 'opens the given form in the p-bosh tile' do
             expect(browser).to receive(:visit).with('/').ordered

@@ -70,6 +70,7 @@ module OpsManagerUiDrivers
           browser.fill_in('director_configuration[s3_blobstore_options][endpoint]', with: s3_blobstore.dig('endpoint'))
           browser.fill_in('director_configuration[s3_blobstore_options][bucket_name]', with: s3_blobstore.dig('bucket_name'))
           browser.fill_in('director_configuration[s3_blobstore_options][access_key]', with: s3_blobstore.dig('access_key_id'))
+          @browser.execute_script "$('a[data-masked-input-name=\"director_configuration[s3_blobstore_options][secret_key]\"]:contains(\"Change\")').click()"
           browser.fill_in('director_configuration[s3_blobstore_options][secret_key]', with: s3_blobstore.dig('secret_access_key'))
         end
 
@@ -79,6 +80,7 @@ module OpsManagerUiDrivers
           browser.fill_in('director_configuration[external_database_options][host]', with: mysql.dig('host'))
           browser.fill_in('director_configuration[external_database_options][port]', with: mysql.dig('port'))
           browser.fill_in('director_configuration[external_database_options][user]', with: mysql.dig('user'))
+          @browser.execute_script "$('a[data-masked-input-name=\"director_configuration[external_database_options][password]\"]:contains(\"Change\")').click()"
           browser.fill_in('director_configuration[external_database_options][password]', with: mysql.dig('password'))
           browser.fill_in('director_configuration[external_database_options][database]', with: mysql.dig('dbname'))
         end

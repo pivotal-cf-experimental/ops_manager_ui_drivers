@@ -42,6 +42,7 @@ module OpsManagerUiDrivers
         allow(browser).to receive(:expect).and_return(instance_double(RSpec::Expectations::ExpectationTarget, to: nil))
         allow(browser).to receive(:have_css)
         allow(browser).to receive(:assert_text)
+        allow(browser).to receive(:execute_script)
         allow(iaas_configuration).to receive(:fill_iaas_settings)
 
         allow(Version17::BoshProductSections::AdvancedInfrastructureConfig).to receive(:new).and_return(advanced_infrastructure_configuration)

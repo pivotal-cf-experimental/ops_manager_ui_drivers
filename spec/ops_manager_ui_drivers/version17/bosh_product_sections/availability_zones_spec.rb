@@ -22,6 +22,7 @@ module OpsManagerUiDrivers
           allow(browser).to receive(:expect).and_return(expectation_target)
           allow(browser).to receive(:click_on)
           allow(browser).to receive(:have_css)
+          allow(browser).to receive(:execute_script)
         end
 
         describe '#add_single_az' do

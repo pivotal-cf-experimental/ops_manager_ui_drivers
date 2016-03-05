@@ -47,7 +47,9 @@ module OpsManagerUiDrivers
         end
 
         def last_field(field)
-          @browser.all(:field, "#{@field_prefix}[#{field}]", minimum: 1).last
+          name = "#{@field_prefix}[#{field}]"
+          @browser.execute_script "$('a[data-masked-input-name=\"#{name}\"]:contains(\"Change\")').click()"
+          @browser.all(:field, name, minimum: 1).last
         end
       end
     end
