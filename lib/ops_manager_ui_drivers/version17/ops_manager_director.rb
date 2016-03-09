@@ -19,7 +19,7 @@ module OpsManagerUiDrivers
 
         assign_azs_and_networks(test_settings.dig('iaas_type'), test_settings.dig('ops_manager', 'availability_zones'), test_settings.dig('ops_manager'))
 
-        configure_experimental_features(test_settings.dig('ops_manager', 'experimental_features'))
+        configure_trusted_certificates(test_settings.dig('ops_manager', 'trusted_certificates'))
       end
 
       def configure_iaas(test_settings)
@@ -116,13 +116,11 @@ module OpsManagerUiDrivers
         browser.poll_up_to_times(20) { browser.assert_text('Settings updated') }
       end
 
-      # WARNING: these features are experimental and may change or disappear in later versions of opsman
-      def configure_experimental_features(experimental_features)
-        browser.click_on 'Experimental Features'
-
-        trusted_certificates = experimental_features ? experimental_features.dig('trusted_certificates') : ''
-
-        browser.fill_in('experimental_features[trusted_certificates]', with: trusted_certificates)
+      def configure_trusted_certificates(trusted_certificates)
+        return unless trusted_certificates
+        browser.click_on 'Security'
+        browser.fill_in('security_tokens[trusted_certificates]', with: trusted_certificates)
+        browser.click_on 'Save'
       end
 
       def selected_network_name(iaas_type)

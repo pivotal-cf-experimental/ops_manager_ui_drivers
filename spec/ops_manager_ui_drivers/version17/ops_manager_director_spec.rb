@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'capybara'
+require 'capybara/dsl'
 require 'capybara/rspec/matchers'
 using OpsManagerUiDrivers::BackportRefinements
 
@@ -61,19 +62,19 @@ module OpsManagerUiDrivers
 
         context 'when the IaaS is Vcloud' do
           before do
-            test_settings_hash['iaas_type']   = 'vcloud'
+            test_settings_hash['iaas_type'] = 'vcloud'
             test_settings_hash['ops_manager'] = {
               'vcloud' => {
                 'creds' => {
-                  'url'          => 'fake-vclouds-creds-url',
+                  'url' => 'fake-vclouds-creds-url',
                   'organization' => 'fake-vclouds-creds-organization',
-                  'user'         => 'fake-vclouds-creds-user',
-                  'password'     => 'fake-vclouds-creds-password',
+                  'user' => 'fake-vclouds-creds-user',
+                  'password' => 'fake-vclouds-creds-password',
                 },
-                'vdc'   => {
-                  'name'            => 'fake-vdc-name',
+                'vdc' => {
+                  'name' => 'fake-vdc-name',
                   'storage_profile' => 'fake-vdc-storage_profile',
-                  'catalog_name'    => 'fake-vdc-catalog_name',
+                  'catalog_name' => 'fake-vdc-catalog_name',
                 }
               }
             }
@@ -84,7 +85,7 @@ module OpsManagerUiDrivers
           it 'configures the vcloud creds for bosh to manage vms' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
               hash_including(
-                'vcd_url'      => 'fake-vclouds-creds-url',
+                'vcd_url' => 'fake-vclouds-creds-url',
                 'organization' => 'fake-vclouds-creds-organization',
                 'vcd_username' => 'fake-vclouds-creds-user',
                 'vcd_password' => 'fake-vclouds-creds-password',
@@ -95,9 +96,9 @@ module OpsManagerUiDrivers
           it 'configures the vdc name, storage profile and catalog name' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
               hash_including(
-                'datacenter'      => 'fake-vdc-name',
+                'datacenter' => 'fake-vdc-name',
                 'storage_profile' => 'fake-vdc-storage_profile',
-                'catalog_name'    => 'fake-vdc-catalog_name',
+                'catalog_name' => 'fake-vdc-catalog_name',
               )
             )
           end
@@ -106,23 +107,23 @@ module OpsManagerUiDrivers
         context 'when the IaaS is Vsphere' do
           let(:vcenter_creds) do
             {
-              'ip'       => 'fake-vcenter-creds-ip',
+              'ip' => 'fake-vcenter-creds-ip',
               'username' => 'fake-vcenter-creds-username',
               'password' => 'fake-vcenter-creds-password',
             }
           end
 
           before do
-            test_settings_hash['iaas_type']   = 'vsphere'
+            test_settings_hash['iaas_type'] = 'vsphere'
             test_settings_hash['ops_manager'] = {
               'vcenter' => {
-                'creds'                => vcenter_creds,
-                'datacenter'           => 'fake-vcenter-datacenter',
-                'ephemeral_datastore'  => 'e-fake-vcenter-datastores',
+                'creds' => vcenter_creds,
+                'datacenter' => 'fake-vcenter-datacenter',
+                'ephemeral_datastore' => 'e-fake-vcenter-datastores',
                 'persistent_datastore' => 'p-fake-vcenter-datastores',
-                'bosh_vm_folder'       => 'fake-vcenter-bosh_vm_folder',
+                'bosh_vm_folder' => 'fake-vcenter-bosh_vm_folder',
                 'bosh_template_folder' => 'fake-vcenter-bosh_template_folder',
-                'bosh_disk_path'       => 'fake-vcenter-bosh_disk_path',
+                'bosh_disk_path' => 'fake-vcenter-bosh_disk_path',
               }
             }
 
@@ -132,7 +133,7 @@ module OpsManagerUiDrivers
           it 'configures the vcenter creds for bosh to manage vms' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
               hash_including(
-                'vcenter_host'     => 'fake-vcenter-creds-ip',
+                'vcenter_host' => 'fake-vcenter-creds-ip',
                 'vcenter_username' => 'fake-vcenter-creds-username',
                 'vcenter_password' => 'fake-vcenter-creds-password',
               )
@@ -142,7 +143,7 @@ module OpsManagerUiDrivers
           context 'when vcenter host is specified' do
             let(:vcenter_creds) do
               {
-                'host'     => 'fake-vcenter-creds-host',
+                'host' => 'fake-vcenter-creds-host',
                 'username' => 'fake-vcenter-creds-username',
                 'password' => 'fake-vcenter-creds-password',
               }
@@ -151,7 +152,7 @@ module OpsManagerUiDrivers
             it 'configures the vcenter creds for bosh to manage vms' do
               expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
                 hash_including(
-                  'vcenter_host'     => 'fake-vcenter-creds-host',
+                  'vcenter_host' => 'fake-vcenter-creds-host',
                   'vcenter_username' => 'fake-vcenter-creds-username',
                   'vcenter_password' => 'fake-vcenter-creds-password',
                 )
@@ -162,8 +163,8 @@ module OpsManagerUiDrivers
           it 'sets the vcenter datacenter and datastores for bosh managed vms' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
               hash_including(
-                'datacenter'                   => 'fake-vcenter-datacenter',
-                'ephemeral_datastores_string'  => 'e-fake-vcenter-datastores',
+                'datacenter' => 'fake-vcenter-datacenter',
+                'ephemeral_datastores_string' => 'e-fake-vcenter-datastores',
                 'persistent_datastores_string' => 'p-fake-vcenter-datastores',
               )
             )
@@ -172,7 +173,7 @@ module OpsManagerUiDrivers
           it 'sets the bosh product vm & template folders' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
               hash_including(
-                'bosh_vm_folder'       => 'fake-vcenter-bosh_vm_folder',
+                'bosh_vm_folder' => 'fake-vcenter-bosh_vm_folder',
                 'bosh_template_folder' => 'fake-vcenter-bosh_template_folder',
               )
             )
@@ -189,16 +190,16 @@ module OpsManagerUiDrivers
 
         context 'when the IaaS is AWS' do
           before do
-            test_settings_hash['iaas_type']   = 'aws'
+            test_settings_hash['iaas_type'] = 'aws'
             test_settings_hash['ops_manager'] = {
               'aws' => {
                 'aws_access_key' => 'fake-aws-aws_access_key',
                 'aws_secret_key' => 'fake-aws-aws_secret_key',
-                'vpc_id'         => 'fake-aws-vpc_id',
+                'vpc_id' => 'fake-aws-vpc_id',
                 'security_group_id' => 'fake-aws-security_group',
-                'key_pair_name'  => 'fake-aws-key_pair_name',
-                'ssh_key'        => 'fake-aws-ssh_key',
-                'region'         => 'fake-region',
+                'key_pair_name' => 'fake-aws-key_pair_name',
+                'ssh_key' => 'fake-aws-ssh_key',
+                'region' => 'fake-region',
               }
             }
 
@@ -208,7 +209,7 @@ module OpsManagerUiDrivers
           it 'configures the aws credentials for bosh to manage vms' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
               hash_including(
-                'access_key_id'     => 'fake-aws-aws_access_key',
+                'access_key_id' => 'fake-aws-aws_access_key',
                 'secret_access_key' => 'fake-aws-aws_secret_key',
               )
             )
@@ -233,7 +234,7 @@ module OpsManagerUiDrivers
           it 'sets the aws ssh key pair and private key for bosh managed vms' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
               hash_including(
-                'key_pair_name'   => 'fake-aws-key_pair_name',
+                'key_pair_name' => 'fake-aws-key_pair_name',
                 'ssh_private_key' => 'fake-aws-ssh_key',
               )
             )
@@ -250,17 +251,17 @@ module OpsManagerUiDrivers
 
         context 'when the IaaS is OpenStack' do
           before do
-            test_settings_hash['iaas_type']   = 'openstack'
+            test_settings_hash['iaas_type'] = 'openstack'
             test_settings_hash['ops_manager'] = {
               'openstack' => {
-                'identity_endpoint'   => 'fake-openstack-identity_endpoint',
-                'username'            => 'fake-openstack-username',
-                'password'            => 'fake-openstack-password',
-                'tenant'              => 'fake-openstack-tenant',
+                'identity_endpoint' => 'fake-openstack-identity_endpoint',
+                'username' => 'fake-openstack-username',
+                'password' => 'fake-openstack-password',
+                'tenant' => 'fake-openstack-tenant',
                 'security_group_name' => 'fake-openstack-security_group_name',
-                'key_pair_name'       => 'fake-openstack-key_pair_name',
-                'ssh_private_key'     => 'fake-openstack-ssh_private_key',
-                'connection_options'  => 'fake-openstack-connection-options',
+                'key_pair_name' => 'fake-openstack-key_pair_name',
+                'ssh_private_key' => 'fake-openstack-ssh_private_key',
+                'connection_options' => 'fake-openstack-connection-options',
               }
             }
 
@@ -271,8 +272,8 @@ module OpsManagerUiDrivers
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
               hash_including(
                 'identity_endpoint' => 'fake-openstack-identity_endpoint',
-                'username'          => 'fake-openstack-username',
-                'password'          => 'fake-openstack-password',
+                'username' => 'fake-openstack-username',
+                'password' => 'fake-openstack-password',
               )
             )
           end
@@ -296,7 +297,7 @@ module OpsManagerUiDrivers
           it 'sets the openstack ssh key pair & private key for bosh managed vms' do
             expect(iaas_configuration).to have_received(:fill_iaas_settings).with(
               hash_including(
-                'key_pair_name'   => 'fake-openstack-key_pair_name',
+                'key_pair_name' => 'fake-openstack-key_pair_name',
                 'ssh_private_key' => 'fake-openstack-ssh_private_key',
               )
             )
@@ -407,38 +408,40 @@ module OpsManagerUiDrivers
         end
       end
 
-      describe '#configure_experimental_features' do
-        context 'when trusted certs are present in the experimental features configuration' do
+      describe '#configure_trusted_certificates' do
+        context 'when trusted certificates are present in the security configuration' do
           let(:test_settings_hash) do
             {
               'ops_manager' => {
-                'experimental_features' => {
-                  'trusted_certificates' => 'NO REALLY, I AM A CERTIFICATE THAT IS TOTALLY VALID',
-                }
+                'trusted_certificates' => 'NO REALLY, I AM A CERTIFICATE THAT IS TOTALLY VALID',
               }
             }
           end
 
-          it 'adds the certs to the `Trusted Certificates` area' do
-            ops_manager_director.configure_experimental_features(test_settings_hash.dig('ops_manager', 'experimental_features'))
+          it 'saves the certificates into the `Trusted Certificates` area' do
+            ops_manager_director.configure_trusted_certificates(test_settings_hash.dig('ops_manager', 'trusted_certificates'))
 
-            expect(browser).to have_received(:click_on).with('Experimental Features')
-            expect(browser).to have_received(:fill_in).with('experimental_features[trusted_certificates]', with: 'NO REALLY, I AM A CERTIFICATE THAT IS TOTALLY VALID')
+            expect(browser).to have_received(:click_on).with('Security')
+            expect(browser).to have_received(:fill_in).with('security_tokens[trusted_certificates]', with: 'NO REALLY, I AM A CERTIFICATE THAT IS TOTALLY VALID')
+            expect(browser).to have_received(:click_on).with('Save')
           end
         end
 
-        context 'when experimental features are not configured' do
+        context 'when trusted_certificates are not configured' do
           let(:test_settings_hash) do
             {
-              'ops_manager' => {}
+              'ops_manager' => {
+                'security_tokens' => {}
+              }
             }
           end
 
-          it 'makes sure that the `Trusted Certificates` area is empty' do
-            ops_manager_director.configure_experimental_features(test_settings_hash.dig('ops_manager', 'experimental_features'))
+          it 'does not save an empty value into the `Trusted Certificates` area' do
+            ops_manager_director.configure_trusted_certificates(nil )
 
-            expect(browser).to have_received(:click_on).with('Experimental Features')
-            expect(browser).to have_received(:fill_in).with('experimental_features[trusted_certificates]', with: '')
+            expect(browser).not_to have_received(:click_on).with('Security')
+            expect(browser).not_to have_received(:fill_in)
+            expect(browser).not_to have_received(:click_on).with('Save')
           end
         end
       end
