@@ -22,9 +22,18 @@ module OpsManagerUiDrivers
 
       def enabled_errands
         open_form
-        browser.all("input[type='checkbox'][name='errands_collection[enabled_names][]'][checked]").map do |checkbox|
-          checkbox.value
+
+        result = []
+
+        browser.all("input[type='checkbox'][name='post_deploy_errands[enabled_names][]'][checked='checked']").map do |checkbox|
+          result << checkbox.value
         end
+
+        browser.all("input[type='checkbox'][name='pre_delete_errands[enabled_names][]'][checked='checked']").map do |checkbox|
+          result << checkbox.value
+        end
+
+        result
       end
 
       def save_form(validate: true)
