@@ -14,12 +14,23 @@ module OpsManagerUiDrivers
         http.request(get('v0/products'), uaa_token.auth_header)
       end
 
+      def export_installation
+        Tempfile.new('installation.zip').tap do |tmpfile|
+          http.request(get('v0/installation_asset_collection', uaa_token.auth_header)) do |response|
+            response.read_body do |chunk|
+              tmpfile.write(chunk)
+            end
+          end
+          tmpfile.close
+        end
+      end
+
       private
 
       def uaa_token
-        target_url   = @host_uri.to_s + '/uaa'
-        token_issuer = CF::UAA::TokenIssuer.new(target_url, 'opsman', nil, {:skip_ssl_validation => true})
-        token_issuer.owner_password_grant('admin', 'admin')
+        target_url = @host_uri.to_s + '/uaa'
+        token_issuer = CF::UAA::TokenIssuer.new(target_url, 'opsman', nil, {skip_ssl_validation: true})
+        token_issuer.owner_password_grant(@username, @password)
       end
 
       def get(endpoint, token=nil)
