@@ -11,7 +11,7 @@ module OpsManagerUiDrivers
       end
 
       def get_products
-        http.request(get('v0/products'), uaa_token.auth_header)
+        http.request(get('v0/available_products'), uaa_token.auth_header)
       end
 
       def export_installation
