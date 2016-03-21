@@ -1,3 +1,5 @@
+require 'ops_manager_ui_drivers/version17/user_settings'
+
 module OpsManagerUiDrivers
   module Version18
     class UserSettings < Version17::UserSettings

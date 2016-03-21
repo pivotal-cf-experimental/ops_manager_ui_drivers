@@ -1,6 +1,5 @@
 module OpsManagerUiDrivers
   module Version17
-
     class UserSettings
       def initialize(browser:)
         @browser = browser
