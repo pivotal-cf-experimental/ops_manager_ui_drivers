@@ -1,6 +1,6 @@
 module OpsManagerUiDrivers
   module Version18
-    class JobNetworkMappingHelper < Version17::JobNetworkMappingHelper
+    class JobNetworkMappingHelper < OpsManagerUiDrivers::Version17::JobNetworkMappingHelper
 
     end
   end

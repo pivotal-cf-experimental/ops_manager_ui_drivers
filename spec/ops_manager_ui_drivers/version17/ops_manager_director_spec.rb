@@ -22,7 +22,7 @@ module OpsManagerUiDrivers
           allow(iaas_configuration).to receive(:set_field)
         end
       end
-      let(:advanced_infrastructure_configuration) { Version17::BoshProductSections::AdvancedInfrastructureConfig.new(browser: browser) }
+      let(:advanced_infrastructure_configuration) { OpsManagerUiDrivers::Version17::BoshProductSections::AdvancedInfrastructureConfig.new(browser: browser) }
 
       let(:test_settings_hash) do
         {}

@@ -1,6 +1,6 @@
 module OpsManagerUiDrivers
   module Version18
-    class ProductForm < Version17::ProductForm
+    class ProductForm < OpsManagerUiDrivers::Version17::ProductForm
 
     end
   end

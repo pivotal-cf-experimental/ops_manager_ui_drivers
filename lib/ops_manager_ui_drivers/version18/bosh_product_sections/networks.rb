@@ -1,7 +1,7 @@
 module OpsManagerUiDrivers
   module Version18
     module BoshProductSections
-      class Networks < Version17::BoshProductSections::Networks
+      class Networks < OpsManagerUiDrivers::Version17::BoshProductSections::Networks
 
       end
     end

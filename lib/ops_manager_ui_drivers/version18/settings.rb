@@ -12,16 +12,16 @@ module OpsManagerUiDrivers
         settings_class.new(test_settings)
       end
 
-      class Vcloud < Version17::Settings::Vcloud
+      class Vcloud < OpsManagerUiDrivers::Version17::Settings::Vcloud
       end
 
-      class Vsphere < Version17::Settings::Vsphere
+      class Vsphere < OpsManagerUiDrivers::Version17::Settings::Vsphere
       end
 
-      class AWS < Version17::Settings::AWS
+      class AWS < OpsManagerUiDrivers::Version17::Settings::AWS
       end
 
-      class OpenStack < Version17::Settings::OpenStack
+      class OpenStack < OpsManagerUiDrivers::Version17::Settings::OpenStack
       end
     end
   end

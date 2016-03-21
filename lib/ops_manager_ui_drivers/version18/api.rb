@@ -3,7 +3,7 @@ require 'uaa'
 
 module OpsManagerUiDrivers
   module Version18
-    class Api < Version17::Api
+    class Api < OpsManagerUiDrivers::Version17::Api
 
     end
   end
