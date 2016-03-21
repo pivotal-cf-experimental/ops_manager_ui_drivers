@@ -1,4 +1,4 @@
-require 'ops_manager_ui_drivers/wait_helper'
+require 'ops_manager_ui_drivers/version17/available_products'
 
 module OpsManagerUiDrivers
   module Version18

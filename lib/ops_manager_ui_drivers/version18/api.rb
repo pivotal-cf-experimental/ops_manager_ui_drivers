@@ -1,4 +1,4 @@
-require 'ops_manager_ui_drivers/version16/api'
+require 'ops_manager_ui_drivers/version17/api'
 require 'uaa'
 
 module OpsManagerUiDrivers

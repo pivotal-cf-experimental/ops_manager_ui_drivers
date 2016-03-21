@@ -1,3 +1,5 @@
+require 'ops_manager_ui_drivers/version17/product_dashboard'
+
 module OpsManagerUiDrivers
   module Version18
     class ProductDashboard < Version17::ProductDashboard
