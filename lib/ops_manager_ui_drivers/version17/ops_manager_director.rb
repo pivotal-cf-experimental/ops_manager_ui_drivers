@@ -3,7 +3,7 @@ using OpsManagerUiDrivers::BackportRefinements
 module OpsManagerUiDrivers
   module Version17
     class OpsManagerDirector
-      def initialize(browser:, iaas_configuration: OpsManagerUiDrivers::Version17::BoshProductSections::IaasConfiguration.new(browser: browser))
+      def initialize(browser:, iaas_configuration: Version17::BoshProductSections::IaasConfiguration.new(browser: browser))
         @browser            = browser
         @iaas_configuration = iaas_configuration
       end
@@ -157,15 +157,15 @@ module OpsManagerUiDrivers
 
 
       def availability_zones
-        @availability_zones ||= OpsManagerUiDrivers::Version17::BoshProductSections::AvailabilityZones.new(browser: browser)
+        @availability_zones ||= Version17::BoshProductSections::AvailabilityZones.new(browser: browser)
       end
 
       def networks
-        @networks ||= OpsManagerUiDrivers::Version17::BoshProductSections::Networks.new(browser: browser)
+        @networks ||= Version17::BoshProductSections::Networks.new(browser: browser)
       end
 
       def advanced_infrastructure_config
-        @advanced_infrastructure_config ||= OpsManagerUiDrivers::Version17::BoshProductSections::AdvancedInfrastructureConfig.new(browser: browser)
+        @advanced_infrastructure_config ||= Version17::BoshProductSections::AdvancedInfrastructureConfig.new(browser: browser)
       end
     end
   end

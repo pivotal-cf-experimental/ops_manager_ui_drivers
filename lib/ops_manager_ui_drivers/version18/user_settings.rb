@@ -2,7 +2,7 @@ require 'ops_manager_ui_drivers/version17/user_settings'
 
 module OpsManagerUiDrivers
   module Version18
-    class UserSettings < OpsManagerUiDrivers::Version17::UserSettings
+    class UserSettings < Version17::UserSettings
       def delete_whole_installation_on_next_apply_updates
         browser.visit '/advanced_tools'
         browser.click_on 'show-delete-installation-modal-action'

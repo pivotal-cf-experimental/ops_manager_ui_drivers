@@ -1,6 +1,6 @@
 module OpsManagerUiDrivers
   module Version18
-    class ProductDashboard < OpsManagerUiDrivers::Version17::ProductDashboard
+    class ProductDashboard < Version17::ProductDashboard
       def delete_whole_installation
         method_deprecated!
       end

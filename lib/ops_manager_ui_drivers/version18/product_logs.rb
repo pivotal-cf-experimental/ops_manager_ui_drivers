@@ -1,6 +1,6 @@
 module OpsManagerUiDrivers
   module Version18
-    class ProductLogs < OpsManagerUiDrivers::Version17::ProductLogs
+    class ProductLogs < Version17::ProductLogs
 
     end
   end

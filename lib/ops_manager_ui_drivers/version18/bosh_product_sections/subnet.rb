@@ -1,7 +1,7 @@
 module OpsManagerUiDrivers
   module Version18
     module BoshProductSections
-      class Subnet < OpsManagerUiDrivers::Version17::BoshProductSections::Subnet
+      class Subnet < Version17::BoshProductSections::Subnet
 
       end
     end

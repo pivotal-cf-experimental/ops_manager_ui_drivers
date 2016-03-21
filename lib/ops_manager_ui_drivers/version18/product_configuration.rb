@@ -1,6 +1,6 @@
 module OpsManagerUiDrivers
   module Version18
-    class ProductConfiguration < OpsManagerUiDrivers::Version17::ProductConfiguration
+    class ProductConfiguration < Version17::ProductConfiguration
 
     end
   end
