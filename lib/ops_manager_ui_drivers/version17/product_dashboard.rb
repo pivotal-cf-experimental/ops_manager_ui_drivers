@@ -1,8 +1,11 @@
 require 'ops_manager_ui_drivers/version16/product_dashboard'
+require 'ops_manager_ui_drivers/animation_helper'
 
 module OpsManagerUiDrivers
   module Version17
     class ProductDashboard < Version16::ProductDashboard
+      include AnimationHelper
+
       def import_installation_file(_file_path)
         fail('Importing is no longer supported via the Product Dashboard. See Version17::Setup#import_installation_file')
       end
@@ -14,8 +17,8 @@ module OpsManagerUiDrivers
 
       def delete_product(product_name)
         open_dashboard
+        disable_css_transitions!
         browser.click_on "open-delete-#{product_name}-modal"
-        wait_for_modal_css_transition_to_complete
         browser.click_on "delete-#{product_name}-action"
       end
 

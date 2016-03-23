@@ -1,6 +1,10 @@
+require 'ops_manager_ui_drivers/animation_helper'
+
 module OpsManagerUiDrivers
   module Version17
     class ProductForm
+      include AnimationHelper
+
       def initialize(browser:, product_name:, form_name:)
         @browser      = browser
         @product_name = product_name
@@ -21,9 +25,8 @@ module OpsManagerUiDrivers
 
       def generate_self_signed_cert(wildcard_domain, property_reference)
         change_link = browser.first(%Q(a[data-masked-input-name="#{form_name}[#{property_reference}][private_key_pem]"]))
-        if change_link
-          change_link.click
-        end
+        change_link.click if change_link
+        disable_css_transitions!
         browser.click_on 'Generate RSA Certificate'
         browser.within '#rsa-certificate-form' do
           browser.fill_in 'rsa_certificate[domains]', with: wildcard_domain

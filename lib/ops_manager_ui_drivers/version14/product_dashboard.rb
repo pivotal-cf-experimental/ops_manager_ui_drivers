@@ -1,8 +1,10 @@
 require 'ops_manager_ui_drivers/wait_helper'
+require 'ops_manager_ui_drivers/animation_helper'
 
 module OpsManagerUiDrivers
   module Version14
     class ProductDashboard
+      include AnimationHelper
 
       def initialize(browser:)
         @browser = browser
@@ -40,8 +42,8 @@ module OpsManagerUiDrivers
 
       def delete_product(product_name)
         open_dashboard
+        disable_css_transitions!
         browser.click_on "open-delete-#{product_name.dasherize}-modal"
-        wait_for_modal_css_transition_to_complete
         browser.click_on "delete-#{product_name.dasherize}-action"
       end
 
@@ -72,8 +74,8 @@ module OpsManagerUiDrivers
       def delete_whole_installation
         open_dashboard
         browser.click_on 'toggle-installation-dropdown-action'
+        disable_css_transitions!
         browser.click_on 'show-delete-installation-modal-action'
-        wait_for_modal_css_transition_to_complete
         browser.click_on 'delete-installation-action'
         apply_updates
       end
@@ -108,8 +110,8 @@ module OpsManagerUiDrivers
 
       def revert_pending_changes
         open_dashboard
+        disable_css_transitions!
         browser.click_on 'open-revert-installation-modal-action'
-        wait_for_modal_css_transition_to_complete
         browser.click_on 'revert-installation-action'
       end
 
@@ -182,10 +184,6 @@ module OpsManagerUiDrivers
         if (flash_error = browser.all('.flash-message.error').first)
           fail flash_error.text
         end
-      end
-
-      def wait_for_modal_css_transition_to_complete
-        sleep 5 # Have to wait for the CSS shade effect
       end
 
       def open_dashboard
