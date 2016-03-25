@@ -23,11 +23,23 @@ module OpsManagerUiDrivers
         browser.find_field(name)
       end
 
-      def generate_self_signed_cert(wildcard_domain, property_reference)
-        change_link = browser.first(%Q(a[data-masked-input-name="#{form_name}[#{property_reference}][private_key_pem]"]))
+      def generate_self_signed_cert(wildcard_domain, property_reference, selector_property_reference = nil, selector_option_name = nil)
+        if selector_property_reference && selector_option_name
+          private_key_field_name = "#{form_name}[#{selector_property_reference}][#{selector_option_name}][#{property_reference}][private_key_pem]"
+        else
+          private_key_field_name = "#{form_name}[#{property_reference}][private_key_pem]"
+        end
+
+        change_link = browser.first(%Q(a[data-masked-input-name="#{private_key_field_name}"]))
         change_link.click if change_link
         disable_css_transitions!
-        browser.click_on 'Generate RSA Certificate'
+
+        generate_rsa_link = browser.first("textarea[name='#{private_key_field_name}'] + a")
+        unless generate_rsa_link
+          puts 'Unable to find the Generate RSA Certificate link for the given property.  If you are in a selector, please be sure to provide the two optional parameters to this method.'
+        end
+        generate_rsa_link.click
+
         browser.within '#rsa-certificate-form' do
           browser.fill_in 'rsa_certificate[domains]', with: wildcard_domain
           browser.click_on 'save-rsa-certificate-action'
