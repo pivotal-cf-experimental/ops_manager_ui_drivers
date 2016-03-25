@@ -22,7 +22,59 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Hypothetical usage example for driving a local Ops Manager instance:
+
+```
+require 'bundler/setup'
+require 'rspec'
+require 'capybara'
+require 'capybara/webkit'
+require 'capybara/dsl'
+
+require 'ops_manager_ui_drivers'
+
+RSpec.configure do |config|
+  config.fail_fast = true
+
+  Capybara.configure do |c|
+    c.default_driver = :webkit
+  end
+
+  Capybara::Webkit.configure do |c|
+    c.allow_url('fonts.googleapis.com')
+    c.allow_url('localhost')
+  end
+end
+
+RSpec.describe 'Configuring localhost', order: :defined, type: :integration do
+  include Capybara::DSL
+  include OpsManagerUiDrivers::PageHelpers
+
+  let(:current_ops_manager) { om_1_7('http://localhost:3000') }
+
+  it 'sets the certs' do
+    current_ops_manager.setup_page.setup_or_login(
+      user: 'admin',
+      password: 'password',
+    )
+
+    expect(page).to have_content('Installation Dashboard')
+
+    configuration = OpsManagerUiDrivers::Version18::ProductConfiguration.new(browser: self, product_name: 'example-product')
+    selector_form = configuration.product_form('example_selector_form')
+    selector_form.open_form
+    
+    selector_form.fill_in_selector_property(selector_input_reference:'.properties.example_selector', selector_name:'example_selector', selector_value: 'Some Option', sub_field_answers: [])
+    selector_form.generate_self_signed_cert(
+      '*.example.com',
+      '.properties.example_selector.some_option.some_rsa_cert',
+      '.properties.example_selector',
+      'some_option'
+    )
+    selector_form.save_form
+  end
+end
+```
 
 ## Development
 
