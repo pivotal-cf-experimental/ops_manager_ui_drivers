@@ -24,7 +24,7 @@ Or install it yourself as:
 
 Hypothetical usage example for driving a local Ops Manager instance:
 
-```
+```ruby
 require 'bundler/setup'
 require 'rspec'
 require 'capybara'
