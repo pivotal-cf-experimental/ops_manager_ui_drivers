@@ -58,6 +58,16 @@ module OpsManagerUiDrivers
         end
       end
 
+      def most_recent_install_log
+        browser.visit '/change_log'
+
+        browser.poll_up_to_mins(1) do
+          base_url = browser.first('table#change-log tbody tr td a')[:href]
+          browser.visit "#{base_url}.text"
+          browser.source
+        end
+      end
+
       private
 
       def check_errands(errands)
