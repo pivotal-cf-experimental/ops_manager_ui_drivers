@@ -311,6 +311,62 @@ module OpsManagerUiDrivers
             )
           end
         end
+
+        context 'configure blobstore' do
+          shared_examples_for 's3 blobstore' do
+
+            let(:test_settings_hash) do
+              {
+                'ops_manager' => {
+                  's3_blobstore' => {
+                    'endpoint' => 'http://example.com',
+                    'bucket_name' => 'test-bucket',
+                    'access_key_id' => 'test-access_key',
+                    'secret_access_key' => 'test-secret_key',
+                    'signature_version' => signature_version,
+                    'region' => region,
+                  }
+                }
+              }
+            end
+
+            it 'applies s3 settings correctly' do
+              expect(browser).to receive(:fill_in).with('director_configuration[ntp_servers_string]', {:with => nil})
+              expect(browser).to receive(:fill_in).with('director_configuration[s3_blobstore_options][endpoint]', {:with => 'http://example.com'})
+              expect(browser).to receive(:fill_in).with('director_configuration[s3_blobstore_options][bucket_name]', {:with => 'test-bucket'})
+              expect(browser).to receive(:fill_in).with('director_configuration[s3_blobstore_options][access_key]', {:with => 'test-access_key'})
+              expect(browser).to receive(:fill_in).with('director_configuration[s3_blobstore_options][secret_key]', {:with => 'test-secret_key'})
+
+              if signature_version == 4
+                expect(browser).to receive(:choose).with('V4 Signature')
+                expect(browser).to receive(:fill_in).with('director_configuration[s3_blobstore_options][region]', {:with => region})
+              end
+
+              ops_manager_director.config_director(test_settings_hash['ops_manager'])
+            end
+          end
+
+          context 'no default signature - defaults to v2' do
+            let(:signature_version) { nil }
+            let(:region) { nil }
+
+            it_behaves_like 's3 blobstore'
+          end
+
+          context 'explicitly specified v2 signature' do
+            let(:signature_version) { 2 }
+            let(:region) { nil }
+
+            it_behaves_like 's3 blobstore'
+          end
+
+          context 'explicitly specified v4 signature' do
+            let(:signature_version) { 4 }
+            let(:region) { 'us-east-1' }
+
+            it_behaves_like 's3 blobstore'
+          end
+        end
       end
 
       describe '#add_availability_zones' do

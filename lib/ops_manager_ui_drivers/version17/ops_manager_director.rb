@@ -72,6 +72,12 @@ module OpsManagerUiDrivers
           browser.fill_in('director_configuration[s3_blobstore_options][access_key]', with: s3_blobstore.dig('access_key_id'))
           @browser.execute_script "$('a[data-masked-input-name=\"director_configuration[s3_blobstore_options][secret_key]\"]:contains(\"Change\")').click()"
           browser.fill_in('director_configuration[s3_blobstore_options][secret_key]', with: s3_blobstore.dig('secret_access_key'))
+
+          signature_version = s3_blobstore.dig('signature_version')
+          if signature_version == 4
+            browser.choose('V4 Signature')
+            browser.fill_in('director_configuration[s3_blobstore_options][region]', with: s3_blobstore.dig('region'))
+          end
         end
 
         mysql = ops_manager.dig('mysql')
