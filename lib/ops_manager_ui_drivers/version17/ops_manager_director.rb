@@ -4,7 +4,7 @@ module OpsManagerUiDrivers
   module Version17
     class OpsManagerDirector
       def initialize(browser:, iaas_configuration: Version17::BoshProductSections::IaasConfiguration.new(browser: browser))
-        @browser            = browser
+        @browser = browser
         @iaas_configuration = iaas_configuration
       end
 
@@ -23,8 +23,8 @@ module OpsManagerUiDrivers
       end
 
       def configure_iaas(test_settings)
-        iaas_settings                         = Settings.for(test_settings)
-        iaas_specific_fields                  = iaas_settings.iaas_configuration_fields
+        iaas_settings = Settings.for(test_settings)
+        iaas_specific_fields = iaas_settings.iaas_configuration_fields
         advanced_infrastructure_config_fields = iaas_settings.advanced_infrastructure_config_fields
         iaas_configuration.fill_iaas_settings(iaas_specific_fields)
         advanced_infrastructure_config.fill_advanced_infrastructure_config_settings(advanced_infrastructure_config_fields)
@@ -49,8 +49,8 @@ module OpsManagerUiDrivers
 
         iaas_networks && iaas_networks.each do |network|
           networks.add_network(
-            name:                    network['name'],
-            subnets:                 network['subnets'],
+            name: network['name'],
+            subnets: network['subnets'],
           )
         end
       end

@@ -1,4 +1,5 @@
 require 'ops_manager_ui_drivers/version17/settings'
+using OpsManagerUiDrivers::BackportRefinements
 
 module OpsManagerUiDrivers
   module Version18
