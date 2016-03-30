@@ -60,11 +60,14 @@ module OpsManagerUiDrivers
 
       def most_recent_install_log
         browser.visit '/change_log'
-
-        browser.poll_up_to_mins(1) do
-          base_url = browser.first('table#change-log tbody tr td a')[:href]
+        sleep 4
+        first_log_entry = browser.first('table#change-log tbody tr td a')
+        if first_log_entry
+          base_url = first_log_entry[:href]
           browser.visit "#{base_url}.text"
           browser.source
+        else
+          return nil
         end
       end
 
