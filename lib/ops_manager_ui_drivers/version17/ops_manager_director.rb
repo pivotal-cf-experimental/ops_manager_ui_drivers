@@ -103,7 +103,7 @@ module OpsManagerUiDrivers
           when OpsManagerUiDrivers::VSPHERE_IAAS_TYPE
             browser.click_on 'Assign AZs and Networks'
             browser.select(ops_manager.dig('networks', 0, 'name'), from: 'Network')
-            browser.select(iaas_availability_zones.first['name'])
+            browser.select(iaas_availability_zones.first['name'], from: 'Singleton Availability Zone')
           when OpsManagerUiDrivers::VCLOUD_IAAS_TYPE
             browser.click_on 'Assign Networks'
             browser.select(ops_manager.dig('networks', 0, 'name'), from: 'Network')
