@@ -134,7 +134,7 @@ module OpsManagerUiDrivers
       end
 
       def assert_installation_started
-        browser.expect(browser.page).to browser.have_text('Applying Changes')
+        browser.expect(browser.page).to browser.have_text(/applying changes/i)
       end
 
       def nonignorable_verification_failed?
