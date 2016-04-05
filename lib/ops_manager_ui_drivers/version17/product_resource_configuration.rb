@@ -16,12 +16,6 @@ module OpsManagerUiDrivers
         save_form(validate: validate)
       end
 
-      def set_ephemeral_disk_for_job(job_name, ephemeral_disk, validate: true)
-        open_form
-        browser.fill_in("product_resources_form[#{job_name}][ephemeral_disk][value]", with: ephemeral_disk)
-        save_form(validate: validate)
-      end
-
       def set_vm_type_for_job(job_name, vm_type, validate: true)
         open_form
         browser.
