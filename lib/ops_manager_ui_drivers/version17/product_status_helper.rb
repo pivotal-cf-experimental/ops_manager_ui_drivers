@@ -12,7 +12,7 @@ module OpsManagerUiDrivers
         wait_for_loading_indicator_to_disappear
 
         browser.within "##{product_name}-status" do
-          job_row = browser.find(:xpath, ".//tr[@data-ip-name = '#{job_name}']")
+          job_row = browser.find(:css, "tr[data-ip-name ^= '#{job_name}']")
 
           Version17::JobStatusHelper.from_job_row(job_row)
         end
@@ -24,7 +24,7 @@ module OpsManagerUiDrivers
         wait_for_loading_indicator_to_disappear
 
         browser.within "##{product_name}-#{az_guid}-status-table" do
-          job_row = browser.find(:xpath, ".//tr[@data-ip-name = '#{job_name}']")
+          job_row = browser.find(:css, "tr[data-ip-name ^= '#{job_name}']")
 
           Version17::JobStatusHelper.from_job_row(job_row)
         end

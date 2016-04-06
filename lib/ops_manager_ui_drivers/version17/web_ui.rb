@@ -49,7 +49,7 @@ module OpsManagerUiDrivers
       end
 
       def product_availability_zones(product_name)
-        Version17::ProductAvailabilityZones.new(browser: browser, product: product_name)
+        Version17::ProductAvailabilityZones.new(browser: browser, product_name: product_name)
       end
 
       def job_azs_and_network_mapping_for(product_name)
@@ -63,7 +63,7 @@ module OpsManagerUiDrivers
         zones_present = zones && zones.first
 
         singleton_az = zones_present ? (zones[0]['iaas_identifier'] || zones[0]['name']) : nil
-        availability_zones = zones_present ? zones.map{|zone| (zone['iaas_identifier'] || zone['name']) } : nil
+        availability_zones = zones_present ? zones.map { |zone| (zone['iaas_identifier'] || zone['name']) } : nil
 
         job_azs_and_network_mapping_for(product_name).assign_azs_and_network(
           singleton_availability_zone: singleton_az,
