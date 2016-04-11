@@ -2,6 +2,25 @@ require 'spec_helper'
 module OpsManagerUiDrivers
   module Version16
     describe ProductForm do
+      describe '#set_boolean_property' do
+        let(:product_form) {
+          OpsManagerUiDrivers::Version17::ProductForm.new(
+            browser:      browser,
+            product_name: 'product_name',
+            form_name:    'form_name',
+          )
+        }
+        let(:browser) { double('browser') }
+
+        before do
+        end
+
+        it 'finds and clicks the specified radio button' do
+          expect(browser).to receive(:check).with('Boolean property')
+          product_form.set_boolean_property('Boolean property')
+        end
+      end
+
       describe '#fill_in_selector_property' do
         let(:product_form) {
           OpsManagerUiDrivers::Version16::ProductForm.new(

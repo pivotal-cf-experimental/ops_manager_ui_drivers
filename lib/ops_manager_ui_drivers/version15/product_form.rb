@@ -23,6 +23,10 @@ module OpsManagerUiDrivers
         end
       end
 
+      def set_boolean_property(checkbox_value)
+        browser.check(checkbox_value)
+      end
+
       def fill_in_selector_property(selector_input_reference:, selector_name:, selector_value:, sub_field_answers:)
         radio = browser.first(%Q(input[type="radio"][name="#{form_name}[#{selector_input_reference}][value]"][value="#{selector_value}"]))
         radio.click
