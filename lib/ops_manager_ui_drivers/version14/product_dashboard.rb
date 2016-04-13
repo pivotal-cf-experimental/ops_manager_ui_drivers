@@ -141,9 +141,9 @@ module OpsManagerUiDrivers
         result = browser.all('.flash-message.error').any? && browser.all('#ignore-install-action').empty?
         if result
           Logger.debug 'flash message errors; we expect these to be empty'
-          Logger.debug browser.all('.flash-message.error').pretty_print_inspect
+          Logger.debug browser.all('.flash-message.error').inspect
           Logger.debug 'ignore install action; we expect there to be one of these'
-          Logger.debug browser.all('#ignore-install-action').pretty_print_inspect
+          Logger.debug browser.all('#ignore-install-action').inspect
         end
         result
       end
