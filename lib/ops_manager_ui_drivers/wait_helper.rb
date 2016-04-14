@@ -10,20 +10,20 @@ module OpsManagerUiDrivers
       fail(EarlyFailException.new(msg))
     end
 
-    def poll_up_to_mins(minutes, &blk)
+    def poll_up_to_mins(minutes, sleep_interval = SLEEP_INTERVAL, &blk)
       title = "Polling for #{minutes} mins"
 
       Logger.debug "--- BEGIN #{title}"
-      retry_until(minutes_to_time(minutes), &blk)
+      retry_until(minutes_to_time(minutes), sleep_interval, &blk)
     ensure
       Logger.debug "--- END   #{title}"
     end
 
-    def poll_up_to_times(times, &blk)
+    def poll_up_to_times(times, sleep_interval = SLEEP_INTERVAL, &blk)
       title = "Polling for #{times} times"
 
       Logger.debug "--- BEGIN #{title}"
-      retry_times(times, &blk)
+      retry_times(times, sleep_interval, &blk)
     ensure
       Logger.debug "--- END   #{title}"
     end
@@ -32,7 +32,7 @@ module OpsManagerUiDrivers
 
     # We're rescuing StandardError because Capybara throws random stuff at us.
 
-    def retry_times(retries, &blk)
+    def retry_times(retries, sleep_interval, &blk)
       blk.call
     rescue EarlyFailException
       raise
@@ -40,7 +40,7 @@ module OpsManagerUiDrivers
       retries -= 1
       Logger.debug "------- retries_left=#{retries}"
       if retries > 0
-        sleep(SLEEP_INTERVAL)
+        sleep(sleep_interval)
         retry
       else
         Logger.debug "------- propagate error=#{e}"
@@ -48,15 +48,15 @@ module OpsManagerUiDrivers
       end
     end
 
-    def retry_until(end_time, &blk)
+    def retry_until(end_time, sleep_interval, &blk)
       blk.call
     rescue EarlyFailException
       raise
     rescue RSpec::Expectations::ExpectationNotMetError, StandardError => e
       seconds_left = (end_time - Time.now).round
       Logger.debug "------- seconds_left=#{seconds_left}"
-      if seconds_left > SLEEP_INTERVAL
-        sleep(SLEEP_INTERVAL)
+      if seconds_left > sleep_interval
+        sleep(sleep_interval)
         retry
       else
         Logger.debug "------- propagate error=#{e}"
