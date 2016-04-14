@@ -25,6 +25,20 @@ module OpsManagerUiDrivers
         end
       end
 
+      def vm_credentials(product_name, job_name)
+        product_guid = deployed_product_guid_from_name(product_name)
+        response = JSON.parse(http.request(get("v0/deployed/products/#{product_guid}/vm_credentials", uaa_token.auth_header)).read_body)
+        response.find { |credential| credential['name'].starts_with?(job_name) }
+      end
+
+      def get_deployed_products
+        JSON.parse(http.request(get('v0/deployed/products', uaa_token.auth_header)).read_body)
+      end
+
+      def deployed_product_guid_from_name(name)
+        get_deployed_products.find { |product| product['type'] == name }.try(:[], 'guid')
+      end
+
       private
 
       def uaa_token
