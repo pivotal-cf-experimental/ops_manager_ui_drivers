@@ -11,6 +11,13 @@ module OpsManagerUiDrivers
         method_deprecated!
       end
 
+      def delete_unused_products
+        open_dashboard
+        disable_css_transitions!
+        @browser.find('a#delete_unused_products_modal').trigger('click')
+        @browser.find('button#delete_unused_products').trigger('click')
+      end
+
       def reset_state(ops_manager)
         revert_pending_changes if revert_available?
         if ops_manager.settings_page.delete_installation_available?
