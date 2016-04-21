@@ -21,6 +21,34 @@ module OpsManagerUiDrivers
         end
       end
 
+      describe '#select_option' do
+        let(:product_form) {
+          OpsManagerUiDrivers::Version17::ProductForm.new(
+            browser:      browser,
+            product_name: 'product_name',
+            form_name:    'form_name',
+          )
+        }
+        let(:browser) { double('browser') }
+        let(:select) { double('select') }
+        let(:options) { double('options') }
+        let(:option) { double('option') }
+
+        it 'finds and select the specified option' do
+          expect(browser).to receive(:find_field)
+            .with('form_name[select_name][select_field]')
+            .and_return(options)
+          expect(options).to receive(:find)
+            .with(:option, 5)
+            .and_return(option)
+          expect(option).to receive(:select_option)
+          product_form.select_option(
+            property_reference: ['select_name', 'select_field'],
+            option_value: 5
+          )
+        end
+      end
+
       describe '#fill_in_selector_property' do
         let(:product_form) {
           OpsManagerUiDrivers::Version17::ProductForm.new(
