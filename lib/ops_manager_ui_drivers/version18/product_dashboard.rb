@@ -11,11 +11,15 @@ module OpsManagerUiDrivers
         method_deprecated!
       end
 
+      def upgrade_product(_product_name)
+        method_deprecated!
+      end
+
       def delete_unused_products
         open_dashboard
         disable_css_transitions!
-        @browser.find('a#delete_unused_products_modal').trigger('click')
-        @browser.find('button#delete_unused_products').trigger('click')
+        @browser.find('#delete_unused_products_modal').trigger('click')
+        @browser.find('#delete_unused_products').trigger('click')
       end
 
       def reset_state(ops_manager)
