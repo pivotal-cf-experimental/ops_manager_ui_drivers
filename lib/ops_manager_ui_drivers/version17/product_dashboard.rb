@@ -24,7 +24,7 @@ module OpsManagerUiDrivers
 
       def delete_unused_products
         open_dashboard
-        @browser.find('#delete_unused_products').trigger('click')
+        @browser.find('a#delete_unused_products').trigger('click')
       end
 
       def deleted_product?(product_name)
