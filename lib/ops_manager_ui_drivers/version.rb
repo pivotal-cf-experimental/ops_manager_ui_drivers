@@ -1,3 +1,3 @@
 module OpsManagerUiDrivers
-  VERSION = '2.10.9'
+  VERSION = '2.11.0'
 end
