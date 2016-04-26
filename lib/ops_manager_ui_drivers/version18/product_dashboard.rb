@@ -11,8 +11,9 @@ module OpsManagerUiDrivers
         method_deprecated!
       end
 
-      def upgrade_product(_product_name)
-        method_deprecated!
+      def upgrade_product(product_name)
+        STDERR.puts 'OpsManagerUiDrivers product_dashboard.upgrade_product is deprecated, please use available_products#add_product_to_install with a product name and version'
+        Version18::AvailableProducts.new(browser: browser).add_product_to_install(product_name, nil)
       end
 
       def delete_unused_products
