@@ -57,6 +57,23 @@ module OpsManagerUiDrivers
         save_form
       end
 
+      def configure_compilation_resources(instances:, vm_type:)
+        browser.visit '/'
+        browser.click_on 'show-p-bosh-configure-action'
+
+        browser.click_on 'show-p-bosh-resource-sizes-action'
+
+        browser.find("select[name='product_resources_form[compilation][instances]']").
+          find("option[value='#{instances}']").
+          select_option
+
+        browser.find("select[name='product_resources_form[compilation][vm_type_id]']").
+          find("option[value='#{vm_type}']").
+          select_option
+
+        save_form
+      end
+
       def save_form(validate: true)
         browser.click_on 'Save'
 
