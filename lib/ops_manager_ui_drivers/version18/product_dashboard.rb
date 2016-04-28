@@ -11,16 +11,19 @@ module OpsManagerUiDrivers
         method_deprecated!
       end
 
+      def product_available?(product_name, product_version)
+        STDERR.puts 'OpsManagerUiDrivers product_dashboard.product_available? is deprecated, please use available_products#product_available?'
+        Version18::AvailableProducts.new(browser: browser).product_available?(product_name, product_version)
+      end
+
       def upgrade_product(product_name)
         STDERR.puts 'OpsManagerUiDrivers product_dashboard.upgrade_product is deprecated, please use available_products#add_product_to_install with a product name and version'
         Version18::AvailableProducts.new(browser: browser).add_product_to_install(product_name, nil)
       end
 
       def delete_unused_products
-        open_dashboard
-        disable_css_transitions!
-        @browser.find('#delete_unused_products_modal').trigger('click')
-        @browser.find('#delete_unused_products').trigger('click')
+        STDERR.puts 'OpsManagerUiDrivers product_dashboard.delete_unused_products is deprecated, please use available_products#delete_unused_products'
+        Version18::AvailableProducts.new(browser: browser).delete_unused_products
       end
 
       def reset_state(ops_manager)
