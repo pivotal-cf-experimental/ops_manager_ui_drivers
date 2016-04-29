@@ -5,7 +5,7 @@ module OpsManagerUiDrivers
     class StateChangeProgress < OpsManagerUiDrivers::Version17::StateChangeProgress
       def errand_ran?(errand_name)
         open_install_progress
-        !!(/Errand `#{errand_name}-\w+' completed successfully \(exit code 0\)/ =~
+        !!(/Errand `#{errand_name}' completed successfully \(exit code 0\)/ =~
           browser.find('#install-output .output', visible: false).text(:all))
       end
     end
