@@ -13,7 +13,7 @@ module OpsManagerUiDrivers
       def errand_ran?(errand_name)
         open_install_progress
         browser.find('#install-output .output', visible: false).text(:all).
-          include?("Errand `#{errand_name}' completed successfully (exit code 0)")
+          include?("Errand '#{errand_name}' completed successfully (exit code 0)")
       end
 
       def errand_ran_with_text?(errand_name)
