@@ -39,6 +39,10 @@ module OpsManagerUiDrivers
         get_deployed_products.find { |product| product['type'] == name }.try(:[], 'guid')
       end
 
+      def set_director_second_network(network_name)
+        http.request(put('v0/staged/director/second_network', {second_network: {name: network_name}}.to_json,  uaa_token.auth_header))
+      end
+
       private
 
       def uaa_token
@@ -53,10 +57,11 @@ module OpsManagerUiDrivers
         end
       end
 
-      def put(endpoint, form_data, token=nil)
+      def put(endpoint, json_body, token=nil)
         Net::HTTP::Put.new(api_uri(endpoint).request_uri).tap do |put_request|
           add_auth_to_request(put_request, token)
-          put_request.set_form_data(form_data)
+          put_request.body= json_body
+          put_request.content_type = 'application/json'
         end
       end
 
