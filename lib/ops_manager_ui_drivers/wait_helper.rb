@@ -38,7 +38,7 @@ module OpsManagerUiDrivers
       raise
     rescue RSpec::Expectations::ExpectationNotMetError, StandardError => e
       retries -= 1
-      Logger.debug "------- retries_left=#{retries}"
+      Logger.debug "------- retries_left=#{retries}" if retries % 10 == 0
       if retries > 0
         sleep(sleep_interval)
         retry
