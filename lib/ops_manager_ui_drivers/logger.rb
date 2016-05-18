@@ -11,5 +11,9 @@ module OpsManagerUiDrivers
     def self.debug(string)
       logger.debug("#{string} app_host => #{Capybara.app_host}")
     end
+
+    def self.error(string)
+      logger.error("#{string} app_host => #{Capybara.app_host}")
+    end
   end
 end

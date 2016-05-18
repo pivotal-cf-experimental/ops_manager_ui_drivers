@@ -11,6 +11,9 @@ module OpsManagerUiDrivers
       STEMCELLS_UPLOAD_PATH = 'api/v0/stemcells'
       NETWORKS_AND_AZS_PATH = PRODUCTS_PATH + '/:product_id/networks_and_azs'
 
+      def set_feature_flag(_flag_name, _value)
+        Logger.error 'This method is a no-op. Ops Manager 1.8 does not support turning feature_flags on/off'
+      end
 
       def internal_setup!
         setup_params = {
