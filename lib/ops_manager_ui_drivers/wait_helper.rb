@@ -1,4 +1,6 @@
 require 'time'
+require 'active_support'
+require 'active_support/core_ext'
 
 module OpsManagerUiDrivers
   module WaitHelper
@@ -38,7 +40,7 @@ module OpsManagerUiDrivers
       raise
     rescue RSpec::Expectations::ExpectationNotMetError, StandardError => e
       retries -= 1
-      Logger.debug "------- retries_left=#{retries}" if retries % 10 == 0
+      Logger.debug "------- retries_left=#{retries}"
       if retries > 0
         sleep(sleep_interval)
         retry
@@ -54,7 +56,12 @@ module OpsManagerUiDrivers
       raise
     rescue RSpec::Expectations::ExpectationNotMetError, StandardError => e
       seconds_left = (end_time - Time.now).round
-      Logger.debug "------- seconds_left=#{seconds_left}"
+      last_logged_at ||= 1.seconds.ago
+
+      if seconds_left % 10 == 0 && (Time.now - last_logged_at).round != 0
+        Logger.debug "------- seconds_left=#{seconds_left}"
+      end
+
       if seconds_left > sleep_interval
         sleep(sleep_interval)
         retry
