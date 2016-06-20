@@ -290,6 +290,7 @@ module OpsManagerUiDrivers
           it 'navigates to and submits the availability zone form' do
             iaas_identifier_field = double(:iaas_identifier_field, set: nil)
             allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').and_return([iaas_identifier_field])
+            allow(browser).to receive(:all).with('.flash-message.success').and_return(['success'])
 
             ops_manager_director.add_availability_zones(OpsManagerUiDrivers::AWS_IAAS_TYPE, [{'iaas_identifier' => 'aws_az'}])
 
@@ -299,6 +300,7 @@ module OpsManagerUiDrivers
             expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').ordered
             expect(iaas_identifier_field).to have_received(:set).with('aws_az').ordered
             expect(browser).to have_received(:click_on).with('Save').ordered
+            expect(browser).to have_received(:all).with('.flash-message.success').ordered
           end
         end
 
@@ -306,6 +308,7 @@ module OpsManagerUiDrivers
           it 'navigates to and submits the availability zone form' do
             iaas_identifier_field = double(:iaas_identifier_field, set: nil)
             allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').and_return([iaas_identifier_field])
+            allow(browser).to receive(:all).with('.flash-message.success').and_return(['success'])
 
             ops_manager_director.add_availability_zones(OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE, [{'iaas_identifier' => 'openstack_az'}])
 
@@ -315,11 +318,14 @@ module OpsManagerUiDrivers
             expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][iaas_identifier]').ordered
             expect(iaas_identifier_field).to have_received(:set).with('openstack_az').ordered
             expect(browser).to have_received(:click_on).with('Save').ordered
+            expect(browser).to have_received(:all).with('.flash-message.success').ordered
           end
         end
 
         context 'when the infrastructure is anything else' do
           it 'navigates to and submits the availability zone form' do
+            allow(browser).to receive(:all).with('.flash-message.success').and_return(['success'])
+
             name_field = double(:name_field, set: nil)
             allow(browser).to receive(:all).with(:field, 'availability_zones[availability_zones][][name]').and_return([name_field])
             cluster_field = double(:cluster_field, set: nil)
@@ -340,6 +346,7 @@ module OpsManagerUiDrivers
             expect(browser).to have_received(:all).with(:field, 'availability_zones[availability_zones][][resource_pool]').ordered
             expect(resource_pool_field).to have_received(:set).with('vsphere_resource_pool').ordered
             expect(browser).to have_received(:click_on).with('Save').ordered
+            expect(browser).to have_received(:all).with('.flash-message.success').ordered
           end
         end
       end

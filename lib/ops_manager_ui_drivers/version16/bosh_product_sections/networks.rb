@@ -39,7 +39,7 @@ module OpsManagerUiDrivers
             'gateway'                 => gateway,
             'reserved_ip_ranges'      => reserved_ip_ranges,
           )
-          @bosh_product_form_section.save_form
+          @bosh_product_form_section.save_form([/Cannot reach gateway/])
         end
 
         private

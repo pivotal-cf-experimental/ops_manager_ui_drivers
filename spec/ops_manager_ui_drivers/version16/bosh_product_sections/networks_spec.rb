@@ -144,8 +144,7 @@ module OpsManagerUiDrivers
             expect(field_node).to have_received(:set).with('ReservedIpRanges').ordered
 
             expect(browser).to have_received(:click_on).with('Save').ordered
-            expect(browser).to have_received(:expect).with(page).ordered
-            expect(expectation_target).to have_received(:to).with(flash_selector).ordered
+            expect(browser).to have_received(:all).with('.flash-message.success').ordered
           end
         end
       end

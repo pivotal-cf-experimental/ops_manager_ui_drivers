@@ -13,9 +13,9 @@ module OpsManagerUiDrivers
           @browser.click_on "show-#{form_name}-action"
         end
 
-        def save_form
+        def save_form(allowed_errors=[])
           @browser.click_on 'Save'
-          @browser.expect(@browser.page).to @browser.have_css('.flash-message.success')
+          !@browser.all('.flash-message.success').empty? || only_has_allowed_verification_errors(allowed_errors)
         end
 
         def set_fields(fields)
@@ -25,6 +25,21 @@ module OpsManagerUiDrivers
         end
 
         private
+
+        def only_has_allowed_verification_errors(allowed_errors)
+          flash_errors = @browser.all('.flash-message.error')
+          unexpected_errors = []
+
+          if flash_errors.any?
+            unexpected_errors = flash_errors.reject do |error|
+              allowed_errors.select do |expected_error|
+                error.text =~ expected_error
+              end.any?
+            end
+          end
+
+          unexpected_errors.empty?
+        end
 
         def set_field(field, value)
           last_field(field).set(value)

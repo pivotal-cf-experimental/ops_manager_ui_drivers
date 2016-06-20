@@ -32,8 +32,7 @@ module OpsManagerUiDrivers
             allow(browser).to receive(:have_css).with('.flash-message.success').and_return(flash_selector)
 
             expect(browser).to receive(:click_on).with('Save')
-            expect(browser).to receive(:expect).with(page).and_return(expectation_target)
-            expect(expectation_target).to receive(:to).with(flash_selector)
+            expect(browser).to receive(:all).with('.flash-message.success').and_return(['success!']).ordered
             bosh_product_form_section.save_form
           end
         end
