@@ -44,9 +44,16 @@ module OpsManagerUiDrivers
       end
 
       private
+      def uaa_uri
+        if @host_uri.host == 'localhost' && @host_uri.port == 3000
+          URI.parse('http://localhost:8080')
+        else
+          @host_uri
+        end
+      end
 
       def uaa_token
-        target_url = @host_uri.to_s + '/uaa'
+        target_url = uaa_uri.to_s + '/uaa'
         token_issuer = CF::UAA::TokenIssuer.new(target_url, 'opsman', nil, {skip_ssl_validation: true})
         token_issuer.owner_password_grant(@username, @password)
       end

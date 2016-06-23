@@ -1,6 +1,7 @@
 require 'ops_manager_ui_drivers/version17/api'
 require 'uaa'
 require 'net/http/post/multipart'
+require 'faraday'
 
 module OpsManagerUiDrivers
   module Version18
