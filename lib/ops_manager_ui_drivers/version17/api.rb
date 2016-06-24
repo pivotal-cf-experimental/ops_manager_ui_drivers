@@ -31,6 +31,12 @@ module OpsManagerUiDrivers
         response.find { |credential| credential['name'].starts_with?(job_name) }
       end
 
+      def director_vm_credentials
+        response = JSON.parse(http.request(get("v0/deployed/director/credentials/vm_credentials", uaa_token.auth_header)).read_body)
+
+        response['credential']['value']
+      end
+
       def get_deployed_products
         JSON.parse(http.request(get('v0/deployed/products', uaa_token.auth_header)).read_body)
       end

@@ -111,6 +111,18 @@ module OpsManagerUiDrivers
         browser.click_on 'Save'
       end
 
+      def assign_network(iaas_type:, network_name:)
+        case iaas_type
+          when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE, OpsManagerUiDrivers::VSPHERE_IAAS_TYPE
+            browser.click_on 'Assign AZs and Networks'
+            browser.select(network_name, from: 'Network')
+          when OpsManagerUiDrivers::VCLOUD_IAAS_TYPE
+            browser.click_on 'Assign Networks'
+            browser.select(network_name, from: 'Network')
+        end
+        browser.click_on 'Save'
+      end
+
       def configure_vm_passwords(use_generated_passwords: true)
         browser.click_on 'Security'
         if use_generated_passwords
