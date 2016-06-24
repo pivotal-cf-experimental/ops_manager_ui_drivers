@@ -26,6 +26,7 @@ module OpsManagerUiDrivers
 
         browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.dig('ntp_servers'))
         browser.check('Enable VM Resurrector Plugin') if ops_manager.dig('resurrector_enabled')
+        browser.check('Enable Post Deploy Scripts') if ops_manager.dig('post_deploy_enabled')
 
         s3_blobstore = ops_manager.dig('s3_blobstore')
         if s3_blobstore
