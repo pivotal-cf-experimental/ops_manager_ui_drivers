@@ -23,7 +23,6 @@ module OpsManagerUiDrivers
 
         browser.click_on 'show-director_configuration-action'
 
-
         browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.dig('ntp_servers'))
         browser.check('Enable VM Resurrector Plugin') if ops_manager.dig('resurrector_enabled')
         browser.check('Enable Post Deploy Scripts') if ops_manager.dig('post_deploy_enabled')
