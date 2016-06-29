@@ -70,7 +70,7 @@ module OpsManagerUiDrivers
 
     def api_1_8(host:, username:, password:)
       Version18::Api.new(host_uri: host, username: username, password: password)
-      end
+    end
 
     def api_1_9(host:, username:, password:)
       Version18::Api.new(host_uri: host, username: username, password: password)
