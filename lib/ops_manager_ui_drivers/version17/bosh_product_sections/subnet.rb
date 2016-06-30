@@ -13,7 +13,7 @@ module OpsManagerUiDrivers
         end
 
         def add_subnet(identifier:, cidr:, dns:, gateway:, reserved_ips:, availability_zones:)
-          @browser.click_on 'Add Subnet' if @subnet_index > 0
+          @browser.all('a', text: 'Add Subnet').last.click if @subnet_index > 0
 
           @subnet_form_section.set_fields(
             'iaas_identifier'    => identifier,
