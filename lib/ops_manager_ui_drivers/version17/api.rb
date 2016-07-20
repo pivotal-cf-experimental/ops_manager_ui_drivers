@@ -49,6 +49,19 @@ module OpsManagerUiDrivers
         http.request(put('v0/staged/director/second_network', {second_network: {name: network_name}}.to_json,  uaa_token.auth_header))
       end
 
+      def most_recent_installation_log
+        all_installations = JSON.parse(
+          http.request(get('v0/installations', uaa_token.auth_header)).read_body
+        )['installations']
+        return if all_installations.empty?
+
+        most_recent_installation_id = all_installations.first['id']
+        installation_log_path = "v0/installations/#{most_recent_installation_id}/logs"
+
+        most_recent_installation_log = JSON.parse(http.request(get(installation_log_path, uaa_token.auth_header)).read_body)['logs']
+        most_recent_installation_log
+      end
+
       private
       def uaa_uri
         if @host_uri.host == 'localhost' && @host_uri.port == 3000
