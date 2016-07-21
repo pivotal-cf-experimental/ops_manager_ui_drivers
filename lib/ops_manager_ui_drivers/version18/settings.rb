@@ -7,7 +7,7 @@ module OpsManagerUiDrivers
       def self.for(test_settings)
         iaas_type = test_settings.dig('iaas_type')
         settings_class =
-          [Vcloud, Vsphere, AWS, OpenStack].find do |klass|
+          [Vcloud, Vsphere, AWS, OpenStack, Google, Azure].find do |klass|
             klass.works_with?(iaas_type)
           end or fail("Unsupported IaaS: #{iaas_type.inspect}")
         settings_class.new(test_settings)
@@ -23,6 +23,12 @@ module OpsManagerUiDrivers
       end
 
       class OpenStack < Version17::Settings::OpenStack
+      end
+
+      class Google < Version17::Settings::Google
+      end
+
+      class Azure < Version17::Settings::Azure
       end
     end
   end
