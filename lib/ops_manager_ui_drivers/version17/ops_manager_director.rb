@@ -32,7 +32,7 @@ module OpsManagerUiDrivers
 
       def add_availability_zones(iaas_type, iaas_availability_zones)
         case iaas_type
-          when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE
+          when OpsManagerUiDrivers::AWS_IAAS_TYPE, OpsManagerUiDrivers::OPENSTACK_IAAS_TYPE, OpsManagerUiDrivers::GOOGLE_IAAS_TYPE
             return unless iaas_availability_zones
             iaas_availability_zones && iaas_availability_zones.each do |az|
               availability_zones.add_az('iaas_identifier' => az['iaas_identifier'])
