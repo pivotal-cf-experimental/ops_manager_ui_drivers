@@ -8,6 +8,8 @@ module OpsManagerUiDrivers
         @iaas_configuration = iaas_configuration
       end
 
+      delegate :configure_icmp_checks, to: :networks
+
       def configure_bosh_product(test_settings)
         configure_iaas(test_settings)
 

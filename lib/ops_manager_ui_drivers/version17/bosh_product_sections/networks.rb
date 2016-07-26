@@ -40,6 +40,18 @@ module OpsManagerUiDrivers
 
           @bosh_product_form_section.save_form
         end
+
+        def configure_icmp_checks(enabled)
+          @bosh_product_form_section.open_form('network')
+
+          if enabled
+            @browser.check 'Enable ICMP checks'
+          else
+            @browser.uncheck 'Enable ICMP checks'
+          end
+
+          @bosh_product_form_section.save_form
+        end
       end
     end
   end
