@@ -23,9 +23,13 @@ module OpsManagerUiDrivers
 
         browser.click_on 'show-director_configuration-action'
 
-        browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.dig('ntp_servers'))
-        browser.check('Enable VM Resurrector Plugin') if ops_manager.dig('resurrector_enabled')
-        browser.check('Enable Post Deploy Scripts') if ops_manager.dig('post_deploy_enabled')
+        browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.dig('ntp_servers')) if ops_manager.has_key?('ntp_servers')
+        browser.find(:checkbox, 'Enable VM Resurrector Plugin').set(ops_manager.dig('resurrector_enabled')) if ops_manager.has_key?('resurrector_enabled')
+        browser.find(:checkbox, 'Enable Post Deploy Scripts').set(ops_manager.dig('post_deploy_enabled')) if ops_manager.has_key?('post_deploy_enabled')
+        browser.find(:checkbox, 'director_configuration[retry_bosh_deploys]').set(ops_manager.dig('retry_bosh_deploys')) if ops_manager.has_key?('retry_bosh_deploys')
+        browser.fill_in('director_configuration[metrics_ip]', with: ops_manager.dig('metrics_ip')) if ops_manager.dig('metrics_ip')
+        browser.fill_in('director_configuration[max_threads]', with: ops_manager.dig('max_threads')) if ops_manager.dig('max_threads')
+        browser.fill_in('director_configuration[director_hostname]', with: ops_manager.dig('director_hostname')) if ops_manager.dig('director_hostname')
 
         s3_blobstore = ops_manager.dig('s3_blobstore')
         if s3_blobstore
