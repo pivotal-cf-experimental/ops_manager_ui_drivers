@@ -331,7 +331,6 @@ module OpsManagerUiDrivers
             end
 
             it 'applies s3 settings correctly' do
-              expect(browser).to receive(:fill_in).with('director_configuration[ntp_servers_string]', {:with => nil})
               expect(browser).to receive(:fill_in).with('director_configuration[s3_blobstore_options][endpoint]', {:with => 'http://example.com'})
               expect(browser).to receive(:fill_in).with('director_configuration[s3_blobstore_options][bucket_name]', {:with => 'test-bucket'})
               expect(browser).to receive(:fill_in).with('director_configuration[s3_blobstore_options][access_key]', {:with => 'test-access_key'})

@@ -63,8 +63,9 @@ module OpsManagerUiDrivers
 
       def config_director(ops_manager)
         browser.click_on 'Director Config'
-        browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.dig('ntp_servers'))
-        browser.check('Enable VM Resurrector Plugin') if ops_manager.dig('resurrector_enabled')
+        browser.fill_in('director_configuration[ntp_servers_string]', with: ops_manager.dig('ntp_servers')) if ops_manager.has_key?('ntp_servers')
+        browser.find(:checkbox, 'Enable VM Resurrector Plugin').set(ops_manager.dig('resurrector_enabled')) if ops_manager.has_key?('resurrector_enabled')
+        browser.fill_in('director_configuration[director_hostname]', with: ops_manager.dig('director_hostname')) if ops_manager.dig('director_hostname')
 
         s3_blobstore = ops_manager.dig('s3_blobstore')
         if s3_blobstore
