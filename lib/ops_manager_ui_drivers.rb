@@ -12,4 +12,5 @@ module OpsManagerUiDrivers
   VCLOUD_IAAS_TYPE    = 'vcloud'.freeze
   VSPHERE_IAAS_TYPE   = 'vsphere'.freeze
   GOOGLE_IAAS_TYPE    = 'google'.freeze
+  AZURE_IAAS_TYPE     = 'azure'.freeze
 end

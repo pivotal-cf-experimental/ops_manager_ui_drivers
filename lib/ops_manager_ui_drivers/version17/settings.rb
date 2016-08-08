@@ -151,49 +151,6 @@ module OpsManagerUiDrivers
           }
         end
       end
-
-      class Google
-        def self.works_with?(iaas_type)
-          iaas_type == 'google'
-        end
-
-        def initialize(test_settings)
-          @test_settings = test_settings
-        end
-
-        def iaas_configuration_fields
-          {
-            'project' => @test_settings.dig('ops_manager', 'google', 'project'),
-            'region' => @test_settings.dig('ops_manager', 'google', 'region'),
-            'ssh_private_key' => @test_settings.dig('ops_manager', 'google', 'ssh_private_key'),
-          }
-        end
-
-        def advanced_infrastructure_config_fields
-          {
-          }
-        end
-      end
-
-      class Azure
-        def self.works_with?(iaas_type)
-          iaas_type == 'azure'
-        end
-
-        def initialize(test_settings)
-          @test_settings = test_settings
-        end
-
-        def iaas_configuration_fields
-          {
-          }
-        end
-
-        def advanced_infrastructure_config_fields
-          {
-          }
-        end
-      end
     end
   end
 end

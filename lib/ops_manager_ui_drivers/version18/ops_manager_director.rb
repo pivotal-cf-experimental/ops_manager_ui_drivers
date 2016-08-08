@@ -78,6 +78,18 @@ module OpsManagerUiDrivers
         save_form
       end
 
+
+      def assign_azs_and_networks(iaas_type, iaas_availability_zones, ops_manager)
+        case iaas_type
+          when OpsManagerUiDrivers::AZURE_IAAS_TYPE
+            browser.click_on 'Assign Networks'
+            browser.select(ops_manager.dig('networks', 0, 'name'), from: 'Network')
+            browser.click_on 'Save'
+          else
+            super
+        end
+      end
+
       def save_form(validate: true)
         browser.click_on 'Save'
 

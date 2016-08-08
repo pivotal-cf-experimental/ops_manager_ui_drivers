@@ -25,10 +25,57 @@ module OpsManagerUiDrivers
       class OpenStack < Version17::Settings::OpenStack
       end
 
-      class Google < Version17::Settings::Google
+      class Google
+        def self.works_with?(iaas_type)
+          iaas_type == 'google'
+        end
+
+        def initialize(test_settings)
+          @test_settings = test_settings
+        end
+
+        def iaas_configuration_fields
+          {
+            'project' => @test_settings.dig('ops_manager', 'google', 'project'),
+            'region' => @test_settings.dig('ops_manager', 'google', 'region'),
+            'ssh_private_key' => @test_settings.dig('ops_manager', 'google', 'ssh_private_key'),
+          }
+        end
+
+        def advanced_infrastructure_config_fields
+          {
+          }
+        end
       end
 
-      class Azure < Version17::Settings::Azure
+      class Azure
+        def self.works_with?(iaas_type)
+          iaas_type == 'azure'
+        end
+
+        def initialize(test_settings)
+          @test_settings = test_settings
+        end
+
+        def iaas_configuration_fields
+          {
+            'subscription_id' => @test_settings.dig('ops_manager', 'azure', 'subscription_id'),
+            'tenant_id' => @test_settings.dig('ops_manager', 'azure', 'tenant_id'),
+            'client_id' => @test_settings.dig('ops_manager', 'azure', 'client_id'),
+            'client_secret' => @test_settings.dig('ops_manager', 'azure', 'client_secret'),
+            'resource_group_name' => @test_settings.dig('ops_manager', 'azure', 'resource_group_name'),
+            'bosh_storage_account_name' => @test_settings.dig('ops_manager', 'azure', 'bosh_storage_account_name'),
+            'deployments_storage_account_name' => @test_settings.dig('ops_manager', 'azure', 'deployments_storage_account_name'),
+            'default_security_group' => @test_settings.dig('ops_manager', 'azure', 'default_security_group'),
+            'ssh_public_key' => @test_settings.dig('ops_manager', 'azure', 'ssh_public_key'),
+            'ssh_private_key' => @test_settings.dig('ops_manager', 'azure', 'ssh_private_key'),
+          }
+        end
+
+        def advanced_infrastructure_config_fields
+          {
+          }
+        end
       end
     end
   end
