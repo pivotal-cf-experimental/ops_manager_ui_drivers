@@ -39,6 +39,7 @@ module OpsManagerUiDrivers
             'project' => @test_settings.dig('ops_manager', 'google', 'project'),
             'region' => @test_settings.dig('ops_manager', 'google', 'region'),
             'auth_json' => @test_settings.dig('ops_manager', 'google', 'auth_json'),
+            'ssh_private_key' => @test_settings.dig('ops_manager', 'google', 'ssh_private_key'),
           }
         end
 
