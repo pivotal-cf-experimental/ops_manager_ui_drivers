@@ -13,6 +13,13 @@ module OpsManagerUiDrivers
         settings_class.new(test_settings)
       end
 
+      def self.build_browser_command(command, arg)
+        {
+          'browser_command' => command,
+          'browser_arg' => arg,
+        }
+      end
+
       class Vcloud < Version17::Settings::Vcloud
       end
 
@@ -39,12 +46,27 @@ module OpsManagerUiDrivers
             'project' => @test_settings.dig('ops_manager', 'google', 'project'),
             'region' => @test_settings.dig('ops_manager', 'google', 'region'),
             'ssh_private_key' => @test_settings.dig('ops_manager', 'google', 'ssh_private_key'),
-          }
+          }.merge(iaas_security_configuration_fields)
         end
 
         def advanced_infrastructure_config_fields
           {
           }
+        end
+
+        private
+
+        def iaas_security_configuration_fields
+          if @test_settings.dig('ops_manager', 'google', 'auth_json')
+            {
+              'access_type' => Settings.build_browser_command('choose', 'AuthJSON'),
+              'auth_json' => @test_settings.dig('ops_manager', 'google', 'auth_json'),
+            }
+          else
+            {
+              'access_type' => Settings.build_browser_command('choose', 'Default Service Account'),
+            }
+          end
         end
       end
 

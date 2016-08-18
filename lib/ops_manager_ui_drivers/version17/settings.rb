@@ -12,6 +12,13 @@ module OpsManagerUiDrivers
         settings_class.new(test_settings)
       end
 
+      def self.build_browser_command(command, arg)
+        {
+          'browser_command' => command,
+          'browser_arg' => arg,
+        }
+      end
+
       class Vcloud
         def self.works_with?(iaas_type)
           iaas_type == 'vcloud'
@@ -99,17 +106,10 @@ module OpsManagerUiDrivers
 
         private
 
-        def build_browser_command(command, arg)
-          {
-            'browser_command' => command,
-            'browser_arg' => arg,
-          }
-        end
-
         def iaas_security_configuration_fields
           if @test_settings.dig('ops_manager', 'aws', 'instance_profile')
             {
-              'access_type' => build_browser_command('choose', 'Use AWS Instance Profile'),
+              'access_type' => Settings.build_browser_command('choose', 'Use AWS Instance Profile'),
               'iam_instance_profile' => @test_settings.dig('ops_manager', 'aws', 'instance_profile'),
             }
           else
