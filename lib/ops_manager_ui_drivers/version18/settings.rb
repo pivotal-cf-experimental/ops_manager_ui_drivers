@@ -44,7 +44,6 @@ module OpsManagerUiDrivers
         def iaas_configuration_fields
           {
             'project' => @test_settings.dig('ops_manager', 'google', 'project'),
-            'region' => @test_settings.dig('ops_manager', 'google', 'region'),
             'ssh_private_key' => @test_settings.dig('ops_manager', 'google', 'ssh_private_key'),
           }.merge(iaas_security_configuration_fields)
         end
