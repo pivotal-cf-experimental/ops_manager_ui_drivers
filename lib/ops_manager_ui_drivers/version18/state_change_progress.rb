@@ -8,6 +8,23 @@ module OpsManagerUiDrivers
         !!(/Errand '#{errand_name}' completed successfully \(exit code 0\)/ =~
           browser.find('#install-output .output', visible: false).text(:all))
       end
+
+      def state_change_success?
+        load_change_log
+        content = browser.find('#change-log > tbody > tr:first-child')
+        content.text.include?('SUCCEEDED')
+      end
+
+      private
+
+      def load_change_log
+        browser.visit '/change_log'
+        browser.poll_up_to_mins(1) do
+          content = browser.find('#change-log > tbody > tr:first-child')
+          fail StandardError unless content
+          fail StandardError if content.text.include?('Loading')
+        end
+      end
     end
   end
 end
