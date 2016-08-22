@@ -12,7 +12,11 @@ module OpsManagerUiDrivers
       def state_change_success?
         load_change_log
         content = browser.find('#change-log > tbody > tr:first-child')
-        content.text.include?('SUCCEEDED')
+        if content.text.include?('FAILED')
+          browser.fail_early('Installation failed!')
+        else
+          content.text.include?('SUCCEEDED')
+        end
       end
 
       private
