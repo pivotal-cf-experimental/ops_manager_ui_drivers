@@ -16,7 +16,7 @@ module OpsManagerUiDrivers
       end
 
       def generate_self_signed_cert(wildcard_domain)
-        browser.click_on 'Generate Self-Signed RSA Certificate'
+        browser.click_on 'Generate RSA Certificate'
         browser.within '#rsa-certificate-form' do
           browser.fill_in 'rsa_certificate[domains]', with: wildcard_domain
           browser.click_on 'save-rsa-certificate-action'
