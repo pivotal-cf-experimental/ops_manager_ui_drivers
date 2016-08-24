@@ -1,3 +1,4 @@
+require 'capybara/dsl'
 require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
 

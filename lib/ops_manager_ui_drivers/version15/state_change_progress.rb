@@ -35,8 +35,6 @@ module OpsManagerUiDrivers
         browser.current_path =~ %r(^/+install)
       end
 
-      private
-
       attr_reader :browser
     end
   end
