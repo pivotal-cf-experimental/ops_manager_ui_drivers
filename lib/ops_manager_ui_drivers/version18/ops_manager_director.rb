@@ -89,6 +89,7 @@ module OpsManagerUiDrivers
             browser.click_on 'Assign AZs and Networks'
             browser.select(ops_manager.dig('networks', 0, 'name'), from: 'Network')
             browser.select(iaas_availability_zones.first['iaas_identifier'], from: 'Singleton Availability Zone')
+            browser.click_on 'Save'
           else
             super
         end
