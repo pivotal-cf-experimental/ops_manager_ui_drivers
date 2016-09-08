@@ -49,13 +49,25 @@ module OpsManagerUiDrivers
         http.request(put('v0/staged/director/second_network', {second_network: {name: network_name}}.to_json,  uaa_token.auth_header))
       end
 
-      def most_recent_installation_log
-        all_installations = JSON.parse(
-          http.request(get('v0/installations', uaa_token.auth_header)).read_body
-        )['installations']
-        return if all_installations.empty?
+      def state_change_success?
+        if most_recent_installation_id.empty?
+          return false
+        end
 
-        most_recent_installation_id = all_installations.first['id']
+        state = JSON.parse(
+          http.request(get("v0/installations/#{most_recent_installation_id}", uaa_token.auth_header)).read_body
+        )['status']
+
+        if state == 'failed'
+          browser.fail_early('Installation failed!')
+        else
+          state == 'succeeded'
+        end
+      end
+
+      def most_recent_installation_log
+        return if most_recent_installation_id.empty?
+
         installation_log_path = "v0/installations/#{most_recent_installation_id}/logs"
 
         most_recent_installation_log = JSON.parse(http.request(get(installation_log_path, uaa_token.auth_header)).read_body)['logs']
@@ -63,6 +75,15 @@ module OpsManagerUiDrivers
       end
 
       private
+
+      def most_recent_installation_id
+        all_installations = JSON.parse(
+          http.request(get('v0/installations', uaa_token.auth_header)).read_body
+        )['installations']
+
+        all_installations.empty? ? '' : "#{all_installations.first['id']}"
+      end
+
       def uaa_uri
         if @host_uri.host == 'localhost' && @host_uri.port == 3000
           URI.parse('http://localhost:8080')
