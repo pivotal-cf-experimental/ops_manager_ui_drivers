@@ -64,7 +64,7 @@ module OpsManagerUiDrivers
             }
           else
             {
-              'access_type' => Settings.build_browser_command('choose', 'Default Service Account'),
+              'access_type' => Settings.build_browser_command('choose', 'The Ops Manager VM Service Account'),
             }
           end
         end
