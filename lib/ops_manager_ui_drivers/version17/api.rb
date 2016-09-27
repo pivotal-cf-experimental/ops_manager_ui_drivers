@@ -58,11 +58,7 @@ module OpsManagerUiDrivers
           http.request(get("v0/installations/#{most_recent_installation_id}", uaa_token.auth_header)).read_body
         )['status']
 
-        if state == 'failed'
-          browser.fail_early('Installation failed!')
-        else
-          state == 'succeeded'
-        end
+        state == 'succeeded'
       end
 
       def most_recent_installation_log
