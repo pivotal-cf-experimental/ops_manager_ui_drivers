@@ -95,6 +95,18 @@ module OpsManagerUiDrivers
         end
       end
 
+      def add_networks(test_settings)
+        iaas_networks = test_settings.dig('ops_manager', 'networks')
+
+        iaas_networks && iaas_networks.each do |network|
+          networks.add_network(
+            name: network['name'],
+            is_service_network: network.fetch("is_service_network", false),
+            subnets: network['subnets'],
+          )
+        end
+      end
+
       def save_form(validate: true)
         browser.click_on 'Save'
 
