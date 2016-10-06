@@ -52,7 +52,6 @@ module OpsManagerUiDrivers
         iaas_networks && iaas_networks.each do |network|
           networks.add_network(
             name: network['name'],
-            is_service_network: network.fetch("is_service_network", false),
             subnets: network['subnets'],
           )
         end
