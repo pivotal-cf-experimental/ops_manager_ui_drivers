@@ -42,6 +42,14 @@ module OpsManagerUiDrivers
         browser:         browser,
         version_module:  Version18,
       )
+      end
+
+    def om_1_9(ops_manager_url, browser = self)
+      @om_1_9 ||= create_web_ui(
+        ops_manager_url: ops_manager_url,
+        browser:         browser,
+        version_module:  Version19,
+      )
     end
 
     def api_1_4(host:, username:, password:)
