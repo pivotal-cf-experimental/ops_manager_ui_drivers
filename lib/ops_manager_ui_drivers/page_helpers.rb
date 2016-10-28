@@ -7,48 +7,48 @@ module OpsManagerUiDrivers
     def om_1_4(ops_manager_url, browser = self)
       @om_1_4 ||= create_web_ui(
         ops_manager_url: ops_manager_url,
-        browser:         browser,
-        version_module:  Version14,
+        browser: browser,
+        version_module: Version14,
       )
     end
 
     def om_1_5(ops_manager_url, browser = self)
       @om_1_5 ||= create_web_ui(
         ops_manager_url: ops_manager_url,
-        browser:         browser,
-        version_module:  Version15,
+        browser: browser,
+        version_module: Version15,
       )
     end
 
     def om_1_6(ops_manager_url, browser = self)
       @om_1_6 ||= create_web_ui(
         ops_manager_url: ops_manager_url,
-        browser:         browser,
-        version_module:  Version16,
+        browser: browser,
+        version_module: Version16,
       )
     end
 
     def om_1_7(ops_manager_url, browser = self)
       @om_1_7 ||= create_web_ui(
         ops_manager_url: ops_manager_url,
-        browser:         browser,
-        version_module:  Version17,
+        browser: browser,
+        version_module: Version17,
       )
     end
 
     def om_1_8(ops_manager_url, browser = self)
       @om_1_8 ||= create_web_ui(
         ops_manager_url: ops_manager_url,
-        browser:         browser,
-        version_module:  Version18,
+        browser: browser,
+        version_module: Version18,
       )
-      end
+    end
 
     def om_1_9(ops_manager_url, browser = self)
       @om_1_9 ||= create_web_ui(
         ops_manager_url: ops_manager_url,
-        browser:         browser,
-        version_module:  Version19,
+        browser: browser,
+        version_module: Version19,
       )
     end
 
@@ -72,8 +72,12 @@ module OpsManagerUiDrivers
       Version18::Api.new(host_uri: host, username: username, password: password)
     end
 
-    alias_method :om_rc, :om_1_8
-    alias_method :api_rc, :api_1_8
+    def api_1_9(host:, username:, password:)
+      Version19::Api.new(host_uri: host, username: username, password: password)
+    end
+
+    alias_method :om_rc, :om_1_9
+    alias_method :api_rc, :api_1_9
 
     private
 
