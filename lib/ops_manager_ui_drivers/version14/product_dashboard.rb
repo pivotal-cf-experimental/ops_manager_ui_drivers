@@ -205,11 +205,11 @@ module OpsManagerUiDrivers
           browser.has_text?('Stop and fix errors') && !has_ignorable_errors?
         end
 
-        def has_install_issues?(retries: 30)
+        def has_install_issues?(retries: ENV.fetch('UI_DRIVERS_RETRIES', 30).to_i)
           wait_for_page_to_have_text 'Install Issues', retries: retries
         end
 
-        def completed_successfully?(retries: 30)
+        def completed_successfully?(retries: ENV.fetch('UI_DRIVERS_RETRIES', 30).to_i)
           wait_for_page_to_have_text 'successfully applied', retries: retries
         end
 
