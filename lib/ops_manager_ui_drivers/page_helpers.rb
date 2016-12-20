@@ -52,6 +52,14 @@ module OpsManagerUiDrivers
       )
     end
 
+    def om_1_10(ops_manager_url, browser = self)
+      @om_1_10 ||= create_web_ui(
+        ops_manager_url: ops_manager_url,
+        browser: browser,
+        version_module: Version110,
+      )
+    end
+
     def api_1_4(host:, username:, password:)
       Version14::Api.new(host_uri: host, username: username, password: password)
     end
@@ -76,8 +84,12 @@ module OpsManagerUiDrivers
       Version19::Api.new(host_uri: host, username: username, password: password)
     end
 
-    alias_method :om_rc, :om_1_9
-    alias_method :api_rc, :api_1_9
+    def api_1_10(host:, username:, password:)
+      Version110::Api.new(host_uri: host, username: username, password: password)
+    end
+
+    alias_method :om_rc, :om_1_10
+    alias_method :api_rc, :api_1_10
 
     private
 
