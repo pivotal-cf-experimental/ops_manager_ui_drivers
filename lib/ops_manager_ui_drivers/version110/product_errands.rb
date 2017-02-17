@@ -3,43 +3,39 @@ require 'ops_manager_ui_drivers/version19/product_errands'
 module OpsManagerUiDrivers
   module Version110
     class ProductErrands < Version19::ProductErrands
-      def enable_errand(errand_name)
+      def set_errand_state(errand_name, errand_state)
+        validate_errand_state(errand_state)
         open_form
-        set_check_box("errands[#{errand_name}][run_errand_pre_delete]", true)
-        set_check_box("errands[#{errand_name}][run_errand_post_deploy]", true)
+        browser.first(:css, %Q(select[name*="#{errand_name}"])).select(errand_state.to_s)
         save_form
       end
 
-      def disable_errand(errand_name)
-        open_form
-        set_check_box("errands[#{errand_name}][run_errand_pre_delete]", false)
-        set_check_box("errands[#{errand_name}][run_errand_post_deploy]", false)
-        save_form
-      end
+      def errands_with_state(errand_state)
+        validate_errand_state(errand_state)
 
-      def enabled_errands
         open_form
 
         result = []
 
-        browser.all("input[type='checkbox'][name^='errands['][name$='][run_errand_post_deploy]'][checked='checked']").map do |checkbox|
-          errand_name = checkbox[:name].match(/errands\[(.*)\]\[run_errand_post_deploy\]/)[1]
-          result << errand_name
-        end
-
-        browser.all("input[type='checkbox'][name^='errands['][name$='][run_errand_pre_delete]'][checked='checked']").map do |checkbox|
-          errand_name = checkbox[:name].match(/errands\[(.*)\]\[run_errand_pre_delete\]/)[1]
-          result << errand_name
+        browser.all("select[ name^='errands[' ][ name*='][run_errand_' ]").map do |errand|
+          errand_name = errand[:name].match(/errands\[(.*)\]\[run_errand_.*\]/)[1]
+          selected_option = errand.find('option[selected]')
+          result << errand_name if selected_option.text == errand_state
         end
 
         result
       end
 
+      %i(enabled_errands enable_errand disable_errand).each do |method_name|
+        define_method(method_name) do
+          raise "#{method_name} is deprecated in 1.10 and above"
+        end
+      end
+
       private
 
-      def set_check_box(name, value)
-        check_box = browser.first(:css, %Q(input[type="checkbox"][name="#{name}"]))
-        check_box.set(value) if check_box
+      def validate_errand_state(errand_state)
+        raise "Invalid errand state: #{errand_state.inspect}" unless ['On', 'Off', 'When Changed'].include?(errand_state)
       end
     end
   end
