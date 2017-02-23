@@ -40,6 +40,8 @@ module OpsManagerUiDrivers
             'false'
           when 'When Changed'
             'when-changed'
+          when 'Default'
+            'default'
           else
             raise "Unknown errand state: #{errand_state.inspect}"
         end
