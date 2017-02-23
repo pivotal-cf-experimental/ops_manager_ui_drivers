@@ -53,9 +53,10 @@ module OpsManagerUiDrivers
             errand_selections.each do |errand_identifier, errand_run_state|
 
               state_map = {
-                true => 0,
-                false => 1,
-                'when-changed' => 2,
+                'default' => 0,
+                true => 1,
+                false => 2,
+                'when-changed' => 3,
               }
 
               browser.execute_script(

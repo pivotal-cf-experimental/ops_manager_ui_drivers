@@ -19,8 +19,9 @@ module OpsManagerUiDrivers
 
         browser.all("select[ name^='errands[' ][ name*='][run_errand_' ]").map do |errand|
           errand_name = errand[:name].match(/errands\[(.*)\]\[run_errand_.*\]/)[1]
-          selected_option = errand.find('option[selected]')
-          result << errand_name if selected_option.text == errand_state
+          selected_option = errand.all('option[selected]').first
+          result << errand_name if selected_option == errand_state
+          result << errand_name if selected_option && selected_option.text == errand_state
         end
 
         result
@@ -35,7 +36,9 @@ module OpsManagerUiDrivers
       private
 
       def validate_errand_state(errand_state)
-        raise "Invalid errand state: #{errand_state.inspect}" unless ['On', 'Off', 'When Changed'].include?(errand_state)
+        return if ['On', 'Off', 'When Changed', nil].include?(errand_state)
+        return if errand_state =~ /^Default \(On|Off|When Changed\)$/
+        raise "Invalid errand state: #{errand_state.inspect}"
       end
     end
   end
