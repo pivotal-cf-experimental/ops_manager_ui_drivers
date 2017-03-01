@@ -100,8 +100,8 @@ module OpsManagerUiDrivers
       Version111::Api.new(host_uri: host, username: username, password: password)
     end
 
-    alias_method :om_rc, :om_1_10
-    alias_method :api_rc, :api_1_10
+    alias_method :om_rc, :om_1_11
+    alias_method :api_rc, :api_1_11
 
     private
 
