@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors = ['Pivotal, Inc.']
   spec.email   = ['cf-tempest-eng+ops_manager_ui_drivers@pivotal.io']
 
-  spec.summary  = %q{Capybara helpers for configuring Pivotal Ops Manager}
+  spec.summary  = %q{Capybara helpers for configuring Pivotal Ops Manager. No longer under active development}
   spec.homepage = 'https://github.com/pivotal-cf-experimental/ops_manager_ui_drivers'
   spec.license  = 'Apache 2.0'
 
