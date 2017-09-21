@@ -23,6 +23,11 @@ module OpsManagerUiDrivers
         browser.find_field(name)
       end
 
+      def select_option(property_reference:, option_value:)
+        name = "#{form_name}" + property_reference.map {|field| "[#{field}]" }.join
+        browser.find_field(name).find(:option, option_value).select_option
+      end
+
       def generate_self_signed_cert(wildcard_domain, property_reference, selector_property_reference = nil, selector_option_name = nil)
         if selector_property_reference && selector_option_name
           private_key_field_name = "#{form_name}[#{selector_property_reference}][#{selector_option_name}][#{property_reference}][private_key_pem]"
@@ -75,10 +80,11 @@ module OpsManagerUiDrivers
         end
       end
 
-      def open_form
+      def open_form(form = nil)
+        form = form || "show-#{form_name}-action"
         browser.visit '/'
         browser.click_on "show-#{product_name}-configure-action"
-        browser.click_on "show-#{form_name}-action"
+        browser.click_on form
       end
 
       private
